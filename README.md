@@ -70,7 +70,6 @@ export SANIC_ADMIN_PASSWORD='123456'
 ## Built With
 
 * [Aiohttp]();
-* [Alembic]();
 * [Docker](https://docs.docker.com/engine/install/ubuntu/);
 * [Docker Compose](https://docs.docker.com/compose/install/);
 * [Gino ORM]();
