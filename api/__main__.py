@@ -5,7 +5,7 @@ from .handlers import ColorsHandler
 
 spellbook_api = Application()
 spellbook_api.add_route(
-    Route('/', spellbook_api.METHOD_GET, ColorsHandler)
+    Route('/colors', spellbook_api.METHOD_GET, ColorsHandler)
 )
 
 if __name__ == '__main__':

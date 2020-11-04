@@ -1,9 +1,14 @@
+import os
+
 from gino_admin import create_admin_app
 
 from tarkir import db, config
 
 from spellbook import models as spellbook_models
 
+
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+PRESETS_FOLDER = os.path.join(CURRENT_PATH, 'presets')
 
 db_models = [
     spellbook_models.Color,
@@ -21,6 +26,7 @@ if __name__ == '__main__':
             db=db,
             db_models=db_models,
             config={
+                'presets_folder': PRESETS_FOLDER,
                 'db_uri': config.db_dsn,
                 'ui': {
                     'colors': {

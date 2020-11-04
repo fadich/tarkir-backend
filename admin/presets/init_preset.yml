@@ -1,0 +1,6 @@
+id: 'init db'
+name: Init DB
+description: 'Init database with data'
+files:
+  color: color.csv
+  school: school.csv

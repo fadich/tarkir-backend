@@ -5,5 +5,3 @@ __pycahce__
 *.pyc
 
 tarkir.egg-info
-
-admin/presets
