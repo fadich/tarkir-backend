@@ -13,6 +13,9 @@ PRESETS_FOLDER = os.path.join(CURRENT_PATH, 'presets')
 db_models = [
     spellbook_models.Color,
     spellbook_models.School,
+    spellbook_models.Spell,
+    spellbook_models.SpellToColor,
+    spellbook_models.SpellToSchool,
 ]
 
 
