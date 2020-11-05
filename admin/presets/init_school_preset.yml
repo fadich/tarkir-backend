@@ -1,0 +1,5 @@
+id: 'init schools'
+name: Init School
+description: 'Fill school table with data'
+files:
+  school: resources/school.csv
