@@ -1,1 +1,0 @@
-from .spellbook import ColorsHandler

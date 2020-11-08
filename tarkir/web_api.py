@@ -3,8 +3,9 @@ import json
 from logging import getLogger
 
 from aiohttp import web, hdrs
+from marshmallow import Schema
 
-from .database import connect_db, disconnect_db
+from .database import connect_db, disconnect_db, Model
 
 
 __all__ = (
@@ -15,9 +16,13 @@ __all__ = (
 
 
 class Handler(web.View):
+    schema: Schema = None
 
-    def send_json(self, body, status_code: int = 200):
-        body = json.dumps(body)
+    def send_json(self, body, status_code: int = 200, encoder=None):
+        if self.schema:
+            body = self.schema.dumps(body, many=isinstance(body, list))
+        else:
+            body = json.dumps(body, cls=encoder)
 
         return web.Response(body=body, status=status_code, headers={
             hdrs.CONTENT_TYPE: 'application/json; charset=utf-8',

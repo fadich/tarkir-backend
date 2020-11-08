@@ -1,10 +1,11 @@
 import logging
 
 from .conf import config
-from .database import db
+from .database import db, Model
 
 __all__ = (
     'db',
+    'Model',
     'config',
 )
 

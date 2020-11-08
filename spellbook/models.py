@@ -1,7 +1,16 @@
-from tarkir import db
+from tarkir import db, Model
 
 
-class Color(db.Model):
+__all__ = [
+    'Color',
+    'School',
+    'Spell',
+    'SpellToColor',
+    'SpellToSchool',
+]
+
+
+class Color(Model):
     __tablename__ = 'color'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
@@ -22,7 +31,7 @@ class Color(db.Model):
         spell._colors.add(self)
 
 
-class School(db.Model):
+class School(Model):
     __tablename__ = 'school'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
@@ -46,18 +55,16 @@ class School(db.Model):
 
     def add_spell(self, spell):
         self._spells.add(spell)
-        spell._spells.add(self)
+        spell._schools.add(self)
 
 
-class Spell(db.Model):
+class Spell(Model):
     __tablename__ = 'spell'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), nullable=False, unique=True)
     name_en = db.Column(db.String(128), nullable=True, unique=True)
     type = db.Column(db.String(256), nullable=True)
-    color_id = db.Column(
-        db.Integer(), db.ForeignKey('color.id'), nullable=False)
     description = db.Column(db.Text(), nullable=True)
     requirements = db.Column(db.Text(), nullable=True)
     time_to_create = db.Column(db.String(256), nullable=True)
@@ -73,19 +80,27 @@ class Spell(db.Model):
     def colors(self):
         return self._colors
 
+    def add_color(self, color):
+        self._colors.add(color)
+        color.spells.add(self)
+
     @property
     def schools(self):
         return self._schools
 
+    def add_school(self, school):
+        self._schools.add(school)
+        school.spells.add(self)
 
-class SpellToColor(db.Model):
+
+class SpellToColor(Model):
     __tablename__ = 'spell_to_color'
 
     spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))
     color_id = db.Column(db.Integer, db.ForeignKey('color.id'))
 
 
-class SpellToSchool(db.Model):
+class SpellToSchool(Model):
     __tablename__ = 'spell_to_school'
 
     spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))

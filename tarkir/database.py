@@ -15,3 +15,11 @@ async def connect_db(*args, **kwargs):
 
 async def disconnect_db(*args, **kwargs):
     await db.pop_bind().close()
+
+
+class Model(db.Model):
+    __abstract__ = True
+
+    @classmethod
+    async def all(cls):
+        return await cls.query.gino.all()
