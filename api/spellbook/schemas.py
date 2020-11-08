@@ -36,7 +36,3 @@ class SpellSchema(Schema):
     cycle = fields.Nested(SpellToSchoolSchema)
     colors = fields.Nested(ColorSchema, many=True)
     schools = fields.Nested(SchoolSchema, many=True)
-
-
-class IndexSchema(SchoolSchema):
-    spells = fields.Nested(SpellSchema, many=True)

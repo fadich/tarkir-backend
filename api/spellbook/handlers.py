@@ -2,42 +2,14 @@ from tarkir.web_api import Handler
 
 from spellbook.models import *
 
-from .schemas import ColorSchema, SchoolSchema, SpellSchema, IndexSchema
+from .schemas import ColorSchema, SchoolSchema, SpellSchema
 
 
 __all__ = [
-    # 'IndexHandler',
     'ColorsHandler',
     'SchoolsHandler',
     'SpellsHandler',
 ]
-
-
-# class IndexHandler(Handler):
-#     schema = IndexSchema()
-#
-#     # async def get(self):
-#
-#     async def get(self):
-#         loader = School \
-#             .distinct(School.id) \
-#             .load(color=Color) \
-#             .load(cycle=SpellToSchool.distinct(SpellToSchool.cycle)) \
-#             .load(add_spell=Spell.distinct(Spell.id)) \
-#             .load(add_color=Color.distinct(Color.id))
-#
-#         query = School \
-#             .outerjoin(SpellToSchool) \
-#             .outerjoin(Spell) \
-#             .outerjoin(SpellToColor) \
-#             .outerjoin(Color) \
-#             .select()
-#
-#         query = query.gino.load(loader)
-#
-#         res = await query.all()
-#
-#         return self.send_json(res)
 
 
 class ColorsHandler(Handler):
