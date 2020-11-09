@@ -1,4 +1,5 @@
 aiohttp==3.7.2
+alembic==1.4.3
 gino==1.0.1
 gino-admin==0.2.2
 marshmallow==3.9.1

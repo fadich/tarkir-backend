@@ -1,0 +1,9 @@
+.idea
+venv
+
+__pycahce__
+*.pyc
+
+tarkir.egg-info
+
+docker-compose.yml

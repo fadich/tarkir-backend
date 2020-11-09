@@ -1,14 +1,68 @@
 version: '3.7'
 
+
+x-db-env-variables: &db-env-variables
+  TR_DB_USERNAME: 'postgres'
+  TR_DB_PASSWORD: 'my_secret_password'
+
+
+x-api-env-variables: &api-env-variables
+  TR_DB_HOST: 'db'
+
+
 services:
 
   db:
     image: library/postgres:13
     container_name: db
     ports:
-      - "5432:5432"
+      - '5432:5432'
     expose:
-      - "5432"
+      - '5432'
     environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'my_secret_password'
+      <<: *db-env-variables
+      
+  migration:
+    build: .
+    container_name: migration
+    command: 'alembic upgrade head'
+    depends_on:
+      - db
+    environment:
+      <<: *db-env-variables
+      <<: *api-env-variables
+    volumes:
+      - .:/tarkir-tools
+
+  api:
+    build: .
+    container_name: api
+    command: 'python -m api'
+    ports:
+    - 5000:5000
+    depends_on:
+      - migration
+    environment:
+      <<: *db-env-variables
+      <<: *api-env-variables
+      TR_API_SERVER_PORT: 5000
+    volumes:
+      - .:/tarkir-tools
+
+  admin:
+    build: .
+    container_name: admin
+    command: 'python -m admin'
+    ports:
+      - 4999:4999
+    depends_on:
+      - migration
+    environment:
+      <<: *db-env-variables
+      <<: *api-env-variables
+      TR_API_SERVER_PORT: 4999
+      SANIC_ADMIN_USER: 'admin'
+      SANIC_ADMIN_PASSWORD: '123456'
+    volumes:
+      - .:/tarkir-tools
+

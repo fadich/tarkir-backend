@@ -5,6 +5,7 @@
 - [Local Deployment](#local-deployment)
     - [Running the Admin](#running-the-admin)
     - [Running the API](#running-the-api)
+    - [Using Docker Compose](#using-docker-compose)
 - [Built With](#built-with)
 
 ## Pre-requirements
@@ -42,7 +43,7 @@ sudo apt install \
     libssl-dev \
     libffi-dev \
     python3.9-distutils \
-    python3.9-dev \ 
+    python3.9-dev \
     python3-pip \
     virtualenv
 ```
@@ -60,6 +61,11 @@ Once, your project is setup, up the database via docker-compose
 docker-compose up -d db
 ```
 
+Optionally, activate virtual environment
+```shell script
+source venv/bin/activate
+```
+
 Optionally, install your project locally with:
 ```shell script
 pip install -e .
@@ -75,7 +81,7 @@ export SANIC_ADMIN_PASSWORD='123456'
 
 Start application:
 ```shell script
-python admin/main.py
+python -m admin
 ```
 
 Admin application will be available on [0.0.0.0:4999](http://0.0.0.0:4999/)
@@ -86,6 +92,27 @@ Start application:
 ```shell script
 python -m api
 ```
+
+### Using Docker Compose
+
+You only need to have [Docker](https://docs.docker.com/engine/install/ubuntu/)
+  and [Docker Compose](https://docs.docker.com/compose/install/) installed on
+  your machine.
+
+Once it's being installed, you may use `docker-compose.yml` to deploy the project
+  locally, for example:
+```shell script
+docker-compose build
+docker-compose up
+```
+
+**Note!** Depending on your configuration, sometimes the root permissions might
+  be required. In this case, just run these commands with`sudo`:
+```shell script
+sudo docker-compose build
+sudo docker-compose up
+```
+
 
 API will be available on [0.0.0.0:5000](http://0.0.0.0:5000/)
 
