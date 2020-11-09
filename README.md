@@ -53,7 +53,7 @@ Once, your project is setup, up the database via docker-compose
 docker-compose up -d db
 ```
 
-Install your project locally with:
+Optionally, install your project locally with:
 ```shell script
 pip install -e .
 ```
@@ -66,6 +66,21 @@ export SANIC_ADMIN_USER='admin'
 export SANIC_ADMIN_PASSWORD='123456'
 ```
 
+Start application:
+```shell script
+python admin/main.py
+```
+
+Admin application will be available on [0.0.0.0:4999](http://0.0.0.0:4999/)
+
+### Running the API
+
+Start application:
+```shell script
+python -m api
+```
+
+API will be available on [0.0.0.0:5000](http://0.0.0.0:5000/)
 
 ## Built With
 
