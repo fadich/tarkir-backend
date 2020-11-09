@@ -3,9 +3,11 @@
 - [Pre-requirements](#pre-requirements)
     - [Python 3.9 Installation](#python-39-installation)
 - [Local Deployment](#local-deployment)
-    - [Running the Admin](#running-the-admin)
-    - [Running the API](#running-the-api)
-    - [Using Docker Compose](#using-docker-compose)
+    - [Using Docker](#using-docker)
+    - [Manually](#manually)
+        - [Running the Admin](#running-the-admin)
+        - [Running the API](#running-the-api)
+- [Finalizing](#finalizing)
 - [Built With](#built-with)
 
 ## Pre-requirements
@@ -56,44 +58,7 @@ source venv/bin/activate
 
 ## Local Deployment
 
-Once, your project is setup, up the database via docker-compose
-```shell script
-docker-compose up -d db
-```
-
-Optionally, activate virtual environment
-```shell script
-source venv/bin/activate
-```
-
-Optionally, install your project locally with:
-```shell script
-pip install -e .
-```
-
-### Running the Admin
-
-Setup environment variables
-```shell script
-export SANIC_ADMIN_USER='admin'
-export SANIC_ADMIN_PASSWORD='123456'
-```
-
-Start application:
-```shell script
-python -m admin
-```
-
-Admin application will be available on [0.0.0.0:4999](http://0.0.0.0:4999/)
-
-### Running the API
-
-Start application:
-```shell script
-python -m api
-```
-
-### Using Docker Compose
+### Using Docker
 
 You only need to have [Docker](https://docs.docker.com/engine/install/ubuntu/)
   and [Docker Compose](https://docs.docker.com/compose/install/) installed on
@@ -113,8 +78,49 @@ sudo docker-compose build
 sudo docker-compose up
 ```
 
+### Manually
 
-API will be available on [0.0.0.0:5000](http://0.0.0.0:5000/)
+Once, your project is setup, up the database via docker-compose
+```shell script
+docker-compose up -d db
+```
+
+Optionally, activate virtual environment
+```shell script
+source venv/bin/activate
+```
+
+Optionally, install your project locally with:
+```shell script
+pip install -e .
+```
+
+#### Running the Admin
+
+Setup environment variables
+```shell script
+export SANIC_ADMIN_USER='admin'
+export SANIC_ADMIN_PASSWORD='123456'
+```
+
+Start application:
+```shell script
+python -m admin
+```
+
+#### Running the API
+
+Start application:
+```shell script
+python -m api
+```
+
+## Finalizing
+
+Well done! Now, if you've setup the project right, then:
+* **Admin application** will be available on
+  [0.0.0.0:4999](http://0.0.0.0:4999/);
+* **REST API** will be available on [0.0.0.0:5000](http://0.0.0.0:5000/)
 
 ## Built With
 
