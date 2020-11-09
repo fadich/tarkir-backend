@@ -92,6 +92,7 @@ API will be available on [0.0.0.0:5000](http://0.0.0.0:5000/)
 ## Built With
 
 * [Aiohttp]();
+* [Alembic]();
 * [Docker](https://docs.docker.com/engine/install/ubuntu/);
 * [Docker Compose](https://docs.docker.com/compose/install/);
 * [Gino ORM]();

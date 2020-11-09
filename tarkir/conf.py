@@ -40,6 +40,14 @@ class Config(metaclass=SingletonMeta):
         return getenv('TR_ADMIN_APP_PORT', 4999)
 
     @property
+    def api_server_host(self):
+        return getenv('TR_API_SERVER_HOST', '0.0.0.0')
+
+    @property
+    def api_server_port(self):
+        return getenv('TR_API_SERVER_PORT', 5000)
+
+    @property
     def db_driver(self):
         return 'postgres'
 

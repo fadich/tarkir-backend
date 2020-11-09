@@ -1,7 +1,9 @@
 from .app import app
 
+from tarkir import config
+
 
 if __name__ == '__main__':
     app.run_app(
-        host='0.0.0.0',
-        port=5000)
+        host=config.api_server_host,
+        port=config.api_server_port)
