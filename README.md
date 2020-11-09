@@ -7,7 +7,7 @@
     - [Manually](#manually)
         - [Running the Admin](#running-the-admin)
         - [Running the API](#running-the-api)
-- [Finalizing](#finalizing)
+    - [Finalizing](#finalizing)
 - [Built With](#built-with)
 
 ## Pre-requirements
@@ -115,7 +115,7 @@ Start application:
 python -m api
 ```
 
-## Finalizing
+### Finalizing
 
 Well done! Now, if you've setup the project right, then:
 * **Admin application** will be available on
