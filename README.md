@@ -1,7 +1,7 @@
 # My Project
 
 - [Pre-requirements](#pre-requirements)
-    - [Python 3.9 Installation](#python-3.9-installation)
+    - [Python 3.9 Installation](#python-39-installation)
 - [Local Deployment](#local-deployment)
     - [Running the Admin](#running-the-admin)
     - [Running the API](#running-the-api)
