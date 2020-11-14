@@ -43,6 +43,8 @@ def upgrade():
         sa.Column('description', sa.Text(), nullable=True),
         sa.Column('requirements', sa.Text(), nullable=True),
         sa.Column('time_to_create', sa.String(length=256), nullable=True),
+        sa.Column('cost', sa.String(length=256), nullable=True),
+        sa.Column('channel', sa.String(length=256), nullable=True),
         sa.Column('duration', sa.String(length=256), nullable=True),
         sa.Column('items', sa.Text(), nullable=True),
         sa.PrimaryKeyConstraint('id'),

@@ -68,6 +68,8 @@ class Spell(Model):
     description = db.Column(db.Text(), nullable=True)
     requirements = db.Column(db.Text(), nullable=True)
     time_to_create = db.Column(db.String(256), nullable=True)
+    cost = db.Column(db.String(256), nullable=True)
+    channel = db.Column(db.String(256), nullable=True)
     duration = db.Column(db.String(256), nullable=True)
     items = db.Column(db.Text(), nullable=True)
 
