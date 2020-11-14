@@ -20,10 +20,6 @@ class SchoolSchema(Schema):
     color = fields.Nested(ColorSchema)
 
 
-class SpellToSchoolSchema(Schema):
-    cycle = fields.Int()
-
-
 class SpellSchema(Schema):
     id = fields.Int()
     name = fields.Str()
@@ -33,6 +29,16 @@ class SpellSchema(Schema):
     time_to_create = fields.Str()
     duration = fields.Str()
     items = fields.Str()
-    cycle = fields.Nested(SpellToSchoolSchema)
     colors = fields.Nested(ColorSchema, many=True)
     schools = fields.Nested(SchoolSchema, many=True)
+
+
+def create_spell_school_schema(results):
+    props = {}
+    for result in results:
+        cycle = result.cycle
+        shortcut = result.school.shortcut
+        prop_name = f'{shortcut}{cycle}'
+        props[prop_name] = fields.Nested(SpellSchema, many=True)
+
+    return type('SpellToSchoolSchema', (Schema, ), props)()
