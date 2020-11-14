@@ -5,7 +5,7 @@ from logging import getLogger
 from aiohttp import web, hdrs
 from marshmallow import Schema
 
-from .database import connect_db, disconnect_db, Model
+from .database import connect_db, disconnect_db
 
 
 __all__ = (
@@ -26,6 +26,9 @@ class Handler(web.View):
 
         return web.Response(body=body, status=status_code, headers={
             hdrs.CONTENT_TYPE: 'application/json; charset=utf-8',
+            hdrs.ACCESS_CONTROL_ALLOW_METHODS: 'GET',
+            hdrs.ACCESS_CONTROL_ALLOW_HEADERS: '*',
+            hdrs.ACCESS_CONTROL_ALLOW_ORIGIN: '*',
         })
 
 

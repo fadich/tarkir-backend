@@ -45,7 +45,6 @@ class SchoolsHandler(Handler):
 
 
 class SpellsHandler(Handler):
-    schema = SpellSchema()
 
     async def get(self):
         school_id = self.request.query.get('school-id')
