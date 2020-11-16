@@ -1,0 +1,5 @@
+id: 'init spell_to_color relation'
+name: Init Spell to Color relation
+description: 'Fill spell_to_color table with data'
+files:
+  spell_to_color: resources/spell_to_color.csv

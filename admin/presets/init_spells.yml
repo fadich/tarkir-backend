@@ -1,0 +1,5 @@
+id: 'init spells'
+name: Init Spells
+description: 'Fill spells table with data'
+files:
+  spell: resources/spells.csv
