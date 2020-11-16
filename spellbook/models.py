@@ -14,7 +14,7 @@ class Color(Model):
     __tablename__ = 'color'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-    name = db.Column(db.String(128), nullable=False, unique=True)
+    name = db.Column(db.String(256), nullable=False, unique=True)
     shortcut = db.Column(db.String(1), nullable=False, unique=True)
     hex_code = db.Column(db.String(16), nullable=False)
 
@@ -35,7 +35,7 @@ class School(Model):
     __tablename__ = 'school'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-    name = db.Column(db.String(128), nullable=False, unique=True)
+    name = db.Column(db.String(256), nullable=False, unique=True)
     shortcut = db.Column(db.String(2), nullable=False, unique=True)
     color_id = db.Column(
         db.Integer(), db.ForeignKey('color.id'), nullable=False)
@@ -62,15 +62,14 @@ class Spell(Model):
     __tablename__ = 'spell'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-    name = db.Column(db.String(128), nullable=False, unique=True)
-    name_en = db.Column(db.String(128), nullable=True, unique=True)
-    type = db.Column(db.String(256), nullable=True)
+    name = db.Column(db.String(256), nullable=False, unique=True)
+    name_en = db.Column(db.String(256), nullable=True, unique=True)
+    type = db.Column(db.String(1024), nullable=True)
     description = db.Column(db.Text(), nullable=True)
     requirements = db.Column(db.Text(), nullable=True)
-    time_to_create = db.Column(db.String(256), nullable=True)
-    cost = db.Column(db.String(256), nullable=True)
-    channel = db.Column(db.String(256), nullable=True)
-    duration = db.Column(db.String(256), nullable=True)
+    time_to_create = db.Column(db.String(1024), nullable=True)
+    cost = db.Column(db.String(1024), nullable=True)
+    duration = db.Column(db.String(1024), nullable=True)
     items = db.Column(db.Text(), nullable=True)
 
     def __init__(self, **kw):

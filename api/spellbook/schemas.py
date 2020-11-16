@@ -28,7 +28,6 @@ class SpellSchema(Schema):
     requirements = fields.Str()
     time_to_create = fields.Str()
     cost = fields.Str()
-    channel = fields.Str()
     duration = fields.Str()
     items = fields.Str()
     colors = fields.Nested(ColorSchema, many=True)
