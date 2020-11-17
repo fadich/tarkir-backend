@@ -25,6 +25,7 @@ class SpellSchema(Schema):
     name = fields.Str()
     name_en = fields.Str()
     type = fields.Str()
+    description = fields.Str()
     requirements = fields.Str()
     time_to_create = fields.Str()
     cost = fields.Str()

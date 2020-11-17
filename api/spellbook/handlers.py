@@ -12,7 +12,6 @@ from spellbook.models import (
 from .schemas import (
     ColorSchema,
     SchoolSchema,
-    SpellSchema,
     create_spell_school_schema,
 )
 
@@ -85,12 +84,16 @@ class SpellsHandler(Handler):
 
         spells = await query.gino.load(loader).all()
 
-        loader = School.load(
-            spell_to_school=SpellToSchool.on(
-                SpellToSchool.school_id == School.id)
-        )
+        loader = School \
+            .load(color=Color) \
+            .load(
+                spell_to_school=SpellToSchool.on(
+                    SpellToSchool.school_id == School.id
+                )
+            )
 
         query = School \
+            .join(Color, School.color_id == Color.id) \
             .join(SpellToSchool) \
             .select()
 
