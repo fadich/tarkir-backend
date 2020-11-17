@@ -1,5 +1,0 @@
-id: 'init spell_to_school relation'
-name: Init Spell to School relation
-description: 'Fill spell_to_school table with data'
-files:
-  spell_to_school: resources/spell_to_school.csv

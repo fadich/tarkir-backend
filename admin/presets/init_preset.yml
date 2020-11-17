@@ -1,5 +1,9 @@
-id: 'init colors'
-name: Init Colors
-description: 'Fill colors table with data'
+id: 'init db'
+name: Init Database
+description: 'Fill database with initialization data'
 files:
-  color: resources/color.csv
+  color: resources/colors.csv
+  school: resources/schools.csv
+  spell: resources/spells.csv
+  spell_to_color: resources/spells_to_colors.csv
+  spell_to_school: resources/spells_to_schools.csv

@@ -106,4 +106,4 @@ class SpellToSchool(Model):
 
     spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))
     school_id = db.Column(db.Integer, db.ForeignKey('school.id'))
-    cycle = db.Column(db.Integer(), nullable=False)
+    cycle = db.Column(db.Integer(), nullable=False, default=lambda: 0)
