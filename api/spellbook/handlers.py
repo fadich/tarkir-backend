@@ -72,7 +72,7 @@ class SpellsHandler(Handler):
         loader = Spell \
             .distinct(Spell.id) \
             .load(add_color=Color.distinct(Color.id)) \
-            .load(cycle=SpellToSchool.distinct(SpellToSchool.cycle))
+            .load(sts=SpellToSchool.distinct(SpellToSchool.cycle))
 
         query = Spell \
             .join(SpellToColor) \
@@ -85,22 +85,24 @@ class SpellsHandler(Handler):
         spells = await query.gino.load(loader).all()
 
         loader = School \
-            .load(color=Color) \
+            .load(color=Color.distinct(Color.id)) \
             .load(
-                spell_to_school=SpellToSchool.on(
+                sts=SpellToSchool.on(
                     SpellToSchool.school_id == School.id
                 )
             )
 
         query = School \
             .join(Color, School.color_id == Color.id) \
-            .join(SpellToSchool) \
+            .join(SpellToSchool, School.id == SpellToSchool.school_id) \
             .select()
 
         schools = await query.gino.load(loader).all()
         for spell in spells:
             for school in schools:
-                if school.spell_to_school.spell_id == spell.id:
+                if school.sts.spell_id == spell.id \
+                        and school.sts.cycle == spell.sts.cycle:
                     spell.add_school(school)
+                    break
 
         return spells
