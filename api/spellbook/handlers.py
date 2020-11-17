@@ -38,7 +38,7 @@ class SchoolsHandler(Handler):
         loader = School.load(color=Color)
 
         query = School.join(Color, School.color_id == Color.id).select()
-        query = query.gino.load(loader)
+        query = query.order_by(School.id).gino.load(loader)
 
         return self.send_json(await query.all())
 
