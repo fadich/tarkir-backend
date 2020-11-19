@@ -1,3 +1,5 @@
+import time
+
 from collections import defaultdict
 from tarkir.web_api import Handler
 
@@ -44,8 +46,18 @@ class SchoolsHandler(Handler):
 
 
 class SpellsHandler(Handler):
+    _cache = {}
 
     async def get(self):
+        if self.request.url in self._cache:
+            cached = self._cache[self.request.url]
+
+            if time.time() - cached['time'] > 3600:
+                self._cache.pop(self.request.url)
+
+            self.schema = cached['schema']
+            return self.send_json(cached['result'])
+
         school_id = self.request.query.get('school-id')
 
         loader = SpellToSchool \
@@ -64,6 +76,12 @@ class SpellsHandler(Handler):
             key = f'{item.school.shortcut}{item.cycle}'
             result_dict[key] = await self.get_full_spells(
                 item.school.id, item.cycle)
+
+        self._cache[self.request.url] = {
+            'schema': self.schema,
+            'result': result_dict,
+            'time': time.time()
+        }
 
         return self.send_json(result_dict)
 
