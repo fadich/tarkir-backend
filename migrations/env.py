@@ -5,10 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from tarkir import db, config as tarkir_config
-
 from spellbook import models as spellbook_models
 
+from tarkir import db, config as tarkir_config
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

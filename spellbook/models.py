@@ -100,6 +100,9 @@ class SpellToColor(Model):
     spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))
     color_id = db.Column(db.Integer, db.ForeignKey('color.id'))
 
+    _pk = db.PrimaryKeyConstraint(
+        'spell_id', 'color_id', name='spell_color_pk')
+
 
 class SpellToSchool(Model):
     __tablename__ = 'spell_to_school'
@@ -107,3 +110,6 @@ class SpellToSchool(Model):
     spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))
     school_id = db.Column(db.Integer, db.ForeignKey('school.id'))
     cycle = db.Column(db.Integer(), nullable=False, default=lambda: 0)
+
+    _pk = db.PrimaryKeyConstraint(
+        'spell_id', 'school_id', 'cycle', name='spell_school_cycle_pk')
