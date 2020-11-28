@@ -22,6 +22,8 @@ services:
     environment:
       <<: *db-env-variables
       POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./postgres-data:/var/lib/postgresql  # TODO: check this
       
   migration:
     build: .
@@ -66,4 +68,3 @@ services:
       SANIC_ADMIN_PASSWORD: '123456'
     volumes:
       - .:/tarkir-tools
-

@@ -5,3 +5,5 @@ __pycahce__
 *.pyc
 
 tarkir.egg-info
+
+postgres-data

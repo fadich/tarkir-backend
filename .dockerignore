@@ -7,3 +7,5 @@ __pycahce__
 tarkir.egg-info
 
 docker-compose.yml
+
+postgres-data
