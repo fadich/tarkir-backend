@@ -49,14 +49,13 @@ class DiceRoller:
     def __init__(
         self, dice_number: int = DEFAULT_DICE_NUMBER,
         dice_size: int = DEFAULT_DICE_SIZE,
-        mod_operand: str = DEFAULT_MOD_OPERAND,
+        mod_operator: str = DEFAULT_MOD_OPERAND,
         mod_value: int = DEFAULT_MOD_VALUE
     ):
         self.dice_number = dice_number
         self.dice_size = dice_size
-        self.mod_operand = mod_operand
+        self.mod_operator = mod_operator
         self.mod_value = mod_value
-        return
 
     @classmethod
     def parse(cls, pattern: str):
@@ -64,22 +63,26 @@ class DiceRoller:
         if not matches:
             raise DiceParseError(f'Invalid pattern "{pattern}"')
 
-        dice_num, _, dice_size, _, mod_operand, mod_val = matches.groups()
+        dice_num, _, dice_size, _, mod_operator, mod_val = matches.groups()
 
         return cls(
             dice_number=int(dice_num or DEFAULT_DICE_NUMBER),
             dice_size=int(dice_size or DEFAULT_DICE_SIZE),
-            mod_operand=mod_operand or DEFAULT_MOD_OPERAND,
+            mod_operator=mod_operator or DEFAULT_MOD_OPERAND,
             mod_value=int(mod_val or DEFAULT_MOD_VALUE)
         )
 
     def roll(self):
         roll_res = sum(Dice(self.dice_size) for _ in range(self.dice_number))
         modifier = self.mod_value
-        if self.mod_operand == MOD_OPERAND_MINUS:
+        if self.mod_operator == MOD_OPERAND_MINUS:
             modifier *= -1
 
         return roll_res + modifier
+
+    def __str__(self):
+        return f'{self.dice_number}d{self.dice_size}' \
+               f'{self.mod_operator}{self.mod_value}'
 
 
 def roll(pattern: str = '3d6'):
