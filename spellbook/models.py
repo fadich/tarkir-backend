@@ -1,4 +1,4 @@
-from tarkir import db, Model
+from tarkir.database import db, Model
 
 
 __all__ = [
@@ -20,12 +20,8 @@ class SpellToColor(Model):
         db.Integer, db.ForeignKey('color.id'), primary_key=True
     )
 
-    spell = db.relationship(
-        'Spell', back_populates=db.backref('colors', lazy=True)
-    )
-    color = db.relationship(
-        'Color', back_populates=db.backref('spells', lazy=True)
-    )
+    spell = db.relationship('Spell', back_populates='colors')
+    color = db.relationship('Color', back_populates='spells')
 
 
 class SpellToSchool(Model):
@@ -39,12 +35,8 @@ class SpellToSchool(Model):
     )
     cycle = db.Column(db.Integer(), nullable=False, default=lambda: 0)
 
-    spell = db.relationship(
-        'Spell', back_populates=db.backref('schools', lazy=True)
-    )
-    school = db.relationship(
-        'School', back_populates=db.backref('spells', lazy=True)
-    )
+    spell = db.relationship('Spell', back_populates='schools')
+    school = db.relationship('School', back_populates='spells')
 
 
 class Color(Model):
@@ -55,10 +47,8 @@ class Color(Model):
     shortcut = db.Column(db.String(1), nullable=False, unique=True)
     hex_code = db.Column(db.String(16), nullable=False)
 
-    schools = db.relationship('School', backref=db.backref('color', lazy=True))
-    spells = db.relationship(
-        'SpellToColor', back_populates=db.backref('spell', lazy=True)
-    )
+    schools = db.relationship('School', back_populates='color')
+    spells = db.relationship('SpellToColor', back_populates='color')
 
 
 class School(Model):
@@ -76,10 +66,8 @@ class School(Model):
         db.Integer(), db.ForeignKey('color.id'), nullable=False
     )
 
-    color = db.relationship('Color', backref=db.backref('schools', lazy=True))
-    spells = db.relationship(
-        'SpellToSchool', backref=db.backref('school', lazy=True)
-    )
+    color = db.relationship('Color', back_populates='schools')
+    spells = db.relationship('SpellToSchool', back_populates='school')
 
 
 class Spell(Model):
@@ -96,9 +84,5 @@ class Spell(Model):
     duration = db.Column(db.String(1024), nullable=True)
     items = db.Column(db.Text(), nullable=True)
 
-    colors = db.relationship(
-        'SpellToColor', backref=db.backref('spell', lazy=True)
-    )
-    schools = db.relationship(
-        'SpellToSchool', backref=db.backref('spell', lazy=True)
-    )
+    colors = db.relationship('SpellToColor', back_populates='spell')
+    schools = db.relationship('SpellToSchool', back_populates='spell')

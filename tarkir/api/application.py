@@ -2,6 +2,8 @@ from flask import Flask, jsonify
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
+from .config import MainConfig
+
 
 class Application(Flask):
 
@@ -25,7 +27,9 @@ class Application(Flask):
 
 
 web_app = Application(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app_config = MainConfig()
+
+web_app.config.from_object(app_config)
 
 ma = Marshmallow(web_app)
 db = SQLAlchemy(web_app)
