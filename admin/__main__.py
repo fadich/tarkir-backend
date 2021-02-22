@@ -2,7 +2,7 @@ import os
 
 from gino_admin import create_admin_app
 
-from tarkir import db, config
+from tarkir import db, app_config
 
 from spellbook import models as spellbook_models
 
@@ -24,13 +24,13 @@ if __name__ == '__main__':
 
     sys.exit(
         create_admin_app(
-            host=config.admin_app_host,
-            port=config.admin_app_port,
+            host=app_config.admin_app_host,
+            port=app_config.admin_app_port,
             db=db,
             db_models=db_models,
             config={
                 'presets_folder': PRESETS_FOLDER,
-                'db_uri': config.db_dsn,
+                'db_uri': app_config.db_dsn,
                 'ui': {
                     'colors': {
                         'buttons': 'orange',

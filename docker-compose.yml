@@ -4,6 +4,7 @@ version: '3.7'
 x-db-env-variables: &db-env-variables
   TR_DB_USERNAME: 'postgres'
   TR_DB_PASSWORD: 'my_secret_password'
+  TR_DB_PORT: 5434
 
 
 x-api-env-variables: &api-env-variables
@@ -12,30 +13,28 @@ x-api-env-variables: &api-env-variables
 
 services:
 
-  db:
+  tarkir-db:
     image: library/postgres:13
-    container_name: db
+    container_name: tarkir-db
     ports:
-      - '5432:5432'
-    expose:
-      - '5432'
+      - 5434:5432
     environment:
       <<: *db-env-variables
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - ./postgres-data:/var/lib/postgresql  # TODO: check this
       
-  migration:
-    build: .
-    container_name: migration
-    command: 'alembic upgrade head'
-    depends_on:
-      - db
-    environment:
-      <<: *db-env-variables
-      <<: *api-env-variables
-    volumes:
-      - .:/tarkir-tools
+#  migration:
+#    build: .
+#    container_name: migration
+#    command: 'alembic upgrade head'
+#    depends_on:
+#      - tarkir-db
+#    environment:
+#      <<: *db-env-variables
+#      <<: *api-env-variables
+#    volumes:
+#      - .:/tarkir-tools
 
   api:
     build: .
@@ -44,7 +43,7 @@ services:
     ports:
     - 5000:5000
     depends_on:
-      - migration
+      - tarkir-db
     environment:
       <<: *db-env-variables
       <<: *api-env-variables
@@ -59,7 +58,7 @@ services:
     ports:
       - 4999:4999
     depends_on:
-      - migration
+      - tarkir-db
     environment:
       <<: *db-env-variables
       <<: *api-env-variables

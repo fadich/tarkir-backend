@@ -10,6 +10,43 @@ __all__ = [
 ]
 
 
+class SpellToColor(Model):
+    __tablename__ = 'spell_to_color'
+
+    spell_id = db.Column(
+        db.Integer, db.ForeignKey('spell.id'), primary_key=True
+    )
+    color_id = db.Column(
+        db.Integer, db.ForeignKey('color.id'), primary_key=True
+    )
+
+    spell = db.relationship(
+        'Spell', back_populates=db.backref('colors', lazy=True)
+    )
+    color = db.relationship(
+        'Color', back_populates=db.backref('spells', lazy=True)
+    )
+
+
+class SpellToSchool(Model):
+    __tablename__ = 'spell_to_school'
+
+    spell_id = db.Column(
+        db.Integer, db.ForeignKey('spell.id'), primary_key=True
+    )
+    school_id = db.Column(
+        db.Integer, db.ForeignKey('school.id'), primary_key=True
+    )
+    cycle = db.Column(db.Integer(), nullable=False, default=lambda: 0)
+
+    spell = db.relationship(
+        'Spell', back_populates=db.backref('schools', lazy=True)
+    )
+    school = db.relationship(
+        'School', back_populates=db.backref('spells', lazy=True)
+    )
+
+
 class Color(Model):
     __tablename__ = 'color'
 
@@ -18,17 +55,10 @@ class Color(Model):
     shortcut = db.Column(db.String(1), nullable=False, unique=True)
     hex_code = db.Column(db.String(16), nullable=False)
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self._spells = set()
-
-    @property
-    def spells(self):
-        return self._spells
-
-    def add_spell(self, spell):
-        self._spells.add(spell)
-        spell._colors.add(self)
+    schools = db.relationship('School', backref=db.backref('color', lazy=True))
+    spells = db.relationship(
+        'SpellToColor', back_populates=db.backref('spell', lazy=True)
+    )
 
 
 class School(Model):
@@ -37,25 +67,19 @@ class School(Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(256), nullable=False, unique=True)
     shortcut = db.Column(db.String(2), nullable=False, unique=True)
-    color_id = db.Column(
-        db.Integer(), db.ForeignKey('color.id'), nullable=False)
     description = db.Column(db.Text(), nullable=True)
     cycle_bonus_zero = db.Column(db.Text(), nullable=True)
     cycle_bonus_one = db.Column(db.Text(), nullable=True)
     cycle_bonus_two = db.Column(db.Text(), nullable=True)
     cycle_bonus_three = db.Column(db.Text(), nullable=True)
+    color_id = db.Column(
+        db.Integer(), db.ForeignKey('color.id'), nullable=False
+    )
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self._spells = set()
-
-    @property
-    def spells(self):
-        return self._spells
-
-    def add_spell(self, spell):
-        self._spells.add(spell)
-        spell._schools.add(self)
+    color = db.relationship('Color', backref=db.backref('schools', lazy=True))
+    spells = db.relationship(
+        'SpellToSchool', backref=db.backref('school', lazy=True)
+    )
 
 
 class Spell(Model):
@@ -72,44 +96,9 @@ class Spell(Model):
     duration = db.Column(db.String(1024), nullable=True)
     items = db.Column(db.Text(), nullable=True)
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self._colors = set()
-        self._schools = set()
-
-    @property
-    def colors(self):
-        return self._colors
-
-    def add_color(self, color):
-        self._colors.add(color)
-        color.spells.add(self)
-
-    @property
-    def schools(self):
-        return self._schools
-
-    def add_school(self, school):
-        self._schools.add(school)
-        school.spells.add(self)
-
-
-class SpellToColor(Model):
-    __tablename__ = 'spell_to_color'
-
-    spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))
-    color_id = db.Column(db.Integer, db.ForeignKey('color.id'))
-
-    _pk = db.PrimaryKeyConstraint(
-        'spell_id', 'color_id', name='spell_color_pk')
-
-
-class SpellToSchool(Model):
-    __tablename__ = 'spell_to_school'
-
-    spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'))
-    school_id = db.Column(db.Integer, db.ForeignKey('school.id'))
-    cycle = db.Column(db.Integer(), nullable=False, default=lambda: 0)
-
-    _pk = db.PrimaryKeyConstraint(
-        'spell_id', 'school_id', 'cycle', name='spell_school_cycle_pk')
+    colors = db.relationship(
+        'SpellToColor', backref=db.backref('spell', lazy=True)
+    )
+    schools = db.relationship(
+        'SpellToSchool', backref=db.backref('spell', lazy=True)
+    )
