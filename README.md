@@ -68,7 +68,7 @@ sudo apt install wget software-properties-common
 Install Python3.9
 ```shell script
 sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt update 
+sudo apt update
 sudo apt install python3.9
 ```
 
@@ -92,7 +92,7 @@ source venv/bin/activate
 
 Once, your project is setup, up the database via docker-compose
 ```shell script
-docker-compose up -d db
+docker-compose up -d tarkir-db
 ```
 
 Optionally, activate virtual environment
@@ -100,37 +100,30 @@ Optionally, activate virtual environment
 source venv/bin/activate
 ```
 
-Optionally, install your project locally with:
+Install requirements
 ```shell script
-pip install -e .
+pip install -r ./requirements.txt
 ```
 
-#### Running the Admin
+#### Running the app
 
-Setup environment variables
+Change working directory to `src`
 ```shell script
-export SANIC_ADMIN_USER='admin'
-export SANIC_ADMIN_PASSWORD='123456'
+cd src
 ```
 
-Start application:
-```shell script
-python -m admin
-```
 
-#### Running the API
-
-Start application:
+Start SpellBook API
 ```shell script
-python -m api
+python -m spellbook.api.run
 ```
 
 ### Finalizing
 
 Well done! Now, if you've setup the project right, then:
-* **Admin application** will be available on
-  [0.0.0.0:4999](http://0.0.0.0:4999/);
 * **REST API** will be available on [0.0.0.0:5000](http://0.0.0.0:5000/)
+* **Admin application** will be available on
+  [0.0.0.0:4999](http://0.0.0.0:5000/admin/);
 
 
 ## Production deployment
@@ -139,9 +132,8 @@ Instruction how to deploy the project on production...
 
 ## Built With
 
-* [Aiohttp]();
-* [Alembic]();
+* [Flask]();
 * [Docker](https://docs.docker.com/engine/install/ubuntu/);
 * [Docker Compose](https://docs.docker.com/compose/install/);
-* [Gino ORM]();
 * [Python]();
+* [SQLAlchemy]();
