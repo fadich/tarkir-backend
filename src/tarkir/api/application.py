@@ -18,9 +18,9 @@ class Application(Flask):
         db.session.commit()  # pylint: disable=no-member
 
         return super().run(
-            host=host,
-            port=port,
-            debug=debug,
+            host=host or self.config['API_HOST'],
+            port=port or self.config['API_PORT'],
+            debug=debug or self.config['DEBUG'],
             load_dotenv=load_dotenv,
             **options
         )

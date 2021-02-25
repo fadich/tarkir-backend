@@ -19,8 +19,8 @@ class MainConfig(metaclass=SingletonMeta):
     DB_NAME = getenv('TR_DB_NAME', 'postgres')
     DB_DRIVER = 'postgres'
 
-    API_APP_HOST = getenv('TR_ADMIN_APP_HOST', '0.0.0.0')
-    API_APP_PORT = int(getenv('TR_ADMIN_APP_PORT', '5000'))
+    API_HOST = getenv('TR_ADMIN_APP_HOST', '0.0.0.0')
+    API_PORT = int(getenv('TR_ADMIN_APP_PORT', '5000'))
 
     FLASK_ADMIN_SWATCH = getenv('TR_FLASK_ADMIN_SWATCH', 'cerulean')
 

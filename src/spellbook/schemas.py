@@ -3,18 +3,6 @@ from tarkir.api import ma
 from spellbook import models
 
 
-class ExtendableSchemaMixin:
-
-    def load(self, *args, special=None):
-        _partial = super().load(*args)
-
-        # Move special field from Nest to Parent
-        if special is not None and special in _partial.data:
-            _partial.data[special] = _partial.data[special].get(special)
-
-        return _partial
-
-
 class ColorSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
@@ -36,10 +24,7 @@ class SpellSchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
 
 
-class SpellToSchoolExtendedSchema(
-    ma.SQLAlchemyAutoSchema,
-    ExtendableSchemaMixin
-):
+class SpellToSchoolExtendedSchema(ma.SQLAlchemyAutoSchema):
     school = ma.Nested(SchoolSchema)
 
     class Meta:
@@ -52,10 +37,7 @@ class SpellToSchoolExtendedSchema(
         include_fk = True
 
 
-class SpellToColorExtendedSchema(
-    ma.SQLAlchemyAutoSchema,
-    ExtendableSchemaMixin
-):
+class SpellToColorExtendedSchema(ma.SQLAlchemyAutoSchema):
     color = ma.Nested(ColorSchema)
 
     class Meta:
@@ -76,10 +58,7 @@ class SpellTreeSchema(SpellSchema):
         include_fk = True
 
 
-class SchoolToSpellExtendedSchema(
-    ma.SQLAlchemyAutoSchema,
-    ExtendableSchemaMixin
-):
+class SchoolToSpellExtendedSchema(ma.SQLAlchemyAutoSchema):
     spell = ma.Nested(SpellTreeSchema)
 
     class Meta:
