@@ -28,9 +28,12 @@ You only need to have [Docker](https://docs.docker.com/engine/install/ubuntu/)
   and [Docker Compose](https://docs.docker.com/compose/install/) installed on
   your machine.
 
-Once it's being installed, you may use `docker-compose.yml` to deploy the project
+Once it's being installed, you may use `src/docker-compose.yml` to deploy the 
+project
   locally, for example:
 ```shell script
+cd src/
+
 docker-compose build
 docker-compose up
 ```

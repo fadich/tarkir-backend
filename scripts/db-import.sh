@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 DB_NAME='postgres'
 CONTAINER_NAME='tarkir-db'
 #POSTGRES_HOME='/var/lib/postgresql'
 DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%s%N').sql"
-DUMP_PATH_HOST="$(pwd)/scripts/resources/dump.sql"
+DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump.sql"
 
 echo "Import SQL-dump..."
 container_id=$(docker-compose ps -q ${CONTAINER_NAME})
