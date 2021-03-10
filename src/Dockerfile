@@ -9,6 +9,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN pip install -e .
-
 EXPOSE ${TR_API_SERVER_PORT}

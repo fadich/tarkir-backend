@@ -1,11 +1,7 @@
-.idea
-venv
-
-__pycahce__
 *.pyc
+__pycache__
 
-tarkir.egg-info
-
+.dockerignore
 docker-compose.yml
 
 postgres-data
