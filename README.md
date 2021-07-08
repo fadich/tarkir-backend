@@ -133,6 +133,11 @@ Well done! Now, if you've setup the project right, then:
 
 Instruction how to deploy the project on production...
 
+```shell
+cd src;
+../scripts/deploy.sh
+```
+
 ## Built With
 
 * [Flask]();
