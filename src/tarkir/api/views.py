@@ -1,10 +1,19 @@
+__all__ = [
+    'AdminModelView',
+    'ApiView',
+    'ModelListView',
+    'ModelView',
+]
+
+
 from typing import Type
 
 from flask import jsonify, request
 from flask.views import MethodView
-from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
+
+from .application import AdminModelView
 
 
 class ApiView(MethodView):
@@ -41,7 +50,3 @@ class ModelView(ApiView):
         records = self.model.query.get(self.request.args.get(self.id_key))
 
         return self.schema.dump(obj=records)
-
-
-class AdminModelView(FlaskAdminModelView):
-    pass

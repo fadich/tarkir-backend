@@ -1,12 +1,23 @@
 from flask import Flask
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
+from flask_basicauth import BasicAuth
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
-from tarkir.api.views import AdminModelView
 from tarkir.utils.classes import get_subclasses
 
 from .config import MainConfig
+from .exceptions import AuthException
+
+
+class AdminModelView(FlaskAdminModelView):
+
+    def is_accessible(self):
+        if not ba.authenticate():
+            raise AuthException('Unauthorized')
+
+        return True
 
 
 class Application(Flask):
@@ -42,3 +53,4 @@ app.config.from_object(app_config)
 
 ma = Marshmallow(app)
 db = SQLAlchemy(app)
+ba = BasicAuth(app)

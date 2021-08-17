@@ -2,13 +2,16 @@ version: '3.7'
 
 
 x-db-env-variables: &db-env-variables
-  TR_DB_USERNAME: 'postgres'
-  TR_DB_PASSWORD: 'my_secret_password'
+  TR_DB_USERNAME: '<SET-DB-USERNAME>'
+  TR_DB_PASSWORD: '<SET-DB-PASSWORD>'
   TR_DB_PORT: 5432
 
 
 x-api-env-variables: &api-env-variables
+  TR_DEBUG: 0
   TR_DB_HOST: 'tarkir-db'
+  TR_BASIC_AUTH_USERNAME: '<SET-ADMIN-USERNAME>'
+  TR_BASIC_AUTH_PASSWORD: '<SET-ADMIN-PASSWORD>'
 
 
 services:
@@ -21,7 +24,7 @@ services:
       <<: *db-env-variables
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-      - ./postgres-data:/var/lib/postgresql  # TODO: check this
+      - ./postgres-data:/var/lib/postgresql/data
 
   api:
     image: fadich95/tarkir-tools:prod

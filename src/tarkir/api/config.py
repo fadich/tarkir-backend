@@ -24,6 +24,9 @@ class MainConfig(metaclass=SingletonMeta):
 
     FLASK_ADMIN_SWATCH = getenv('TR_FLASK_ADMIN_SWATCH', 'cerulean')
 
+    BASIC_AUTH_USERNAME = getenv('TR_BASIC_AUTH_USERNAME', '')
+    BASIC_AUTH_PASSWORD = getenv('TR_BASIC_AUTH_PASSWORD', '')
+
     @property
     def SQLALCHEMY_DATABASE_URI(self):  # Noqa, pylint: disable=invalid-name
         return str(
