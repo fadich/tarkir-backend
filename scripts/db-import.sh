@@ -23,28 +23,25 @@ SELECT SETVAL(
     'spell_id_seq', (
         SELECT MAX(id) FROM spell
     )
-)
-;
-
+);
 SELECT SETVAL(
     'school_id_seq', (
         SELECT MAX(id) FROM school
     )
-)
-;
-
-
+);
 SELECT SETVAL(
     'color_id_seq', (
         SELECT MAX(id) FROM color
     )
-)
-;
+);
 END
 )
 
 
 docker-compose exec ${CONTAINER_NAME} bash -c \
   "psql -U postgres -d ${DB_NAME} < ${DUMP_PATH_CONTAINER}"
+
+docker-compose exec ${CONTAINER_NAME} bash -c \
+  "psql -U postgres -d ${DB_NAME} -c \"${UPDATE_AUTOINCREMENTS_QUERY}\""
 
 echo "Done"
