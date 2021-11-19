@@ -1,6 +1,4 @@
 # Develop requirements
-#
-
 -r src/requirements.txt
 
 pylint
