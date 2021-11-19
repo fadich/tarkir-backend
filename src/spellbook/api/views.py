@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from tarkir.api.views import ModelView, ModelListView
+from tarkir_base.api.views import ModelView, ModelListView
 
 from spellbook.models import Color, School
 from spellbook.schemas import (

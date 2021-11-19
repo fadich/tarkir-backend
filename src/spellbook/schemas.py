@@ -1,4 +1,4 @@
-from tarkir.api import ma
+from tarkir_base.api import ma
 
 from spellbook import models
 

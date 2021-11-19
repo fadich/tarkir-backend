@@ -1,4 +1,4 @@
-from tarkir.api import db
+from tarkir_base.api import db
 
 
 class Model(db.Model):

@@ -1,4 +1,4 @@
-from tarkir.api import app
+from tarkir_base.api import app
 
 from spellbook.api.views import (
     ColorsView,

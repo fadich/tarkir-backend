@@ -1,4 +1,4 @@
-from tarkir.database import db, Model
+from tarkir_base.database import db, Model
 
 
 __all__ = [

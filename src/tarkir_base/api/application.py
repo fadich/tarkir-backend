@@ -5,7 +5,7 @@ from flask_basicauth import BasicAuth
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
-from tarkir.utils.classes import get_subclasses
+from tarkir_base.utils.classes import get_subclasses
 
 from .config import MainConfig
 from .exceptions import AuthException
@@ -39,9 +39,10 @@ class Application(Flask):
     @classmethod
     def init_admin(cls):
         # pylint: disable=import-outside-toplevel
-        from tarkir.database import Model
+        from tarkir_base.database import Model
 
         for subclass in get_subclasses(Model):
+            subclass
             admin.add_view(AdminModelView(subclass, db.session))
 
 

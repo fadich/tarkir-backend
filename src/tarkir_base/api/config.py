@@ -4,7 +4,7 @@ from os import getenv
 
 from sqlalchemy.engine.url import URL
 
-from tarkir.utils.classes import SingletonMeta
+from tarkir_base.utils.classes import SingletonMeta
 
 
 class MainConfig(metaclass=SingletonMeta):
