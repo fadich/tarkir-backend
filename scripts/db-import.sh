@@ -6,11 +6,43 @@ DB_NAME='postgres'
 CONTAINER_NAME='tarkir-db'
 #POSTGRES_HOME='/var/lib/postgresql'
 DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%s%N').sql"
-DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump.sql"
+if [ -z "${1}" ]
+  then
+    DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump.sql"
+    echo "Getting default DB: ${DUMP_PATH_HOST}"
+else
+    DUMP_PATH_HOST="${1}"
+fi
 
 echo "Import SQL-dump..."
 container_id=$(docker-compose ps -q ${CONTAINER_NAME})
 docker cp "${DUMP_PATH_HOST}" "${container_id}":"${DUMP_PATH_CONTAINER}"
+
+UPDATE_AUTOINCREMENTS_QUERY=$(cat <<-END
+SELECT SETVAL(
+    'spell_id_seq', (
+        SELECT MAX(id) FROM spell
+    )
+)
+;
+
+SELECT SETVAL(
+    'school_id_seq', (
+        SELECT MAX(id) FROM school
+    )
+)
+;
+
+
+SELECT SETVAL(
+    'color_id_seq', (
+        SELECT MAX(id) FROM color
+    )
+)
+;
+END
+)
+
 
 docker-compose exec ${CONTAINER_NAME} bash -c \
   "psql -U postgres -d ${DB_NAME} < ${DUMP_PATH_CONTAINER}"

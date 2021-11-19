@@ -6,7 +6,7 @@ DB_NAME='postgres'
 CONTAINER_NAME='tarkir-db'
 #POSTGRES_HOME='/var/lib/postgresql'
 DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%s%N').sql"
-DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump.sql"
+DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump-$(date +'%s%N').sql"
 
 echo "Create and export new SQL-dump..."
 docker-compose exec ${CONTAINER_NAME} bash -c \
