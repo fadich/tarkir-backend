@@ -2,6 +2,8 @@ __all__ = [
     'SpellAdminView',
     'SchoolAdminView',
     'ColorAdminView',
+    'SpellToSchoolAdminView',
+    'SpellToColorAdminView',
 ]
 
 
@@ -36,3 +38,30 @@ class SchoolAdminView(AdminModelView):
 
 class ColorAdminView(AdminModelView):
     __model__ = Color
+
+
+class SpellToSchoolAdminView(AdminModelView):
+    __model__ = SpellToSchool
+
+    column_searchable_list = [
+        'spell.name',
+    ]
+    column_filters = [
+        'school.shortcut',
+        'cycle',
+        'school.name',
+    ]
+    page_size = 50
+
+
+class SpellToColorAdminView(AdminModelView):
+    __model__ = SpellToColor
+
+    column_searchable_list = [
+        'spell.name',
+    ]
+    column_filters = [
+        'color.shortcut',
+        'color.name',
+    ]
+    page_size = 50
