@@ -1,1 +1,8 @@
-from .application import app, admin, db, ma, app_config
+from .application import (
+    app,
+    admin,
+    db,
+    ma,
+    app_config,
+    AdminModelView,
+)

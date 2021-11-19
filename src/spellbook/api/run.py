@@ -22,5 +22,16 @@ app.add_url_rule(
 
 
 if __name__ == '__main__':
-    app.init_admin()
+    from .admin import *
+    from ..models import *
+
+    app.init_admin(
+        classes=(
+            SpellAdminView,
+            SchoolAdminView,
+            ColorAdminView,
+            SpellToSchool,
+            SpellToColor,
+        )
+    )
     app.run()

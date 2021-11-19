@@ -1,3 +1,5 @@
+from typing import Sequence, Type, Optional, Union
+
 from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
@@ -5,13 +7,17 @@ from flask_basicauth import BasicAuth
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
-from tarkir_base.utils.classes import get_subclasses
-
 from .config import MainConfig
 from .exceptions import AuthException
 
 
+ModelType = Type['Model']
+ModelViewType = Type['ModelView']
+
+
 class AdminModelView(FlaskAdminModelView):
+    __model__: ModelType
+    __index_view__: bool = False  # TODO: Implement index page
 
     def is_accessible(self):
         if not ba.authenticate():
@@ -37,13 +43,17 @@ class Application(Flask):
         )
 
     @classmethod
-    def init_admin(cls):
+    def init_admin(cls, classes: Optional[Sequence[Union[ModelType, ModelViewType]]] = None):
         # pylint: disable=import-outside-toplevel
         from tarkir_base.database import Model
 
-        for subclass in get_subclasses(Model):
-            subclass
-            admin.add_view(AdminModelView(subclass, db.session))
+        for class_ in classes:
+            if issubclass(class_, Model):
+                admin.add_view(AdminModelView(class_, db.session))
+            elif issubclass(class_, FlaskAdminModelView):
+                admin.add_view(class_(class_.__model__, db.session))
+            else:
+                raise TypeError(f'Unsupported admin model type: {class_}')
 
 
 app_config = MainConfig()
