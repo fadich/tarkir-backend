@@ -115,6 +115,5 @@ class PassiveBonus:
     pass
 
 
-# TODO: Add School level bonus (passives) models
 class PassiveBonusToSchool:
     pass
