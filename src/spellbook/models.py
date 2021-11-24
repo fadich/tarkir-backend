@@ -108,3 +108,8 @@ class Spell(Model):
 
     def __repr__(self):
         return f'{self.name}'
+
+
+# TODO: Add School level bonus (passives) models
+class Passive:
+    pass
