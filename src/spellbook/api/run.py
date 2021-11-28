@@ -1,19 +1,19 @@
 from tarkir_base.api import app
 
 from spellbook.api.views import (
+    IndexView,
     ColorsView,
     SchoolView,
-    SchoolsTreeView,
 )
 
 
+app.add_url_rule(
+    '/schools',
+    view_func=IndexView.as_view(IndexView.__name__)
+)
 app.add_url_rule(
     '/colors',
     view_func=ColorsView.as_view(ColorsView.__name__)
-)
-app.add_url_rule(
-    '/schools',
-    view_func=SchoolsTreeView.as_view(SchoolsTreeView.__name__)
 )
 app.add_url_rule(
     '/spells',
@@ -22,7 +22,7 @@ app.add_url_rule(
 
 
 if __name__ == '__main__':
-    from .admin import *
+    from spellbook.api.views import *
 
     app.init_admin(
         classes=(
