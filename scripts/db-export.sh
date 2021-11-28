@@ -5,8 +5,9 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 DB_NAME='postgres'
 CONTAINER_NAME='tarkir-db'
 #POSTGRES_HOME='/var/lib/postgresql'
-DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%s%N').sql"
-DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump-$(date +'%s%N').sql"
+DUMP_FILE_PATH="dump-$(date +'%Y-%m-%d-%H-%M-%S').sql"
+DUMP_PATH_CONTAINER="/tmp/${DUMP_FILE_PATH}"
+DUMP_PATH_HOST="${SCRIPT_DIR}/resources/${DUMP_FILE_PATH}"
 
 echo "Create and export new SQL-dump..."
 docker-compose exec ${CONTAINER_NAME} bash -c \
