@@ -21,8 +21,7 @@ class IndexView(ModelListView, SchoolFormatterMixin):
     def get(self):
         school_tree = super().get()
 
-        return []
-        # return list(map(self.reformat_school, school_tree))
+        return list(map(self.reformat_school, school_tree))
 
 
 class SchoolView(ModelView, SchoolFormatterMixin):
