@@ -5,7 +5,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 DB_NAME='postgres'
 CONTAINER_NAME='tarkir-db'
 #POSTGRES_HOME='/var/lib/postgresql'
-DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%s%N').sql"
+DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%Y-%m-%d-%H-%M-%S').sql"
 if [ -z "${1}" ]
   then
     DUMP_PATH_HOST="${SCRIPT_DIR}/resources/dump.sql"
