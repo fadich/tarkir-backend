@@ -37,5 +37,6 @@ services:
       <<: *db-env-variables
       <<: *api-env-variables
       TR_API_SERVER_PORT: 5000
+      FLASK_TEMPLATE_FOLDER: '/tarkir-tools/spellbook/templates'
     volumes:
       - .:/tarkir-tools

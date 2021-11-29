@@ -30,14 +30,30 @@ class SpellAdminView(AdminModelView):
         'type',
     ]
     page_size = 50
-    form_widget_args = dict(description={'class': 'form-control ckeditor'})
+    form_widget_args = {
+        'description': {
+            'class': 'form-control ckeditor',
+        },
+        'requirements': {
+            'class': 'form-control ckeditor',
+        },
+    }
 
-    create_template = 'admin/ckeditor.html'
-    edit_template = 'admin/ckeditor.html'
+    create_template = 'admin/ckeditor-create.html'
+    edit_template = 'admin/ckeditor-edit.html'
 
 
 class SchoolAdminView(AdminModelView):
     __model__ = School
+
+    form_widget_args = {
+        'description': {
+            'class': 'form-control ckeditor',
+        },
+    }
+
+    create_template = 'admin/ckeditor-create.html'
+    edit_template = 'admin/ckeditor-edit.html'
 
 
 class ColorAdminView(AdminModelView):
