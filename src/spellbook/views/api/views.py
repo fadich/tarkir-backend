@@ -6,12 +6,12 @@ __all__ = [
 
 from tarkir_base.api.views import ModelView, ModelListView
 
-from spellbook.api.views.mixins import SchoolFormatterMixin
 from spellbook.models import Color, School
 from spellbook.schemas import (
     ColorSchema,
     SchoolTreeSchema,
 )
+from .mixins import SchoolFormatterMixin
 
 
 class IndexView(ModelListView, SchoolFormatterMixin):

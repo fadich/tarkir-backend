@@ -30,6 +30,10 @@ class SpellAdminView(AdminModelView):
         'type',
     ]
     page_size = 50
+    form_widget_args = dict(description={'class': 'form-control ckeditor'})
+
+    create_template = 'admin/ckeditor.html'
+    edit_template = 'admin/ckeditor.html'
 
 
 class SchoolAdminView(AdminModelView):
