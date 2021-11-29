@@ -23,6 +23,7 @@ class MainConfig(metaclass=SingletonMeta):
     API_PORT = int(getenv('TR_ADMIN_APP_PORT', '5000'))
 
     FLASK_ADMIN_SWATCH = getenv('TR_FLASK_ADMIN_SWATCH', 'cerulean')
+    FLASK_TEMPLATE_FOLDER = getenv('FLASK_TEMPLATE_FOLDER', 'templates')
 
     BASIC_AUTH_USERNAME = getenv('TR_BASIC_AUTH_USERNAME', '')
     BASIC_AUTH_PASSWORD = getenv('TR_BASIC_AUTH_PASSWORD', '')

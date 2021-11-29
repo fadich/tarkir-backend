@@ -57,7 +57,7 @@ class Application(Flask):
 
 
 app_config = MainConfig()
-app = Application(__name__)
+app = Application(__name__, template_folder=app_config.FLASK_TEMPLATE_FOLDER)
 admin = Admin(app, name='tarkir', template_mode='bootstrap3')
 
 app.config.from_object(app_config)

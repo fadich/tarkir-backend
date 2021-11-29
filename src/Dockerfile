@@ -10,3 +10,5 @@ RUN pip install -r requirements.txt
 COPY . .
 
 EXPOSE ${TR_API_SERVER_PORT}
+
+CMD ["python3", "-m", "spellbook.run"]

@@ -28,7 +28,7 @@ services:
     build:
       context: .
     container_name: api
-    command: 'python -m spellbook.api.run'
+#    command: 'python -m spellbook.run'
     ports:
     - 5000:5000
     depends_on:
@@ -37,5 +37,6 @@ services:
       <<: *db-env-variables
       <<: *api-env-variables
       TR_API_SERVER_PORT: 5000
+      FLASK_TEMPLATE_FOLDER: '/tarkir-tools/spellbook/templates'
     volumes:
       - .:/tarkir-tools

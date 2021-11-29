@@ -1,6 +1,6 @@
 from tarkir_base.api import app
 
-from spellbook.api.views import (
+from spellbook.views import (
     IndexView,
     ColorsView,
     SchoolView,
@@ -22,7 +22,13 @@ app.add_url_rule(
 
 
 if __name__ == '__main__':
-    from spellbook.api.views import *
+    from spellbook.views import (
+        SpellAdminView,
+        SchoolAdminView,
+        ColorAdminView,
+        SpellToSchoolAdminView,
+        SpellToColorAdminView,
+    )
 
     app.init_admin(
         classes=(
