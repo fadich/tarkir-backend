@@ -34,9 +34,9 @@ class SpellAdminView(AdminModelView):
         'description': {
             'class': 'form-control ckeditor',
         },
-        'requirements': {
-            'class': 'form-control ckeditor',
-        },
+        # 'requirements': {
+        #     'class': 'form-control ckeditor',
+        # },
         'items': {
             'class': 'form-control ckeditor',
         },
