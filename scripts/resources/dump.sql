@@ -24,6 +24,7 @@ ALTER TABLE ONLY public.school DROP CONSTRAINT school_name_key;
 ALTER TABLE ONLY public.color DROP CONSTRAINT color_shortcut_key;
 ALTER TABLE ONLY public.color DROP CONSTRAINT color_pkey;
 ALTER TABLE ONLY public.color DROP CONSTRAINT color_name_key;
+ALTER TABLE ONLY public.alembic_version DROP CONSTRAINT alembic_version_pkc;
 ALTER TABLE public.spell ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.school ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.color ALTER COLUMN id DROP DEFAULT;
@@ -35,8 +36,13 @@ DROP SEQUENCE public.school_id_seq;
 DROP TABLE public.school;
 DROP SEQUENCE public.color_id_seq;
 DROP TABLE public.color;
+DROP TABLE public.alembic_version;
 SET default_tablespace = '';
 SET default_table_access_method = heap;
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+ALTER TABLE public.alembic_version OWNER TO postgres;
 CREATE TABLE public.color (
     id integer NOT NULL,
     name character varying(256) NOT NULL,
@@ -110,6 +116,9 @@ ALTER TABLE public.spell_to_school OWNER TO postgres;
 ALTER TABLE ONLY public.color ALTER COLUMN id SET DEFAULT nextval('public.color_id_seq'::regclass);
 ALTER TABLE ONLY public.school ALTER COLUMN id SET DEFAULT nextval('public.school_id_seq'::regclass);
 ALTER TABLE ONLY public.spell ALTER COLUMN id SET DEFAULT nextval('public.spell_id_seq'::regclass);
+COPY public.alembic_version (version_num) FROM stdin;
+acb4e10d3cd5
+\.
 COPY public.color (id, name, shortcut, hex_code) FROM stdin;
 1	Белый	W	#fbff80
 2	Зеленый	G	#78b33b
@@ -794,9 +803,11 @@ COPY public.spell_to_school (spell_id, school_id, cycle) FROM stdin;
 157	12	1
 158	12	2
 \.
-SELECT pg_catalog.setval('public.color_id_seq', 1, false);
-SELECT pg_catalog.setval('public.school_id_seq', 1, false);
-SELECT pg_catalog.setval('public.spell_id_seq', 1, false);
+SELECT pg_catalog.setval('public.color_id_seq', 6, true);
+SELECT pg_catalog.setval('public.school_id_seq', 16, true);
+SELECT pg_catalog.setval('public.spell_id_seq', 234, true);
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
 ALTER TABLE ONLY public.color
     ADD CONSTRAINT color_name_key UNIQUE (name);
 ALTER TABLE ONLY public.color
