@@ -11,4 +11,4 @@ COPY . .
 
 EXPOSE ${TR_API_SERVER_PORT}
 
-CMD ["python3", "-m", "spellbook.run"]
+CMD ["./entrypoint.sh"]
