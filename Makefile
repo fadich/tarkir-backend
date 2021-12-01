@@ -15,3 +15,9 @@ migrate:
 
 migrate-down:
 	docker-compose -f ./src/docker-compose.yml run --rm api flask db downgrade
+
+db-import:
+	cd src/ && ../scripts/db-import.sh && cd ..
+
+db-export:
+	cd src/ && ../scripts/db-export.sh && cd ..
