@@ -76,10 +76,6 @@ class School(Model):
         db.Integer(), db.ForeignKey('color.id'), nullable=False
     )
     description = db.Column(db.Text(), nullable=True)
-    cycle_bonus_zero = db.Column(db.Text(), nullable=True)
-    cycle_bonus_one = db.Column(db.Text(), nullable=True)
-    cycle_bonus_two = db.Column(db.Text(), nullable=True)
-    cycle_bonus_three = db.Column(db.Text(), nullable=True)
 
     color = db.relationship('Color', back_populates='schools')
     spells = db.relationship('SpellToSchool', back_populates='school')
