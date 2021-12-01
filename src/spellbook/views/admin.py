@@ -2,8 +2,10 @@ __all__ = [
     'SpellAdminView',
     'SchoolAdminView',
     'ColorAdminView',
+    'PassiveBonusAdminView',
     'SpellToSchoolAdminView',
     'SpellToColorAdminView',
+    'PassiveBonusToSchoolAdminView',
 ]
 
 
@@ -21,6 +23,8 @@ class SpellAdminView(AdminModelView):
         'name',
         'name_en',
         'type',
+        'schools',
+        'colors',
     ]
     column_searchable_list = [
         'name',
@@ -34,12 +38,6 @@ class SpellAdminView(AdminModelView):
         'description': {
             'class': 'form-control ckeditor',
         },
-        # 'requirements': {
-        #     'class': 'form-control ckeditor',
-        # },
-        'items': {
-            'class': 'form-control ckeditor',
-        },
         'items': {
             'class': 'form-control ckeditor',
         },
@@ -51,6 +49,42 @@ class SpellAdminView(AdminModelView):
 
 class SchoolAdminView(AdminModelView):
     __model__ = School
+
+    column_list = [
+        'id',
+        'name',
+        'shortcut',
+        'color',
+    ]
+    column_searchable_list = [
+        'name',
+        'shortcut',
+    ]
+
+    form_widget_args = {
+        'description': {
+            'class': 'form-control ckeditor',
+        },
+    }
+
+    create_template = 'admin/ckeditor-create.html'
+    edit_template = 'admin/ckeditor-edit.html'
+
+
+class PassiveBonusAdminView(AdminModelView):
+    __model__ = PassiveBonus
+
+    column_list = [
+        'id',
+        'name',
+        'name_en',
+        'cycle',
+        'schools',
+    ]
+    column_searchable_list = [
+        'name',
+        'name_en',
+    ]
 
     form_widget_args = {
         'description': {
@@ -71,6 +105,8 @@ class SpellToSchoolAdminView(AdminModelView):
 
     column_searchable_list = [
         'spell.name',
+        'school.shortcut',
+        'school.name',
     ]
     column_filters = [
         'school.shortcut',
@@ -85,9 +121,27 @@ class SpellToColorAdminView(AdminModelView):
 
     column_searchable_list = [
         'spell.name',
+        'color.shortcut',
+        'color.name',
     ]
     column_filters = [
         'color.shortcut',
         'color.name',
+    ]
+    page_size = 50
+
+
+class PassiveBonusToSchoolAdminView(AdminModelView):
+    __model__ = PassiveBonusToSchool
+
+    column_searchable_list = [
+        'passive_bonus.name',
+        'passive_bonus.name_en',
+        'school.shortcut',
+        'school.name',
+    ]
+    column_filters = [
+        'passive_bonus.cycle',
+        'school.shortcut',
     ]
     page_size = 50

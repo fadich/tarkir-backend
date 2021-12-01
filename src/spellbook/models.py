@@ -4,6 +4,8 @@ __all__ = [
     'Spell',
     'SpellToColor',
     'SpellToSchool',
+    'PassiveBonus',
+    'PassiveBonusToSchool',
 ]
 
 
@@ -80,6 +82,9 @@ class PassiveBonus(Model):
 
     schools = db.relationship('PassiveBonusToSchool', back_populates='passive_bonus')
 
+    def __repr__(self):
+        return f'{self.name}'
+
 
 class SpellToColor(Model):
     __tablename__ = 'spell_to_color'
@@ -97,7 +102,7 @@ class SpellToColor(Model):
     color = db.relationship('Color', back_populates='spells')
 
     def __repr__(self):
-        return f'{self.color.shortcut}-{self.spell.name}'
+        return f'{self.color.shortcut}'
 
 
 class SpellToSchool(Model):
@@ -117,7 +122,7 @@ class SpellToSchool(Model):
     school = db.relationship('School', back_populates='spells')
 
     def __repr__(self):
-        return f'{self.school.shortcut}-{self.spell.name}'
+        return f'{self.school.shortcut}'
 
 
 class PassiveBonusToSchool(Model):
@@ -134,3 +139,6 @@ class PassiveBonusToSchool(Model):
 
     passive_bonus = db.relationship('PassiveBonus', back_populates='schools')
     school = db.relationship('School', back_populates='passive_bonuses')
+
+    def __repr__(self):
+        return f'{self.school.shortcut}'
