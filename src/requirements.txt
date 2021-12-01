@@ -3,6 +3,7 @@ Flask-Admin==1.5.7
 Flask-BasicAuth==0.2.0
 Flask-SQLAlchemy==2.4.4
 flask-marshmallow==0.14.0
+Flask-Migrate==3.1.0
 marshmallow==3.10.0
 marshmallow-sqlalchemy==0.24.2
 psycopg2-binary==2.8.6

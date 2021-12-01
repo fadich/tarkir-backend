@@ -1,6 +1,3 @@
-from tarkir_base.database import db, Model
-
-
 __all__ = [
     'Color',
     'School',
@@ -8,6 +5,9 @@ __all__ = [
     'SpellToColor',
     'SpellToSchool',
 ]
+
+
+from tarkir_base.database import db, Model
 
 
 class SpellToColor(Model):

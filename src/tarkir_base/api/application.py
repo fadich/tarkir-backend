@@ -5,6 +5,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
 from flask_basicauth import BasicAuth
 from flask_marshmallow import Marshmallow
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from .config import MainConfig
@@ -31,9 +32,6 @@ class Application(Flask):
     def run(
         self, host=None, port=None, debug=None, load_dotenv=True, **options
     ):
-        db.create_all()
-        db.session.commit()  # pylint: disable=no-member
-
         return super().run(
             host=host or self.config['API_HOST'],
             port=port or self.config['API_PORT'],
@@ -65,3 +63,4 @@ app.config.from_object(app_config)
 ma = Marshmallow(app)
 db = SQLAlchemy(app)
 ba = BasicAuth(app)
+mi = Migrate(app, db)
