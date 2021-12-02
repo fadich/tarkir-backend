@@ -26,6 +26,22 @@ class SpellAdminView(AdminModelView):
         'schools',
         'colors',
     ]
+    column_editable_list = [
+        'name',
+        'name_en',
+        'type',
+    ]
+    form_create_rules= form_edit_rules = (
+        'name',
+        'name_en',
+        'type',
+        'description',
+        'requirements',
+        'time_to_create',
+        'cost',
+        'duration',
+        'items',
+    )
     column_searchable_list = [
         'name',
         'name_en',
@@ -56,6 +72,16 @@ class SchoolAdminView(AdminModelView):
         'shortcut',
         'color',
     ]
+    column_editable_list = [
+        'name',
+        'shortcut',
+    ]
+    form_create_rules= form_edit_rules = (
+        'name',
+        'shortcut',
+        'description',
+        'color',
+    )
     column_searchable_list = [
         'name',
         'shortcut',
@@ -81,6 +107,17 @@ class PassiveBonusAdminView(AdminModelView):
         'cycle',
         'schools',
     ]
+    column_editable_list = [
+        'name',
+        'name_en',
+        'cycle',
+    ]
+    form_create_rules= form_edit_rules = (
+        'name',
+        'name_en',
+        'description',
+        'cycle',
+    )
     column_searchable_list = [
         'name',
         'name_en',
@@ -99,6 +136,29 @@ class PassiveBonusAdminView(AdminModelView):
 class ColorAdminView(AdminModelView):
     __model__ = Color
 
+    column_list = [
+        'id',
+        'name',
+        'shortcut',
+        'hex_code',
+        'schools',
+    ]
+    column_editable_list = [
+        'name',
+        'shortcut',
+        'hex_code',
+    ]
+    form_create_rules= form_edit_rules = (
+        'name',
+        'shortcut',
+        'hex_code',
+    )
+    column_searchable_list = [
+        'name',
+        'shortcut',
+        'hex_code',
+    ]
+
 
 class SpellToSchoolAdminView(AdminModelView):
     __model__ = SpellToSchool
@@ -107,6 +167,11 @@ class SpellToSchoolAdminView(AdminModelView):
         'spell.name',
         'school.shortcut',
         'school.name',
+    ]
+    column_editable_list = [
+        'spell',
+        'school',
+        'cycle',
     ]
     column_filters = [
         'school.shortcut',
@@ -128,6 +193,10 @@ class SpellToColorAdminView(AdminModelView):
         'color.shortcut',
         'color.name',
     ]
+    column_editable_list = [
+        'spell',
+        'color',
+    ]
     page_size = 50
 
 
@@ -139,6 +208,10 @@ class PassiveBonusToSchoolAdminView(AdminModelView):
         'passive_bonus.name_en',
         'school.shortcut',
         'school.name',
+    ]
+    column_editable_list = [
+        'passive_bonus',
+        'school',
     ]
     column_filters = [
         'passive_bonus.cycle',

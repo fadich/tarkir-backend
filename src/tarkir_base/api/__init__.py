@@ -5,4 +5,5 @@ from .application import (
     ma,
     app_config,
     AdminModelView,
+    AdminIndexView,
 )
