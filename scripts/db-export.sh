@@ -15,7 +15,7 @@ CONTAINER_NAME='tarkir-db'
 DUMP_PATH_CONTAINER="/tmp/dump-$(date +'%Y-%m-%d-%H-%M-%S').sql"
 
 echo "Create and export new SQL-dump..."
-docker-compose exec ${CONTAINER_NAME} bash -c \
+docker-compose exec -T ${CONTAINER_NAME} bash -c \
   "su -c \"pg_dump --clean -Z 0 -d ${DB_NAME} \
   | sed -e '/^--/d' \
   | sed -e '/^$/d' \
