@@ -19,9 +19,9 @@ docker-compose exec ${CONTAINER_NAME} bash -c \
   "su -c \"pg_dump --clean -Z 0 -d ${DB_NAME} \
   | sed -e '/^--/d' \
   | sed -e '/^$/d' \
-  > ${DUMP_PATH_CONTAINER}\" postgres"
+  > ${DUMP_PATH_CONTAINER}\" postgres" || exit 1
 
 container_id=$(docker-compose ps -q ${CONTAINER_NAME})
-docker cp "${container_id}":"${DUMP_PATH_CONTAINER}" "${DUMP_PATH_HOST}"
+docker cp "${container_id}":"${DUMP_PATH_CONTAINER}" "${DUMP_PATH_HOST}" || exit 1
 
 echo "Done and stored to ${DUMP_PATH_HOST}"
