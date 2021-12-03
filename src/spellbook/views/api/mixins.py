@@ -8,7 +8,10 @@ class SchoolFormatterMixin:
         spells = defaultdict(list)
 
         school['passive_bonuses'] = {
-            f'{school["shortcut"]}{link["passive_bonus"]["cycle"]}': link['passive_bonus']
+            f'{school["shortcut"]}{link["passive_bonus"]["cycle"]}': {
+                **link['passive_bonus'],
+                'schools': [ll['school'] for ll in link['passive_bonus']['schools']]
+            }
             for link in school['passive_bonuses']
         }
 
