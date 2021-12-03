@@ -26,17 +26,21 @@ if __name__ == '__main__':
         SpellAdminView,
         SchoolAdminView,
         ColorAdminView,
+        PassiveBonusAdminView,
         SpellToSchoolAdminView,
         SpellToColorAdminView,
+        PassiveBonusToSchoolAdminView,
     )
 
     app.init_admin(
         classes=(
             SpellAdminView,
-            SchoolAdminView,
-            ColorAdminView,
             SpellToSchoolAdminView,
             SpellToColorAdminView,
+            PassiveBonusAdminView,
+            PassiveBonusToSchoolAdminView,
+            SchoolAdminView,
+            ColorAdminView,
         )
     )
     app.run()

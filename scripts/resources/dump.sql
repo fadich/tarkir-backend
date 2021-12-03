@@ -13,6 +13,8 @@ ALTER TABLE ONLY public.spell_to_school DROP CONSTRAINT spell_to_school_school_i
 ALTER TABLE ONLY public.spell_to_color DROP CONSTRAINT spell_to_color_spell_id_fkey;
 ALTER TABLE ONLY public.spell_to_color DROP CONSTRAINT spell_to_color_color_id_fkey;
 ALTER TABLE ONLY public.school DROP CONSTRAINT school_color_id_fkey;
+ALTER TABLE ONLY public.passive_bonus_to_school DROP CONSTRAINT passive_bonus_to_school_school_id_fkey;
+ALTER TABLE ONLY public.passive_bonus_to_school DROP CONSTRAINT passive_bonus_to_school_passive_bonus_id_fkey;
 ALTER TABLE ONLY public.spell_to_school DROP CONSTRAINT spell_to_school_pkey;
 ALTER TABLE ONLY public.spell_to_color DROP CONSTRAINT spell_to_color_pkey;
 ALTER TABLE ONLY public.spell DROP CONSTRAINT spell_pkey;
@@ -21,12 +23,17 @@ ALTER TABLE ONLY public.spell DROP CONSTRAINT spell_name_en_key;
 ALTER TABLE ONLY public.school DROP CONSTRAINT school_shortcut_key;
 ALTER TABLE ONLY public.school DROP CONSTRAINT school_pkey;
 ALTER TABLE ONLY public.school DROP CONSTRAINT school_name_key;
+ALTER TABLE ONLY public.passive_bonus_to_school DROP CONSTRAINT passive_bonus_to_school_pkey;
+ALTER TABLE ONLY public.passive_bonus DROP CONSTRAINT passive_bonus_pkey;
+ALTER TABLE ONLY public.passive_bonus DROP CONSTRAINT passive_bonus_name_key;
+ALTER TABLE ONLY public.passive_bonus DROP CONSTRAINT passive_bonus_name_en_key;
 ALTER TABLE ONLY public.color DROP CONSTRAINT color_shortcut_key;
 ALTER TABLE ONLY public.color DROP CONSTRAINT color_pkey;
 ALTER TABLE ONLY public.color DROP CONSTRAINT color_name_key;
 ALTER TABLE ONLY public.alembic_version DROP CONSTRAINT alembic_version_pkc;
 ALTER TABLE public.spell ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.school ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.passive_bonus ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.color ALTER COLUMN id DROP DEFAULT;
 DROP TABLE public.spell_to_school;
 DROP TABLE public.spell_to_color;
@@ -34,6 +41,9 @@ DROP SEQUENCE public.spell_id_seq;
 DROP TABLE public.spell;
 DROP SEQUENCE public.school_id_seq;
 DROP TABLE public.school;
+DROP TABLE public.passive_bonus_to_school;
+DROP SEQUENCE public.passive_bonus_id_seq;
+DROP TABLE public.passive_bonus;
 DROP SEQUENCE public.color_id_seq;
 DROP TABLE public.color;
 DROP TABLE public.alembic_version;
@@ -59,16 +69,34 @@ CREATE SEQUENCE public.color_id_seq
     CACHE 1;
 ALTER TABLE public.color_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.color_id_seq OWNED BY public.color.id;
+CREATE TABLE public.passive_bonus (
+    id integer NOT NULL,
+    name character varying(256) NOT NULL,
+    name_en character varying(256),
+    description text,
+    cycle integer NOT NULL
+);
+ALTER TABLE public.passive_bonus OWNER TO postgres;
+CREATE SEQUENCE public.passive_bonus_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE public.passive_bonus_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.passive_bonus_id_seq OWNED BY public.passive_bonus.id;
+CREATE TABLE public.passive_bonus_to_school (
+    passive_bonus_id integer NOT NULL,
+    school_id integer NOT NULL
+);
+ALTER TABLE public.passive_bonus_to_school OWNER TO postgres;
 CREATE TABLE public.school (
     id integer NOT NULL,
     name character varying(256) NOT NULL,
     shortcut character varying(2) NOT NULL,
     color_id integer NOT NULL,
-    description text,
-    cycle_bonus_zero text,
-    cycle_bonus_one text,
-    cycle_bonus_two text,
-    cycle_bonus_three text
+    description text
 );
 ALTER TABLE public.school OWNER TO postgres;
 CREATE SEQUENCE public.school_id_seq
@@ -114,10 +142,11 @@ CREATE TABLE public.spell_to_school (
 );
 ALTER TABLE public.spell_to_school OWNER TO postgres;
 ALTER TABLE ONLY public.color ALTER COLUMN id SET DEFAULT nextval('public.color_id_seq'::regclass);
+ALTER TABLE ONLY public.passive_bonus ALTER COLUMN id SET DEFAULT nextval('public.passive_bonus_id_seq'::regclass);
 ALTER TABLE ONLY public.school ALTER COLUMN id SET DEFAULT nextval('public.school_id_seq'::regclass);
 ALTER TABLE ONLY public.spell ALTER COLUMN id SET DEFAULT nextval('public.spell_id_seq'::regclass);
 COPY public.alembic_version (version_num) FROM stdin;
-acb4e10d3cd5
+504843d6b728
 \.
 COPY public.color (id, name, shortcut, hex_code) FROM stdin;
 1	Белый	W	#fbff80
@@ -127,26 +156,32 @@ COPY public.color (id, name, shortcut, hex_code) FROM stdin;
 5	Черный	B	#2e2c2b
 6	Бесцветный	Z	#c1c1c1
 \.
-COPY public.school (id, name, shortcut, color_id, description, cycle_bonus_zero, cycle_bonus_one, cycle_bonus_two, cycle_bonus_three) FROM stdin;
-1	Земля	ЗМ	2	\N	\N	\N	\N	\N
-2	Воздух	ВХ	4	\N	\N	\N	\N	\N
-3	Вода	ВД	4	\N	\N	\N	\N	\N
-4	Огонь	ГН	3	\N	\N	\N	\N	\N
-5	Свет	СВ	1	\N	\N	\N	\N	\N
-6	Тьма	ТМ	5	\N	\N	\N	\N	\N
-7	Единство	ДН	1	\N	\N	\N	\N	\N
-8	Животные	ЖВ	2	\N	\N	\N	\N	\N
-9	Дух	ДХ	1	\N	\N	\N	\N	\N
-10	Знания	ЗН	5	\N	\N	\N	\N	\N
-11	Чародейство	ЧД	6	\N	\N	\N	\N	\N
-12	Создание и Разрушение	СР	3	\N	\N	\N	\N	\N
-13	Контроль Сознания	КС	4	\N	\N	\N	\N	\N
-14	Некромантия	НМ	5	\N	\N	\N	\N	\N
-15	Порча 	ПЧ	2	\N	\N	\N	\N	\N
-16	Шаманизм	ШМ	3	\N	\N	\N	\N	\N
+COPY public.passive_bonus (id, name, name_en, description, cycle) FROM stdin;
+1	test	test	<p>Test</p>\r\n	2
+\.
+COPY public.passive_bonus_to_school (passive_bonus_id, school_id) FROM stdin;
+1	4
+1	5
+\.
+COPY public.school (id, name, shortcut, color_id, description) FROM stdin;
+2	Воздух	ВХ	4	\N
+3	Вода	ВД	4	\N
+4	Огонь	ГН	3	\N
+5	Свет	СВ	1	\N
+6	Тьма	ТМ	5	\N
+7	Единство	ДН	1	\N
+8	Животные	ЖВ	2	\N
+9	Дух	ДХ	1	\N
+10	Знания	ЗН	5	\N
+11	Чародейство	ЧД	6	\N
+12	Создание и Разрушение	СР	3	\N
+13	Контроль Сознания	КС	4	\N
+14	Некромантия	НМ	5	\N
+15	Порча 	ПЧ	2	\N
+16	Шаманизм	ШМ	3	\N
+1	Земля	ЗМ	2	
 \.
 COPY public.spell (id, name, name_en, type, description, requirements, time_to_create, cost, duration, items) FROM stdin;
-1	Поиск земли	Seek Earth	Информационное	Это базовое заклинание школы Земли. Сообщает заклинателю направление и приблизительное расстояние до ближайшего искомого количества земли, металла или камня. Используйте модификаторы дальних дистанций (стр. 151). Любые известные заклинателю источники материала могут быть исключены из области поиска перед сотворением заклинания.	-	10	3	-	Раздвоенная палка с унцией земли/камня/металла на конце. Каждая палка будет искать только заданный (встроенный в рагулину) тип материала. 50 энергии и деньги на приобретение унции соответствующего материала.
 2	Формование земли	Shape Earth	Обычное	Позволяет заклинателю перемещать землю и придавать ей форму. Если форма стабильна (т.е. холм), она останется в таком состоянии после формирования. Не стабильная форма (т.е. колонна или стена) будет держаться только в течении действия заклинания (благо концентрация не требуется) а потом развалиться. Земля перемещаемая с помощью этого заклинания двигается со скоростью 2 клетки в ход. С такой скоростью она не способна причинить вред, корме как засыпать неподвижного человека. Если земля двигается в клетку с человеком или из нее (образуя яму), человек может двигаться как обычно в свой ход чтобы избежать проблем. Кто либо похороненный под землей с помощью этого заклинания может пытаться процарапаться наружу. Каждый ход позволен бросок ST-4, мастер может усложнить бросок если насыпано больше чем одна клетка земли. Похороненный может задерживать дыхание в течении HTx10 секунд а потом начинает терять по единице усталости в ход (стр. 91).	Поиск земли	1	2 за клетку, 1 за клетку на поддержание.	1 минута	Посох, палочка, украшение или копательный инструмент. 200 энергии.
 3	Превращение камня в землю	Stone to Earth	Обычное	Превращает любой камень (включая драгоценные) в землю. Должно быть сотворено на цельный кусок, а не на часть.	Формование земли	1	3 за предмет весом до 20 lbs; 5 за больший предмет размером до клетки, плюс 5 за каждую следующую клетку.	Навсегда	Посох, палочка или украшение. 400 энергии.
 4	Превращение земли в камень	Earth to Stone	Обычное	Превращает предмет сделанный из земли или глины в твердый камень (не драгоценный)	Формование земли	-	3 за предмет весом до 20 lbs; 5 за больший предмет размером до клетки, плюс 5 за каждую следующую клетку.	Навсегда	Посох, палочка или украшение. 300 энергии.
@@ -329,10 +364,10 @@ COPY public.spell (id, name, name_en, type, description, requirements, time_to_c
 232	Цвета	Colors	Обычное	Изменяет цвет любого света. Сотворяется на источник света. Если заклинатель концентрируется, возможны многократные изменения цвета одним заклинанием.	Свет	1 секунда	2 на сотворение, 1 на поддержание (для заклинания Постоянный свет изменение постоянное)	1 минута	\N
 233	Языки	Languages	Информационное	Это заклинание дарует существу, которого вы касаетесь, способность понимать все языки, которые оно слышит. Более того, когда цель говорит, все существа, знающие хотя бы один язык, и слышащие цель, понимают, что она сказала.	Знание хотябы 3 ярыков (уровень 6+);\nлибо\nIQ 13	1 минута	5 на сотворение, 3 на поддержание	1 час	\N
 234	Солнечный снаряд	Sunbolt	Метательное	Выстреливает снаряд концентрированного солнечного света из кончика пальца. Параметры: 1/2Д 75, max 150, Точ 2; используется умение Природная атака. Свет прожигает как лазерный луч и наносит обжигающие повреждения. Хорошая полировка щита увеличит его ПЗ(DB) против заклинания на 50 %, с округлением в меньшую сторону. Независимо от проникновения повреждений через броню, попадание в лицо ослепит жертву, если она не выполнит проверку ЗД(HT). Попадание в глаза наносит удвоенное повреждение и ослепляет жертву, если она не выполнит проверку ЗД(HT) со штрафом равным полученным повреждениям. Для целей восстановления считайте слепоту от Солнечного снаряда калечащим ранением (B420). Любое зеркало отразит заклинание; если Мастер сомневается в точности угла падения/отражения (например, если снаряд попал в носимое зеркало), новое направление определяется случайным образом. Используйте правила поражения неверной цели (B389), при определении, поражено ли что-нибудь в новом направлении. Намеренное отражение выстрелов - весьма хитрое дело; штраф на дальность считается за полное расстояние до цели, с дополнительным -2 на каждый «отскок». И если зеркала не являются очень большими и/или устойчивыми и/или специально расставленными, Мастер может просто объявить невозможность выстрела. Персонаж, защищающийся зеркалом, может попытаться отразить снаряд назад в заклинателя – считается Блоком со штрафом -2; также примените обычные штрафы на расстояние от защитника до заклинателя. ПЗ(DB) зеркала (если оно достаточно большое, чтобы иметь его; спросите у Мастера), добавляется к этому броску. Заклинатель может защищаться обычным образом, если атака не полностью неожиданная. Щит от снарядов и Обратить снаряды не действуют на Солнечный снаряд. От него защитят Силовой купол и Отразить энергию. Области волшебной Темноты или Тьмы сопротивляются Солнечному снаряду.	Палящие лучи, 4 заклинания школы Света	1 - 3 секунды.	Любое количество, до вашего уровня Магичности, в секунду, в течение трех секунд. Снаряд наносит 1d-1, проникающего урона за единицу энергии.Любое количество, до вашего уровня Магичности, в секунду, в течение трех секунд. Снаряд наносит 1d-1, проникающего урона за единицу энергии.	-	-
+1	Поиск земли	Seek Earth	Информационное	<p>Это базовое заклинание школы Земли. Сообщает заклинателю направление и приблизительное расстояние до ближайшего искомого количества земли, металла или камня. Используйте модификаторы дальних дистанций (стр. 151). Любые известные заклинателю источники материала могут быть исключены из области поиска перед сотворением заклинания.</p>\r\n	-	10	3	-	<p>Раздвоенная палка с унцией земли/камня/металла на конце. Каждая палка будет искать только заданный (встроенный в рагулину) тип материала. 50 энергии и деньги на приобретение унции соответствующего материала.</p>\r\n
 \.
 COPY public.spell_to_color (spell_id, color_id) FROM stdin;
 1	2
-2	2
 3	2
 4	2
 5	2
@@ -570,10 +605,10 @@ COPY public.spell_to_color (spell_id, color_id) FROM stdin;
 232	1
 233	4
 234	1
+2	2
 \.
 COPY public.spell_to_school (spell_id, school_id, cycle) FROM stdin;
 1	1	0
-2	1	0
 3	1	0
 4	1	1
 5	1	1
@@ -589,7 +624,6 @@ COPY public.spell_to_school (spell_id, school_id, cycle) FROM stdin;
 54	5	1
 55	5	1
 56	5	1
-229	5	1
 58	5	1
 59	5	2
 57	5	2
@@ -757,6 +791,7 @@ COPY public.spell_to_school (spell_id, school_id, cycle) FROM stdin;
 85	7	1
 86	7	1
 71	7	1
+2	1	0
 88	7	1
 89	7	1
 90	7	2
@@ -802,8 +837,10 @@ COPY public.spell_to_school (spell_id, school_id, cycle) FROM stdin;
 156	12	1
 157	12	1
 158	12	2
+1	5	1
 \.
 SELECT pg_catalog.setval('public.color_id_seq', 6, true);
+SELECT pg_catalog.setval('public.passive_bonus_id_seq', 1, true);
 SELECT pg_catalog.setval('public.school_id_seq', 16, true);
 SELECT pg_catalog.setval('public.spell_id_seq', 234, true);
 ALTER TABLE ONLY public.alembic_version
@@ -814,6 +851,14 @@ ALTER TABLE ONLY public.color
     ADD CONSTRAINT color_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.color
     ADD CONSTRAINT color_shortcut_key UNIQUE (shortcut);
+ALTER TABLE ONLY public.passive_bonus
+    ADD CONSTRAINT passive_bonus_name_en_key UNIQUE (name_en);
+ALTER TABLE ONLY public.passive_bonus
+    ADD CONSTRAINT passive_bonus_name_key UNIQUE (name);
+ALTER TABLE ONLY public.passive_bonus
+    ADD CONSTRAINT passive_bonus_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.passive_bonus_to_school
+    ADD CONSTRAINT passive_bonus_to_school_pkey PRIMARY KEY (passive_bonus_id, school_id);
 ALTER TABLE ONLY public.school
     ADD CONSTRAINT school_name_key UNIQUE (name);
 ALTER TABLE ONLY public.school
@@ -830,6 +875,10 @@ ALTER TABLE ONLY public.spell_to_color
     ADD CONSTRAINT spell_to_color_pkey PRIMARY KEY (spell_id, color_id);
 ALTER TABLE ONLY public.spell_to_school
     ADD CONSTRAINT spell_to_school_pkey PRIMARY KEY (spell_id, school_id);
+ALTER TABLE ONLY public.passive_bonus_to_school
+    ADD CONSTRAINT passive_bonus_to_school_passive_bonus_id_fkey FOREIGN KEY (passive_bonus_id) REFERENCES public.passive_bonus(id);
+ALTER TABLE ONLY public.passive_bonus_to_school
+    ADD CONSTRAINT passive_bonus_to_school_school_id_fkey FOREIGN KEY (school_id) REFERENCES public.school(id);
 ALTER TABLE ONLY public.school
     ADD CONSTRAINT school_color_id_fkey FOREIGN KEY (color_id) REFERENCES public.color(id);
 ALTER TABLE ONLY public.spell_to_color

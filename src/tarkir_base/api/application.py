@@ -1,7 +1,7 @@
 from typing import Sequence, Type, Optional, Union
 
 from flask import Flask
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView as FlaskAdminIndexView
 from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
 from flask_basicauth import BasicAuth
 from flask_marshmallow import Marshmallow
@@ -11,20 +11,25 @@ from flask_sqlalchemy import SQLAlchemy
 from .config import MainConfig
 from .exceptions import AuthException
 
-
 ModelType = Type['Model']
 ModelViewType = Type['ModelView']
 
 
-class AdminModelView(FlaskAdminModelView):
-    __model__: ModelType
-    __index_view__: bool = False  # TODO: Implement index page
+class AccessAdminViewMixin:
 
     def is_accessible(self):
         if not ba.authenticate():
             raise AuthException('Unauthorized')
 
         return True
+
+
+class AdminIndexView(FlaskAdminIndexView, AccessAdminViewMixin):
+    pass
+
+
+class AdminModelView(FlaskAdminModelView, AccessAdminViewMixin):
+    __model__: ModelType
 
 
 class Application(Flask):
@@ -56,7 +61,16 @@ class Application(Flask):
 
 app_config = MainConfig()
 app = Application(__name__, template_folder=app_config.FLASK_TEMPLATE_FOLDER)
-admin = Admin(app, name='tarkir', template_mode='bootstrap3')
+admin = Admin(
+    app=app,
+    name='tarkir',
+    template_mode='bootstrap3',
+    index_view=AdminIndexView(
+        name='Home',
+        template='admin/home.html',
+        url='/admin/'
+    )
+)
 
 app.config.from_object(app_config)
 
