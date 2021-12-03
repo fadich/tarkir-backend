@@ -24,11 +24,11 @@ class AccessAdminViewMixin:
         return True
 
 
-class AdminIndexView(FlaskAdminIndexView, AccessAdminViewMixin):
+class AdminIndexView(AccessAdminViewMixin, FlaskAdminIndexView):
     pass
 
 
-class AdminModelView(FlaskAdminModelView, AccessAdminViewMixin):
+class AdminModelView(AccessAdminViewMixin, FlaskAdminModelView):
     __model__: ModelType
 
 
