@@ -19,7 +19,7 @@ docker-compose exec ${CONTAINER_NAME} bash -c \
   "su -c \"pg_dump --clean -Z 0 -d ${DB_NAME} \
   | sed -e '/^--/d' \
   | sed -e '/^$/d' \
-  > ${DUMP_PATH_CONTAINER}\" postgres" || exit 1
+  > ${DUMP_PATH_CONTAINER}\" postgres"
 
 echo "Extracting dump file from container..."
 container_id=$(docker-compose ps -q ${CONTAINER_NAME})
