@@ -21,6 +21,7 @@ docker-compose exec ${CONTAINER_NAME} bash -c \
   | sed -e '/^$/d' \
   > ${DUMP_PATH_CONTAINER}\" postgres" || exit 1
 
+echo "Extracting dump file from container..."
 container_id=$(docker-compose ps -q ${CONTAINER_NAME})
 docker cp "${container_id}":"${DUMP_PATH_CONTAINER}" "${DUMP_PATH_HOST}" || exit 1
 
