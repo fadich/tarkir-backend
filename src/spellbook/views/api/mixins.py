@@ -6,14 +6,14 @@ class SchoolFormatterMixin:
     @classmethod
     def reformat_school(cls, school: dict):
         spells = defaultdict(list)
+        passive_bonuses = defaultdict(list)
 
-        school['passive_bonuses'] = {
-            f'{school["shortcut"]}{link["passive_bonus"]["cycle"]}': {
-                **link['passive_bonus'],
-                'schools': [ll['school'] for ll in link['passive_bonus']['schools']]
-            }
-            for link in school['passive_bonuses']
-        }
+        for link in school['passive_bonuses']:
+            link['passive_bonus']['schools'] = [s['school'] for s in link['passive_bonus']['schools']]
+
+            passive_bonuses[f'{school["shortcut"]}{link["passive_bonus"]["cycle"]}'].append({
+                **link['passive_bonus']
+            })
 
         for spell in school['spells']:
             spell['spell']['schools'] = [
@@ -33,4 +33,5 @@ class SchoolFormatterMixin:
         return {
             **school,
             'spells': spells,
+            'passive_bonuses': passive_bonuses,
         }
