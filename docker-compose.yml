@@ -39,6 +39,8 @@ services:
       TR_API_SERVER_PORT: 5000
       FLASK_TEMPLATE_FOLDER: '/tarkir-tools/spellbook/templates'
       FLASK_APP: tarkir_base.api
+    volumes:
+      - ./tarkir-upload/:/tmp/tarkir-upload
 
   app:
     image: fadich95/tarkir-spells:prod

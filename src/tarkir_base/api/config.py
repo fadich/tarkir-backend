@@ -28,6 +28,9 @@ class MainConfig(metaclass=SingletonMeta):
     BASIC_AUTH_USERNAME = getenv('TR_BASIC_AUTH_USERNAME', '')
     BASIC_AUTH_PASSWORD = getenv('TR_BASIC_AUTH_PASSWORD', '')
 
+    UPLOAD_FOLDER = getenv('UPLOAD_FOLDER', '/tmp/tarkir-upload')
+    MAX_CONTENT_LENGTH = getenv('MAX_CONTENT_LENGTH', 1024 * 1024 * 1024 * 16)  # 16MB
+
     @property
     def SQLALCHEMY_DATABASE_URI(self):  # Noqa, pylint: disable=invalid-name
         return str(
