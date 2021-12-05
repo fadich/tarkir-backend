@@ -61,6 +61,7 @@ class Application(Flask):
 
 app_config = MainConfig()
 app = Application(__name__, template_folder=app_config.FLASK_TEMPLATE_FOLDER)
+app.url_map.strict_slashes = False
 admin = Admin(
     app=app,
     name='tarkir',
