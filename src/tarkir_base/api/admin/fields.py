@@ -44,7 +44,7 @@ class FileUploadField(FlaskFileUploadField):
             # pylint: disable=import-outside-toplevel
             from tarkir_base.api import app
 
-            self.base_path = app.config['UPLOAD_FOLDER']
+            self.base_path = app.config['STATIC_FOLDER']
 
         self.namegen = ts_prefix_namegen(self.namegen)
 
