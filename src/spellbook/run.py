@@ -4,13 +4,8 @@ from spellbook.views import (
     IndexView,
     ColorsView,
     SchoolView,
-    GetResourceView,
 )
 
-app.add_url_rule(
-    '/resource/<path:filepath>',
-    view_func=GetResourceView.as_view(GetResourceView.__name__)
-)
 app.add_url_rule(
     '/schools',
     view_func=IndexView.as_view(IndexView.__name__)

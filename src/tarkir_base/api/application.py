@@ -60,7 +60,12 @@ class Application(Flask):
 
 
 app_config = MainConfig()
-app = Application(__name__, template_folder=app_config.FLASK_TEMPLATE_FOLDER)
+app = Application(
+    __name__,
+    template_folder=app_config.FLASK_TEMPLATE_FOLDER,
+    static_folder=app_config.UPLOAD_FOLDER,
+    static_url_path='/static'
+)
 app.url_map.strict_slashes = False
 admin = Admin(
     app=app,
