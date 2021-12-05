@@ -31,6 +31,8 @@ class AdminIndexView(AccessAdminViewMixin, FlaskAdminIndexView):
 class AdminModelView(AccessAdminViewMixin, FlaskAdminModelView):
     __model__: ModelType
 
+    page_size = 50
+
 
 class Application(Flask):
 

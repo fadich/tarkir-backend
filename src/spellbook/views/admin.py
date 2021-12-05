@@ -62,6 +62,16 @@ class SpellAdminView(PreviewImageMixin, AdminModelView):
         'name_en',
         'type',
     ]
+    column_sortable_list = ['id', ] + column_editable_list
+    column_default_sort = ('id', False)
+    column_searchable_list = [
+        'name',
+        'name_en',
+    ]
+    column_filters = [
+        'type',
+    ]
+
     form_create_rules= form_edit_rules = (
         'name',
         'name_en',
@@ -78,14 +88,6 @@ class SpellAdminView(PreviewImageMixin, AdminModelView):
         'image': ImageUploadField,
     }
 
-    column_searchable_list = [
-        'name',
-        'name_en',
-    ]
-    column_filters = [
-        'type',
-    ]
-    page_size = 50
     form_widget_args = {
         'description': {
             'class': 'form-control ckeditor',
@@ -113,6 +115,13 @@ class SchoolAdminView(PreviewImageMixin, AdminModelView):
         'name',
         'shortcut',
     ]
+    column_sortable_list = ['id', ] + column_editable_list
+    column_default_sort = ('id', False)
+    column_searchable_list = [
+        'name',
+        'shortcut',
+    ]
+
     form_create_rules= form_edit_rules = (
         'name',
         'shortcut',
@@ -123,11 +132,6 @@ class SchoolAdminView(PreviewImageMixin, AdminModelView):
     form_overrides = {
         'image': ImageUploadField,
     }
-
-    column_searchable_list = [
-        'name',
-        'shortcut',
-    ]
 
     form_widget_args = {
         'description': {
@@ -154,16 +158,19 @@ class PassiveBonusAdminView(AdminModelView):
         'name_en',
         'cycle',
     ]
+    column_sortable_list = ['id', ] + column_editable_list
+    column_default_sort = ('id', False)
+    column_searchable_list = [
+        'name',
+        'name_en',
+    ]
+
     form_create_rules= form_edit_rules = (
         'name',
         'name_en',
         'description',
         'cycle',
     )
-    column_searchable_list = [
-        'name',
-        'name_en',
-    ]
 
     form_widget_args = {
         'description': {
@@ -190,16 +197,19 @@ class ColorAdminView(AdminModelView):
         'shortcut',
         'hex_code',
     ]
-    form_create_rules= form_edit_rules = (
-        'name',
-        'shortcut',
-        'hex_code',
-    )
+    column_sortable_list = ['id', ] + column_editable_list
+    column_default_sort = ('id', False)
     column_searchable_list = [
         'name',
         'shortcut',
         'hex_code',
     ]
+
+    form_create_rules = form_edit_rules = (
+        'name',
+        'shortcut',
+        'hex_code',
+    )
 
 
 class SpellToSchoolAdminView(AdminModelView):
@@ -220,7 +230,7 @@ class SpellToSchoolAdminView(AdminModelView):
         'cycle',
         'school.name',
     ]
-    page_size = 50
+    column_default_sort = [('school.id', False), ('cycle', False), ('spell.name', False)]
 
 
 class SpellToColorAdminView(AdminModelView):
@@ -239,11 +249,17 @@ class SpellToColorAdminView(AdminModelView):
         'spell',
         'color',
     ]
-    page_size = 50
+    column_default_sort = ('spell.name', False)
 
 
 class PassiveBonusToSchoolAdminView(AdminModelView):
     __model__ = PassiveBonusToSchool
+
+    column_list = [
+        'passive_bonus',
+        'school',
+        'passive_bonus.cycle',
+    ]
 
     column_searchable_list = [
         'passive_bonus.name',
@@ -259,4 +275,4 @@ class PassiveBonusToSchoolAdminView(AdminModelView):
         'passive_bonus.cycle',
         'school.shortcut',
     ]
-    page_size = 50
+    column_default_sort = [('school.id', False), ('passive_bonus.cycle', False)]
