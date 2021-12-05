@@ -14,6 +14,7 @@ from flask import jsonify, request, send_from_directory
 from flask.views import MethodView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
+from sqlalchemy.orm import Query
 
 from .application import AdminModelView
 
@@ -37,10 +38,12 @@ class ModelListView(ApiView):
     schema: Schema = None
     model: Type[Model] = None
 
-    def get(self):
-        records = self.model.query.all()
+    @property
+    def records(self):
+        return self.query.all()
 
-        return self.schema.dump(obj=records, many=True)
+    def get(self):
+        return self.schema.dump(obj=self.records, many=True)
 
 
 class ModelView(ApiView):
