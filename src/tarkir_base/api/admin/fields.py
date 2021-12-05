@@ -8,7 +8,10 @@ import os
 from time import time
 from typing import Optional, Callable
 
-from flask_admin.form.upload import FileUploadField as FlaskFileUploadField
+from flask_admin.form.upload import (
+    FileUploadField as FlaskFileUploadField,
+    ImageUploadField as FlaksImageUploadField
+)
 
 try:
     from wtforms.fields.core import _unset_value as unset_value
@@ -52,5 +55,5 @@ class FileUploadField(FlaskFileUploadField):
         return super().process(formdata=formdata, data=data)
 
 
-class ImageUploadField(FileUploadField):
+class ImageUploadField(FileUploadField, FlaksImageUploadField):
     pass
