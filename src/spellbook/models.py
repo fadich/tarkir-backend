@@ -39,6 +39,9 @@ class School(Model):
         db.Integer(), db.ForeignKey('color.id'), nullable=False
     )
     description = db.Column(db.Text(), nullable=True)
+    image = db.Column(
+        db.String(1024), nullable=True,
+    )
 
     color = db.relationship('Color', back_populates='schools')
     spells = db.relationship('SpellToSchool', back_populates='school')
@@ -62,6 +65,9 @@ class Spell(Model):
     cost = db.Column(db.String(1024), nullable=True)
     duration = db.Column(db.String(1024), nullable=True)
     items = db.Column(db.Text(), nullable=True)
+    image = db.Column(
+        db.String(1024), nullable=True,
+    )
 
     colors = db.relationship('SpellToColor', back_populates='spell')
     schools = db.relationship('SpellToSchool', back_populates='spell')

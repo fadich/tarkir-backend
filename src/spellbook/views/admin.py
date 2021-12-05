@@ -8,8 +8,10 @@ __all__ = [
     'PassiveBonusToSchoolAdminView',
 ]
 
-
-from tarkir_base.api import AdminModelView
+from tarkir_base.api import (
+    AdminModelView,
+    ImageUploadField,
+)
 
 from spellbook.models import *
 
@@ -41,7 +43,12 @@ class SpellAdminView(AdminModelView):
         'cost',
         'duration',
         'items',
+        'image',
     )
+    form_overrides = {
+        'image': ImageUploadField,
+    }
+
     column_searchable_list = [
         'name',
         'name_en',
@@ -81,7 +88,12 @@ class SchoolAdminView(AdminModelView):
         'shortcut',
         'description',
         'color',
+        'image',
     )
+    form_overrides = {
+        'image': ImageUploadField,
+    }
+
     column_searchable_list = [
         'name',
         'shortcut',

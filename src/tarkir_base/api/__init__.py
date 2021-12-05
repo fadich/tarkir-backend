@@ -1,3 +1,4 @@
+from .admin import *
 from .application import (
     app,
     admin,

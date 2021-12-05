@@ -6,4 +6,5 @@ __pycahce__
 
 tarkir.egg-info
 
-postgres-data
+postgres-data/
+tarkir-upload/

@@ -6,7 +6,7 @@ up:
 build:
 	docker-compose -f ./src/docker-compose.yml build
 
-migrations:
+migration:
 	docker-compose -f ./src/docker-compose.yml run --rm api flask db migrate -m "$(m)"
 	sudo chown -R ${USER}:${USER} ./src/migrations/versions
 
@@ -21,3 +21,6 @@ db-import:
 
 db-export:
 	cd src/ && ../scripts/db-export.sh && cd ..
+
+bash:
+	docker-compose -f ./src/docker-compose.yml run --rm api bash
