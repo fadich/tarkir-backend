@@ -8,6 +8,9 @@ __all__ = [
     'PassiveBonusToSchoolAdminView',
 ]
 
+from flask import url_for
+from jinja2 import Markup
+
 from tarkir_base.api import (
     AdminModelView,
     ImageUploadField,
@@ -16,7 +19,32 @@ from tarkir_base.api import (
 from spellbook.models import *
 
 
-class SpellAdminView(AdminModelView):
+class PreviewImageMixin:
+    IMAGE_PREVIEW_MAZ_WIDTH = 48
+    IMAGE_PREVIEW_MAZ_HEIGHT = 32
+
+    def _image_to_list(self, context, model, name):
+        if not model.image:
+            return Markup('<div style="text-align: center;">&ndash;</div>')
+
+        return Markup(
+            (
+                '<div style="text-align: center;">'
+                '<img src="{src}" style="max-width:{width}px; max-height:{height}px; object-fit:contain;">'
+                '</div>'
+            ).format(
+                src=url_for('static', filename=model.image),
+                width=self.IMAGE_PREVIEW_MAZ_WIDTH,
+                height=self.IMAGE_PREVIEW_MAZ_HEIGHT
+            )
+        )
+
+    column_formatters = {
+        'image': _image_to_list
+    }
+
+
+class SpellAdminView(PreviewImageMixin, AdminModelView):
     __model__ = Spell
     __index_view__ = True
 
@@ -27,6 +55,7 @@ class SpellAdminView(AdminModelView):
         'type',
         'schools',
         'colors',
+        'image',
     ]
     column_editable_list = [
         'name',
@@ -70,7 +99,7 @@ class SpellAdminView(AdminModelView):
     edit_template = 'admin/ckeditor-edit.html'
 
 
-class SchoolAdminView(AdminModelView):
+class SchoolAdminView(PreviewImageMixin, AdminModelView):
     __model__ = School
 
     column_list = [
@@ -78,6 +107,7 @@ class SchoolAdminView(AdminModelView):
         'name',
         'shortcut',
         'color',
+        'image',
     ]
     column_editable_list = [
         'name',
