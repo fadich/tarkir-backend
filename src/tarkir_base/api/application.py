@@ -1,6 +1,6 @@
 from typing import Sequence, Type, Optional, Union
 
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_admin import Admin, AdminIndexView as FlaskAdminIndexView
 from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
 from flask_basicauth import BasicAuth

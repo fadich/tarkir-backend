@@ -7,4 +7,5 @@ from .application import (
     app_config,
     AdminModelView,
     AdminIndexView,
+    Blueprint,
 )

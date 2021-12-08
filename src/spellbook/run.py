@@ -1,40 +1,25 @@
 from tarkir_base.api import app
 
-from spellbook.views import (
-    IndexView,
-    ColorsView,
-    SchoolView,
-)
+from spellbook.api import v1, v2
+from spellbook.admin.views import *
 
-app.add_url_rule(
-    '/schools',
-    view_func=IndexView.as_view(IndexView.__name__)
-)
-app.add_url_rule(
-    '/colors',
-    view_func=ColorsView.as_view(ColorsView.__name__)
-)
-app.add_url_rule(
-    '/spells',
-    view_func=SchoolView.as_view(SchoolView.__name__)
-)
+app.register_blueprint(v1.blueprint, url_prefix='/') # TODO: remove it after design update
+app.register_blueprint(v1.blueprint, url_prefix='/v1')
+app.register_blueprint(v2.blueprint, url_prefix='/v2')
 
-
-if __name__ == '__main__':
-    from spellbook.views.admin import *
-
-    app.init_admin(
-        classes=(
-            SpellAdminView,
-            SpellToSchoolAdminView,
-            SpellToColorAdminView,
-            PassiveBonusAdminView,
-            PassiveBonusToSchoolAdminView,
-            SchoolAdminView,
-            ColorAdminView,
-            ApplicationAdminView,
-            ConfigAdminView,
-            UploadedFileAdminView,
-        )
+app.init_admin(
+    classes=(
+        SpellAdminView,
+        SpellToSchoolAdminView,
+        SpellToColorAdminView,
+        PassiveBonusAdminView,
+        PassiveBonusToSchoolAdminView,
+        SchoolAdminView,
+        ColorAdminView,
+        ApplicationAdminView,
+        ConfigAdminView,
+        UploadedFileAdminView,
     )
-    app.run()
+)
+
+app.run()
