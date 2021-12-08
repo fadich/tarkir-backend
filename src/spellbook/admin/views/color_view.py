@@ -3,7 +3,7 @@ __all__ = [
 ]
 
 from spellbook.models import Color
-from tarkir_base.api import AdminModelView
+from tarkir_base.api.admin import AdminModelView
 
 
 class ColorAdminView(AdminModelView):

@@ -3,7 +3,7 @@ __all__ = [
 ]
 
 from spellbook.models import PassiveBonus
-from tarkir_base.api import AdminModelView
+from tarkir_base.api.admin import AdminModelView
 
 
 class PassiveBonusAdminView(AdminModelView):

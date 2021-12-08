@@ -5,7 +5,7 @@ __all__ = [
 from wtforms import ValidationError
 
 from spellbook.models import Config
-from tarkir_base.api import AdminModelView
+from tarkir_base.api.admin import AdminModelView
 
 
 class ConfigAdminView(AdminModelView):

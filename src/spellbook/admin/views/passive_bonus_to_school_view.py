@@ -4,7 +4,7 @@ __all__ = [
 
 
 from spellbook.models import PassiveBonusToSchool
-from tarkir_base.api import AdminModelView
+from tarkir_base.api.admin import AdminModelView
 
 
 class PassiveBonusToSchoolAdminView(AdminModelView):

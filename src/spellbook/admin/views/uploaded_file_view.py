@@ -2,9 +2,11 @@ __all__ = [
     'UploadedFileAdminView',
 ]
 
+from jinja2 import Markup
+
 from spellbook.admin.mixins import PreviewImageMixin
 from spellbook.models import UploadedFile
-from tarkir_base.api import AdminModelView, FileUploadField
+from tarkir_base.api.admin import AdminModelView, FileUploadField
 
 
 class UploadedFileAdminView(PreviewImageMixin, AdminModelView):

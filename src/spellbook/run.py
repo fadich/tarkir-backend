@@ -1,4 +1,4 @@
-from tarkir_base.api import app
+from tarkir_base.api import app, admin_app
 
 from spellbook.api import v1, v2
 from spellbook.admin.views import *
@@ -8,6 +8,7 @@ app.register_blueprint(v1.blueprint, url_prefix='/v1')
 app.register_blueprint(v2.blueprint, url_prefix='/v2')
 
 app.init_admin(
+    admin=admin_app,
     classes=(
         SpellAdminView,
         SpellToSchoolAdminView,

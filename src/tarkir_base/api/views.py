@@ -1,5 +1,4 @@
 __all__ = [
-    'AdminModelView',
     'ApiView',
     'ModelListView',
     'ModelView',
@@ -7,16 +6,12 @@ __all__ = [
     'send_from_directory',
 ]
 
-
 from typing import Type
 
 from flask import jsonify, request, send_from_directory
 from flask.views import MethodView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
-from sqlalchemy.orm import Query
-
-from .application import AdminModelView
 
 
 class ApiView(MethodView):

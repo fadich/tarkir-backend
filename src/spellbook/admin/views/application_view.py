@@ -2,8 +2,10 @@ __all__ = [
     'ApplicationAdminView',
 ]
 
+from jinja2 import Markup
+
 from spellbook.models import Application
-from tarkir_base.api import AdminModelView
+from tarkir_base.api.admin import AdminModelView
 
 
 class ApplicationAdminView(AdminModelView):

@@ -4,7 +4,7 @@ __all__ = [
 
 from spellbook.admin.mixins import PreviewImageMixin
 from spellbook.models import Spell
-from tarkir_base.api import ImageUploadField, AdminModelView
+from tarkir_base.api.admin import ImageUploadField, AdminModelView
 
 
 class SpellAdminView(PreviewImageMixin, AdminModelView):
