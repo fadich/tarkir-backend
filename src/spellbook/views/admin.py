@@ -287,6 +287,35 @@ class PassiveBonusToSchoolAdminView(AdminModelView):
     column_default_sort = [('school.id', False), ('passive_bonus.cycle', False)]
 
 
+class ApplicationAdminView(AdminModelView):
+    __model__ = Application
+
+    column_list = [
+        'name',
+        'config',
+    ]
+    column_editable_list = column_sortable_list = [
+        'name',
+    ]
+    column_default_sort = ('id', False)
+    column_searchable_list = [
+        'name',
+    ]
+
+    form_create_rules = form_edit_rules = (
+        'name',
+    )
+
+    column_formatters = {
+        'config': lambda self, context, model, name: Markup(
+            '<br />'.join([
+                f"<code><b>{c.name}</b>: <i>({c.data_type.value})</i> {c.value}</code>"
+                for c in model.config
+            ])
+        ),
+    }
+
+
 class ConfigAdminView(AdminModelView):
     __model__ = Config
 
@@ -338,25 +367,6 @@ class ConfigAdminView(AdminModelView):
     }
 
 
-class ApplicationAdminView(AdminModelView):
-    __model__ = Application
-
-    column_list = [
-        'name',
-    ]
-    column_editable_list = column_sortable_list = [
-        'name',
-    ]
-    column_default_sort = ('id', False)
-    column_searchable_list = [
-        'name',
-    ]
-
-    form_create_rules = form_edit_rules = (
-        'name',
-    )
-
-
 class UploadedFileAdminView(PreviewImageMixin, AdminModelView):
     __model__ = UploadedFile
 
@@ -388,8 +398,9 @@ class UploadedFileAdminView(PreviewImageMixin, AdminModelView):
     }
 
     column_formatters = {
-        IMAGE_FIELD_NAME: PreviewImageMixin._image_to_list,
+        'file': PreviewImageMixin._image_to_list,
         'fullpath': lambda self, context, model, name: Markup(
             f'<a href="{model.fullpath}" target="_blank">{model.fullpath}</a>'
         ),
+
     }
