@@ -9,12 +9,13 @@ from flask import Flask, Blueprint
 from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
 
 from tarkir_base.api.admin import Admin, AdminModelView
+from tarkir_base.utils.classes import SingletonMeta
 
 ModelType = Type['Model']
 ModelViewType = Type['ModelView']
 
 
-class Application(Flask):
+class Application(Flask, metaclass=SingletonMeta):
 
     def run(
         self, host=None, port=None, debug=None, load_dotenv=True, **options
