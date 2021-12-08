@@ -175,7 +175,7 @@ class Application(Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(256), nullable=False, unique=True)
 
-    configs = db.relationship('Config', back_populates='application')
+    config = db.relationship('Config', back_populates='application')
 
     @property
     def label(self):
@@ -232,7 +232,7 @@ class Config(Model):
     raw_value = db.Column(db.Text(), nullable=True)
     data_type = db.Column(db.Enum(DataTypesEnum), default=lambda: Config.DataTypesEnum.NULL, nullable=False)
 
-    application = db.relationship('Application', back_populates='configs')
+    application = db.relationship('Application', back_populates='config')
 
     @property
     def value(self):
@@ -247,7 +247,7 @@ class Config(Model):
         return self.value, type(self.value)
 
     def __str__(self):
-        return f'{self.application.label}:{self.name}]'
+        return f'{self.application.label}:{self.name}'
 
     @validates('name')
     def validate_name(self, field, value):
