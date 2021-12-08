@@ -6,6 +6,15 @@ up:
 build:
 	docker-compose -f ./src/docker-compose.yml build
 
+db:
+	docker-compose -f ./src/docker-compose.yml up tarkir-db
+
+db-detach:
+	docker-compose -f ./src/docker-compose.yml up -d tarkir-db
+
+api:
+	docker-compose -f ./src/docker-compose.yml up api
+
 migration:
 	docker-compose -f ./src/docker-compose.yml run --rm api flask db migrate -m "$(m)"
 	sudo chown -R ${USER}:${USER} ./src/migrations/versions
