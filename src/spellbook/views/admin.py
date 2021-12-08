@@ -309,7 +309,7 @@ class ApplicationAdminView(AdminModelView):
     column_formatters = {
         'config': lambda self, context, model, name: Markup(
             '<br />'.join([
-                f"<code><b>{c.name}</b>: <i>({c.data_type.value})</i> {c.value}</code>"
+                f"<code><b>{c.name}</b>: <i>({c.data_type.value})</i> {repr(c.value)}</code>"
                 for c in model.config
             ])
         ),
