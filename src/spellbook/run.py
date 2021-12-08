@@ -21,15 +21,7 @@ app.add_url_rule(
 
 
 if __name__ == '__main__':
-    from spellbook.views import (
-        SpellAdminView,
-        SchoolAdminView,
-        ColorAdminView,
-        PassiveBonusAdminView,
-        SpellToSchoolAdminView,
-        SpellToColorAdminView,
-        PassiveBonusToSchoolAdminView,
-    )
+    from spellbook.views.admin import *
 
     app.init_admin(
         classes=(
@@ -40,6 +32,9 @@ if __name__ == '__main__':
             PassiveBonusToSchoolAdminView,
             SchoolAdminView,
             ColorAdminView,
+            ApplicationAdminView,
+            ConfigAdminView,
+            UploadedFileAdminView,
         )
     )
     app.run()

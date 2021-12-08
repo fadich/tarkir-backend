@@ -6,14 +6,19 @@ __all__ = [
     'SpellToSchoolAdminView',
     'SpellToColorAdminView',
     'PassiveBonusToSchoolAdminView',
+    'ConfigAdminView',
+    'ApplicationAdminView',
+    'UploadedFileAdminView',
 ]
 
 from flask import url_for
 from jinja2 import Markup
+from wtforms import ValidationError
 
 from tarkir_base.api import (
     AdminModelView,
     ImageUploadField,
+    FileUploadField,
 )
 
 from spellbook.models import *
@@ -23,8 +28,12 @@ class PreviewImageMixin:
     IMAGE_PREVIEW_MAZ_WIDTH = 48
     IMAGE_PREVIEW_MAZ_HEIGHT = 32
 
+    IMAGE_FIELD_NAME = 'image'
+
     def _image_to_list(self, context, model, name):
-        if not model.image:
+        image = getattr(model, self.IMAGE_FIELD_NAME)
+
+        if not image:
             return Markup('<div style="text-align: center;">&ndash;</div>')
 
         return Markup(
@@ -33,14 +42,14 @@ class PreviewImageMixin:
                 '<img src="{src}" style="max-width:{width}px; max-height:{height}px; object-fit:contain;">'
                 '</div>'
             ).format(
-                src=url_for('static', filename=model.image),
+                src=url_for('static', filename=image),
                 width=self.IMAGE_PREVIEW_MAZ_WIDTH,
                 height=self.IMAGE_PREVIEW_MAZ_HEIGHT
             )
         )
 
     column_formatters = {
-        'image': _image_to_list
+        IMAGE_FIELD_NAME: _image_to_list
     }
 
 
@@ -276,3 +285,111 @@ class PassiveBonusToSchoolAdminView(AdminModelView):
         'school.shortcut',
     ]
     column_default_sort = [('school.id', False), ('passive_bonus.cycle', False)]
+
+
+class ConfigAdminView(AdminModelView):
+    __model__ = Config
+
+    class RawValueDataTypeValidator:
+
+        def __call__(self, form, field):
+            key = Config.DataTypesEnum[form.data['data_type']]
+
+            try:
+                return Config.TYPES_MAP[key](field.raw_data[0])
+            except (TypeError, ValueError) as e:
+                raise ValidationError(f'Error on value type converting: {e}')
+
+    column_list = [
+        'application',
+        'name',
+        'data_type',
+        'raw_value',
+        'python_value',
+    ]
+    column_editable_list = [
+        'application',
+        'name',
+    ]
+    column_sortable_list = [
+        'application',
+        'name',
+        'data_type',
+        'raw_value',
+    ]
+    column_default_sort = ('application.name', False)
+    column_searchable_list = [
+        'application.name',
+        'name',
+    ]
+
+    form_create_rules = form_edit_rules = (
+        'application',
+        'name',
+        'data_type',
+        'raw_value',
+    )
+    form_args = {
+        'raw_value': {
+            'validators': [
+                RawValueDataTypeValidator()
+            ]
+        }
+    }
+
+
+class ApplicationAdminView(AdminModelView):
+    __model__ = Application
+
+    column_list = [
+        'name',
+    ]
+    column_editable_list = column_sortable_list = [
+        'name',
+    ]
+    column_default_sort = ('id', False)
+    column_searchable_list = [
+        'name',
+    ]
+
+    form_create_rules = form_edit_rules = (
+        'name',
+    )
+
+
+class UploadedFileAdminView(PreviewImageMixin, AdminModelView):
+    __model__ = UploadedFile
+
+    IMAGE_FIELD_NAME = 'file'
+    IMAGE_PREVIEW_MAZ_HEIGHT = 64
+    IMAGE_PREVIEW_MAZ_WIDTH = 128
+
+    column_list = [
+        'id',
+        'file',
+        'fullpath',
+        'name',
+    ]
+    column_editable_list = column_sortable_list = [
+        'name',
+    ]
+    column_default_sort = ('id', False)
+    column_searchable_list = [
+        'file',
+        'name',
+    ]
+
+    form_create_rules = form_edit_rules = (
+        'file',
+        'name',
+    )
+    form_overrides = {
+        'file': FileUploadField,
+    }
+
+    column_formatters = {
+        IMAGE_FIELD_NAME: PreviewImageMixin._image_to_list,
+        'fullpath': lambda self, context, model, name: Markup(
+            f'<a href="{model.fullpath}" target="_blank">{model.fullpath}</a>'
+        ),
+    }

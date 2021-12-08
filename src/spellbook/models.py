@@ -6,10 +6,28 @@ __all__ = [
     'SpellToSchool',
     'PassiveBonus',
     'PassiveBonusToSchool',
+    'Application',
+    'Config',
+    'UploadedFile',
 ]
 
+import json
 
-from tarkir_base.database import db, Model
+import enum
+
+import os
+
+from tarkir_base.api import app
+from tarkir_base.database import (
+    db,
+    Model,
+    validates,
+)
+
+from spellbook.utils import (
+    ValidationError,
+    validate_as_property,
+)
 
 
 class Color(Model):
@@ -148,3 +166,117 @@ class PassiveBonusToSchool(Model):
 
     def __repr__(self):
         return f'{self.school.shortcut}'
+
+
+class Application(Model):
+    __tablename__ = 'application'
+
+    # pylint: disable=invalid-name
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    name = db.Column(db.String(256), nullable=False, unique=True)
+
+    configs = db.relationship('Config', back_populates='application')
+
+    @property
+    def label(self):
+        return self.name
+
+    def __str__(self):
+        return f'{self.name}'
+
+    @validates('name')
+    def validate_name(self, field, value):
+        return validate_as_property(field, value)
+
+
+def to_none(value):
+    if value:
+        raise ValueError(f'Value "{value}" is not empty value')
+
+    return None
+
+
+class Config(Model):
+    __tablename__ = 'config'
+    __table_args__ = (
+        db.UniqueConstraint('application_id', 'name', name='unique_application_config'),
+    )
+
+    class DataTypesEnum(enum.Enum):
+        NULL = 'null'
+        INT = 'int'
+        FLOAT = 'float'
+        STRING = 'string'
+        BOOLEAN = 'boolean'
+        JSON = 'json'
+
+        @classmethod
+        def has_key(cls, value):
+            return value in cls.__members__.keys()
+
+    TYPES_MAP = {
+        DataTypesEnum.NULL: to_none,
+        DataTypesEnum.INT: int,
+        DataTypesEnum.FLOAT: float,
+        DataTypesEnum.STRING: str,
+        DataTypesEnum.BOOLEAN: bool,
+        DataTypesEnum.JSON: json.loads,
+    }
+
+    # pylint: disable=invalid-name
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    name = db.Column(db.String(256), nullable=False)
+    application_id = db.Column(
+        db.Integer(), db.ForeignKey('application.id'), nullable=False
+    )
+    raw_value = db.Column(db.Text(), nullable=True)
+    data_type = db.Column(db.Enum(DataTypesEnum), default=lambda: Config.DataTypesEnum.NULL, nullable=False)
+
+    application = db.relationship('Application', back_populates='configs')
+
+    @property
+    def value(self):
+        return self.TYPES_MAP[self.data_type](self.raw_value)
+
+    @value.setter
+    def value(self, value):
+        self.raw_value = value
+
+    @property
+    def python_value(self):
+        return self.value, type(self.value)
+
+    def __str__(self):
+        return f'{self.application.label}:{self.name}]'
+
+    @validates('name')
+    def validate_name(self, field, value):
+        return validate_as_property('Property name', value)
+
+    @validates('data_type')
+    def validate_data_type(self, field, value):
+        if self.DataTypesEnum.has_key(value):
+            return value
+
+        raise ValidationError(f'Invalid value type "{value}"')
+
+
+class UploadedFile(Model):
+    __tablename__ = 'uploaded_file'
+
+    # pylint: disable=invalid-name
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    file = db.Column(
+        db.String(1024), nullable=True,
+    )
+    name = db.Column(db.String(256), nullable=True)
+
+    def __str__(self):
+        return f'{self.file}'
+
+    @property
+    def fullpath(self):
+        return os.path.join(
+            app.static_url_path,
+            self.file
+        )
