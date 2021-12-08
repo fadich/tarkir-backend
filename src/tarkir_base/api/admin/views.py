@@ -28,3 +28,6 @@ class AdminModelView(AccessAdminViewMixin, FlaskAdminModelView):
     __model__: ModelType
 
     page_size = 50
+
+    create_template = 'admin/ckeditor-create.html'
+    edit_template = 'admin/ckeditor-edit.html'

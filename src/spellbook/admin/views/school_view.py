@@ -44,6 +44,3 @@ class SchoolAdminView(PreviewImageMixin, AdminModelView):
             'class': 'form-control ckeditor',
         },
     }
-
-    create_template = 'admin/ckeditor-create.html'
-    edit_template = 'admin/ckeditor-edit.html'
