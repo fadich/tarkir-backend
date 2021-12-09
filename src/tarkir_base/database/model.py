@@ -1,3 +1,10 @@
+__all__ = [
+    'db',
+    'Model',
+    'validates',
+]
+
+from sqlalchemy.orm import validates
 from tarkir_base.api import db
 
 

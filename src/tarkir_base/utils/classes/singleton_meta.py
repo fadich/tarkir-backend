@@ -1,3 +1,7 @@
+__all__ = [
+    'SingletonMeta',
+]
+
 
 class SingletonMeta(type):
     _instances = {}
