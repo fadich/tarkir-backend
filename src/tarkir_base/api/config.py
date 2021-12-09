@@ -8,7 +8,7 @@ from tarkir_base.utils.classes import SingletonMeta
 
 
 class MainConfig(metaclass=SingletonMeta):
-    DEBUG = int(getenv('TR_DEBUG', '1')) != 0
+    DEBUG = bool(int(getenv('TR_DEBUG', '1')))
 
     SECRET_KEY = getenv('TR_SECRET_KEY', uuid.uuid4().hex)
 
