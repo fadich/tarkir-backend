@@ -27,10 +27,7 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   api:
-    image: fadich95/tarkir-tools:prod
-    command: 'python -m spellbook.api.run'
-    ports:
-      - 5000:5000
+    image: fadich95/tarkir-tools:latest
     depends_on:
       - tarkir-db
     environment:
@@ -38,12 +35,14 @@ services:
       <<: *api-env-variables
       TR_API_SERVER_PORT: 5000
       FLASK_TEMPLATE_FOLDER: '/tarkir-tools/spellbook/templates'
-      FLASK_APP: tarkir_base.api
+      FLASK_APP: spellbook.application
+    ports:
+      - 5000:5000
     volumes:
       - ./tarkir-upload/:/tmp/tarkir-upload
 
   app:
-    image: fadich95/tarkir-spells:prod
+    image: fadich95/tarkir-spells:latest
     container_name: app
     ports:
       - 80:80
