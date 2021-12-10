@@ -28,7 +28,7 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   api:
-    image: fadich95/tarkir-tools:latest
+    image: fadich95/tarkir-tools:prod
     restart: unless-stopped
     depends_on:
       - tarkir-db
@@ -44,7 +44,7 @@ services:
       - ./tarkir-upload/:/tmp/tarkir-upload
 
   app:
-    image: fadich95/tarkir-spells:latest
+    image: fadich95/tarkir-spells:prod
     restart: unless-stopped
     ports:
       - 5001:80
