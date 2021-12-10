@@ -28,7 +28,6 @@ services:
     build:
       context: .
     container_name: api
-#    command: 'python -m spellbook.run'
     ports:
     - 5000:5000
     depends_on:
