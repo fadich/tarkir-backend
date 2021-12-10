@@ -2,7 +2,9 @@ version: '3.7'
 
 
 x-db-env-variables: &db-env-variables
-  TR_DB_USERNAME: '<SET-DB-USERNAME>'
+#  TR_DB_USERNAME: '<SET-DB-USERNAME>'
+#  TR_DB_PASSWORD: '<SET-DB-PASSWORD>'
+  TR_DB_USERNAME: 'postgres'
   TR_DB_PASSWORD: '<SET-DB-PASSWORD>'
   TR_DB_PORT: 5432
 
@@ -16,8 +18,30 @@ x-api-env-variables: &api-env-variables
 
 services:
 
+#  certbot:
+#    image: certbot/certbot
+#    container_name: certbot
+#    volumes:
+#      - certbot-etc:/etc/letsencrypt
+#      - certbot-var:/var/lib/letsencrypt
+##    command: certonly --webroot --webroot-path=/var/www/html --email sammy@example.com --agree-tos --no-eff-email --staging -d example.com  -d www.example.com
+#    command: certonly --email fadich95@gmail.com --agree-tos --no-eff-email --staging -d tk-spellbook.com  -d www.tk-spellbook.com
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - 5000:5000
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+#      - certbot-etc:/etc/letsencrypt
+#      - certbot-var:/var/lib/letsencrypt
+
   tarkir-db:
     image: library/postgres:13
+    restart: unless-stopped
     ports:
       - 5432:5432
     environment:
@@ -28,6 +52,7 @@ services:
 
   api:
     image: fadich95/tarkir-tools:latest
+    restart: unless-stopped
     depends_on:
       - tarkir-db
     environment:
@@ -36,13 +61,9 @@ services:
       TR_API_SERVER_PORT: 5000
       FLASK_TEMPLATE_FOLDER: '/tarkir-tools/spellbook/templates'
       FLASK_APP: spellbook.application
-    ports:
-      - 5000:5000
     volumes:
       - ./tarkir-upload/:/tmp/tarkir-upload
 
   app:
     image: fadich95/tarkir-spells:latest
-    container_name: app
-    ports:
-      - 80:80
+    restart: unless-stopped
