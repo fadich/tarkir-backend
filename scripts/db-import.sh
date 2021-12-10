@@ -19,21 +19,12 @@ container_id=$(docker-compose ps -q ${CONTAINER_NAME})
 docker cp "${DUMP_PATH_HOST}" "${container_id}":"${DUMP_PATH_CONTAINER}"
 
 UPDATE_AUTOINCREMENTS_QUERY=$(cat <<-END
-SELECT SETVAL(
-    'spell_id_seq', (
-        SELECT MAX(id) FROM spell
-    )
-);
-SELECT SETVAL(
-    'school_id_seq', (
-        SELECT MAX(id) FROM school
-    )
-);
-SELECT SETVAL(
-    'color_id_seq', (
-        SELECT MAX(id) FROM color
-    )
-);
+SELECT SETVAL('application_id_seq', (SELECT MAX(id) FROM application));
+SELECT SETVAL('color_id_seq', (SELECT MAX(id) FROM color));
+SELECT SETVAL('config_id_seq', (SELECT MAX(id) FROM config));
+SELECT SETVAL('passive_bonus_id_seq', (SELECT MAX(id) FROM passive_bonus));
+SELECT SETVAL('school_id_seq', (SELECT MAX(id) FROM school));
+SELECT SETVAL('spell_id_seq', (SELECT MAX(id) FROM spell));
 END
 )
 
