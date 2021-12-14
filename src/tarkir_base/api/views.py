@@ -36,10 +36,6 @@ class ApiView(MethodView):
     def dispatch_request(self, *args, **kwargs):
         body = super().dispatch_request(*args, **kwargs)
 
-        print('###' * 80)
-        from pprint import pprint
-        pprint(type(body))
-        print('###' * 80)
         if isinstance(body, Response):
             return body
 
