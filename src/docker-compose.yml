@@ -1,16 +1,5 @@
 version: '3.7'
 
-
-x-db-env-variables: &db-env-variables
-  TK_DB_USERNAME: 'postgres'
-  TK_DB_PASSWORD: 'my_secret_password'
-  TK_DB_PORT: 5432
-
-
-x-api-env-variables: &api-env-variables
-  TK_DB_HOST: 'tarkir-db'
-
-
 services:
 
   tarkir-db:

@@ -1,7 +1,10 @@
-all: build up
+all: down build up
 
 up:
 	docker-compose -f ./src/docker-compose.yml up
+
+down:
+	docker-compose -f ./src/docker-compose.yml down
 
 build:
 	docker-compose -f ./src/docker-compose.yml build

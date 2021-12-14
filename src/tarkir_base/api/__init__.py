@@ -27,7 +27,7 @@ from .config import MainConfig
 
 app_config = MainConfig()
 login_manager = LoginManager()
-oauth_client = WebApplicationClient(app_config.GOOGLE_CLIENT_ID)
+oauth_client = WebApplicationClient(app_config.TK_GOOGLE_CLIENT_ID)
 
 app = Application(
     __name__,
