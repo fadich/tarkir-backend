@@ -1,11 +1,12 @@
 __all__ = [
-    'app',
     'admin_app',
+    'app',
+    'app_config',
     'db',
     'ma',
-    'app_config',
     'Application',
     'Blueprint',
+    'UserMixin',
 ]
 
 from flask import Blueprint
@@ -16,6 +17,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from .admin import Admin, AdminIndexView
 from .application import Application
+from .auth import UserMixin
 from .config import MainConfig
 
 
