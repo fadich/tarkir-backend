@@ -8,10 +8,16 @@ __all__ = [
 
 from typing import Type
 
-from flask import jsonify, request, send_from_directory
+from flask import (
+    jsonify,
+    request,
+    redirect,
+    send_from_directory,
+)
 from flask.views import MethodView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
+from werkzeug.sansio.response import Response
 
 
 class ApiView(MethodView):
@@ -20,8 +26,22 @@ class ApiView(MethodView):
     def request(self):
         return request
 
+    def redirect(self, location: str, code: int = 302, Response = None):
+        return redirect(
+            location=location,
+            code=code,
+            Response=Response
+        )
+
     def dispatch_request(self, *args, **kwargs):
         body = super().dispatch_request(*args, **kwargs)
+
+        print('###' * 80)
+        from pprint import pprint
+        pprint(type(body))
+        print('###' * 80)
+        if isinstance(body, Response):
+            return body
 
         response = jsonify(body)
         response.headers['Access-Control-Allow-Origin'] = '*'

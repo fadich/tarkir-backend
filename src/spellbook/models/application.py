@@ -2,7 +2,7 @@ __all__ = [
     'Application',
 ]
 
-from spellbook.utils import validate_as_property
+from spellbook.utils.validators import validate_as_property
 from tarkir_base.database import (
     db,
     Model,
