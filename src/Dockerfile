@@ -1,6 +1,6 @@
 FROM python:3.9
 
-ENV TR_API_SERVER_PORT 5000
+ENV TK_API_SERVER_PORT 5000
 
 WORKDIR /tarkir-tools
 
@@ -9,6 +9,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE ${TR_API_SERVER_PORT}
+EXPOSE ${TK_API_SERVER_PORT}
 
 CMD ["./entrypoint.sh"]

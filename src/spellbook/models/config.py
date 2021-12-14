@@ -13,7 +13,7 @@ from tarkir_base.database import (
     validates,
 )
 
-from spellbook.utils import (
+from spellbook.utils.validators import (
     ValidationError,
     validate_as_property,
 )

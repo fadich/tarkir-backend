@@ -8,29 +8,29 @@ from tarkir_base.utils.classes import SingletonMeta
 
 
 class MainConfig(metaclass=SingletonMeta):
-    DEBUG = bool(int(getenv('TR_DEBUG', '1')))
+    DEBUG = bool(int(getenv('TK_DEBUG', '1')))
 
-    SECRET_KEY = getenv('TR_SECRET_KEY', uuid.uuid4().hex)
+    SECRET_KEY = getenv('TK_SECRET_KEY', uuid.uuid4().hex)
 
-    DB_HOST = getenv('TR_DB_HOST', 'localhost')
-    DB_PORT = int(getenv('TR_DB_PORT', '5434'))
-    DB_USERNAME = getenv('TR_DB_USERNAME', 'postgres')
-    DB_PASSWORD = getenv('TR_DB_PASSWORD', 'my_secret_password')
-    DB_NAME = getenv('TR_DB_NAME', 'postgres')
+    DB_HOST = getenv('TK_DB_HOST', 'localhost')
+    DB_PORT = int(getenv('TK_DB_PORT', '5434'))
+    DB_USERNAME = getenv('TK_DB_USERNAME', 'postgres')
+    DB_PASSWORD = getenv('TK_DB_PASSWORD', 'my_secret_password')
+    DB_NAME = getenv('TK_DB_NAME', 'postgres')
     DB_DRIVER = 'postgres'
 
-    API_HOST = getenv('TR_ADMIN_APP_HOST', '0.0.0.0')
-    API_PORT = int(getenv('TR_ADMIN_APP_PORT', '5000'))
+    API_HOST = getenv('TK_ADMIN_APP_HOST', '0.0.0.0')
+    API_PORT = int(getenv('TK_ADMIN_APP_PORT', '5000'))
 
-    FLASK_ADMIN_SWATCH = getenv('TR_FLASK_ADMIN_SWATCH', 'cerulean')
+    FLASK_ADMIN_SWATCH = getenv('TK_FLASK_ADMIN_SWATCH', 'cerulean')
     FLASK_TEMPLATE_FOLDER = getenv('FLASK_TEMPLATE_FOLDER', 'templates')
 
-    BASIC_AUTH_USERNAME = getenv('TR_BASIC_AUTH_USERNAME', '')
-    BASIC_AUTH_PASSWORD = getenv('TR_BASIC_AUTH_PASSWORD', '')
+    BASIC_AUTH_USERNAME = getenv('TK_BASIC_AUTH_USERNAME', '')
+    BASIC_AUTH_PASSWORD = getenv('TK_BASIC_AUTH_PASSWORD', '')
 
-    GOOGLE_CLIENT_ID = getenv('GOOGLE_CLIENT_ID', None)
-    GOOGLE_CLIENT_SECRET = getenv('GOOGLE_CLIENT_SECRET', None)
-    GOOGLE_DISCOVERY_URL = (
+    TK_GOOGLE_CLIENT_ID = getenv('TK_GOOGLE_CLIENT_ID', None)
+    TK_GOOGLE_CLIENT_SECRET = getenv('TK_GOOGLE_CLIENT_SECRET', None)
+    TK_GOOGLE_DISCOVERY_URL = (
         'https://accounts.google.com/.well-known/openid-configuration'
     )
 

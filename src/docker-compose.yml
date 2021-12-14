@@ -2,13 +2,13 @@ version: '3.7'
 
 
 x-db-env-variables: &db-env-variables
-  TR_DB_USERNAME: 'postgres'
-  TR_DB_PASSWORD: 'my_secret_password'
-  TR_DB_PORT: 5432
+  TK_DB_USERNAME: 'postgres'
+  TK_DB_PASSWORD: 'my_secret_password'
+  TK_DB_PORT: 5432
 
 
 x-api-env-variables: &api-env-variables
-  TR_DB_HOST: 'tarkir-db'
+  TK_DB_HOST: 'tarkir-db'
 
 
 services:
@@ -18,9 +18,8 @@ services:
     container_name: tarkir-db
     ports:
       - 5444:5432
-    environment:
-      <<: *db-env-variables
-      POSTGRES_HOST_AUTH_METHOD: trust
+    env_file:
+      - .env
     volumes:
       - ../postgres-data:/var/lib/postgresql/data
 
@@ -32,12 +31,8 @@ services:
     - 5000:5000
     depends_on:
       - tarkir-db
-    environment:
-      <<: *db-env-variables
-      <<: *api-env-variables
-      TR_API_SERVER_PORT: 5000
-      FLASK_TEMPLATE_FOLDER: '/tarkir-tools/spellbook/templates'
-      FLASK_APP: spellbook.application
+    env_file:
+      - .env
     volumes:
       - .:/tarkir-tools
       - ../tarkir-upload/:/tmp/tarkir-upload
