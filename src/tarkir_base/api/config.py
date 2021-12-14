@@ -28,6 +28,12 @@ class MainConfig(metaclass=SingletonMeta):
     BASIC_AUTH_USERNAME = getenv('TR_BASIC_AUTH_USERNAME', '')
     BASIC_AUTH_PASSWORD = getenv('TR_BASIC_AUTH_PASSWORD', '')
 
+    GOOGLE_CLIENT_ID = getenv('GOOGLE_CLIENT_ID', None)
+    GOOGLE_CLIENT_SECRET = getenv('GOOGLE_CLIENT_SECRET', None)
+    GOOGLE_DISCOVERY_URL = (
+        'https://accounts.google.com/.well-known/openid-configuration'
+    )
+
     STATIC_FOLDER = getenv('STATIC_FOLDER', '/tmp/tarkir-upload')
     MAX_CONTENT_LENGTH = getenv('MAX_CONTENT_LENGTH', 1024 * 1024 * 1024 * 16)  # 16MB
 
