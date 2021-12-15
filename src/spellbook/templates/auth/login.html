@@ -1,0 +1,30 @@
+{% extends 'auth/base.html' %}
+
+{% block title %}
+  Login
+{% endblock %}
+
+{% block auth_title %}Sign In to Tarkir{% endblock %}
+
+{% block auth_body %}
+
+  <style lang="css">
+      .google-ico {
+          width: 32px;
+          margin-bottom: -0.5rem;
+      }
+      .button-sign-in {
+          background: #A0C0D8;
+          font-size: 1.5rem;
+      }
+  </style>
+
+  <form class="pure-form" action="/auth/login" method="POST">
+    <fieldset>
+      <button type="submit" class="pure-button button-sign-in">
+        <img src="https://tk-spellbook.com:444/static/1639585307602-google_icon-icons.com_62736.png" class="google-ico">
+        <span class="sign-in-label">Sign In</span>
+      </button>
+    </fieldset>
+  </form>
+{% endblock %}

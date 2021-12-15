@@ -14,7 +14,7 @@ class User(Model, UserMixin):
 
     # pylint: disable=invalid-name
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-    google_id = db.Column(db.Integer(), index=True, unique=True)
+    google_id = db.Column(db.String(64), index=True, unique=True)
     name = db.Column(db.Text(), nullable=False, unique=False)
     email = db.Column(db.String(1024), nullable=False, unique=True)
     picture = db.Column(db.Text(), nullable=True, unique=False)

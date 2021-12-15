@@ -1,6 +1,8 @@
 __all__ = [
     'LoginView',
     'CallbackView',
+    'ProfileView',
+    'LogoutView',
 ]
 
 import json
@@ -9,14 +11,35 @@ import os
 import requests
 
 from tarkir_base.api import oauth_client, app
-from tarkir_base.api.views import ApiView
+from tarkir_base.api.auth.helpers import (
+    login_google_user,
+    get_google_provider_cfg,
+)
+from tarkir_base.api.views import MethodView
 
-from spellbook.utils.auth import get_google_provider_cfg
+from .utils import (
+    is_authorized,
+    get_current_user,
+    log_out,
+)
 
 
-class LoginView(ApiView):
+class LoginView(MethodView):
+
+    @property
+    def redirect_non_permitted_url(self):
+        return self.url_for('auth.ProfileView')
+
+    def check_permission(self):
+        return not is_authorized()
 
     def get(self):
+        return self.render_template(
+            'auth/login.html',
+            client_id=app.config['GOOGLE_CLIENT_ID'],
+        )
+
+    def post(self):
         # Find out what URL to hit for Google login
         google_provider_cfg = get_google_provider_cfg()
         authorization_endpoint = google_provider_cfg['authorization_endpoint']
@@ -32,7 +55,14 @@ class LoginView(ApiView):
         return self.redirect(request_uri)
 
 
-class CallbackView(ApiView):
+class CallbackView(MethodView):
+
+    @property
+    def redirect_non_permitted_url(self):
+        return self.url_for('auth.ProfileView')
+
+    def check_permission(self):
+        return not is_authorized()
 
     def get(self):
         # Get authorization code Google sent back to you
@@ -71,9 +101,46 @@ class CallbackView(ApiView):
         if not userinfo_response.get('email_verified'):
             return 'User email not available or not verified by Google.', 400
 
-        user_id = userinfo_response['sub']
-        users_email = userinfo_response['email']
-        picture = userinfo_response['picture']
-        users_name = userinfo_response['given_name']
+        login_google_user(userinfo=userinfo_response)
 
-        return userinfo_response
+        return self.redirect(
+            self.url_for('auth.ProfileView')
+        )
+
+
+class ProfileView(MethodView):
+
+    @property
+    def redirect_non_permitted_url(self):
+        return self.url_for('auth.LoginView')
+
+    def check_permission(self):
+        return is_authorized()
+
+    def get(self):
+        user = get_current_user()
+
+        return self.render_template(
+            'auth/profile.html',
+            client_id=app.config['GOOGLE_CLIENT_ID'],
+            email=user.email,
+            name=user.name,
+            picture=user.picture
+        )
+
+
+class LogoutView(MethodView):
+
+    @property
+    def redirect_non_permitted_url(self):
+        return self.url_for('auth.LoginView')
+
+    def check_permission(self):
+        return is_authorized()
+
+    def post(self):
+        log_out()
+
+        return self.redirect(
+            self.url_for('auth.LoginView')
+        )

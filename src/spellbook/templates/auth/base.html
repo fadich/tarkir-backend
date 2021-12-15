@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <style lang="css">
+      .outer {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+      }
+      .auth {
+          width: 42rem;
+          height: 28rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          flex-direction: column;
+          background: #C0E0F8;
+          border: black 1px solid;
+          opacity: 95%;
+      }
+      .auth-title {
+          font-size: 2.7rem;
+      }
+      .auth-body {
+          align-self: center;
+      }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="outer">
+    <div class="auth">
+      <div class="auth-title">
+        {% block auth_title %}
+        {% endblock %}
+      </div>
+
+      <div class="auth-body">
+        {% block auth_body %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

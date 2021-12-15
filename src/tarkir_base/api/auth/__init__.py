@@ -1,6 +1,9 @@
 __all__ = [
     'User',
     'blueprint',
+    'is_authorized',
+    'get_current_user',
+    'log_out',
 ]
 
 from flask_login import LoginManager
@@ -9,6 +12,11 @@ from tarkir_base.api import app
 
 from .models import User
 from .blueprint import blueprint
+from .utils import (
+    is_authorized,
+    get_current_user,
+    log_out,
+)
 
 
 login_manager = LoginManager()

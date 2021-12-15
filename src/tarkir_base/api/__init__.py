@@ -3,7 +3,6 @@ __all__ = [
     'app',
     'app_config',
     'db',
-    'login_manager',
     'ma',
     'oauth_client',
     'Application',
