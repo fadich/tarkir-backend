@@ -74,7 +74,7 @@ class CallbackView(MethodView):
         token_url, headers, body = oauth_client.prepare_token_request(
             token_endpoint,
             authorization_response=self.request.url,
-            redirect_url=os.path.join(app.config['BASE_URL'], self.url_for('auth.LoginView')[1:]),
+            redirect_url=os.path.join(app.config['BASE_URL'], self.url_for('auth.CallbackView')[1:]),
             code=code
         )
 
