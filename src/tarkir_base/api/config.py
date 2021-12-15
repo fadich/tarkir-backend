@@ -10,6 +10,7 @@ from tarkir_base.utils.classes import SingletonMeta
 class MainConfig(metaclass=SingletonMeta):
     DEBUG = bool(int(getenv('TK_DEBUG', '1')))
 
+    BASE_URL = getenv('BASE_URL', 'https://localhost:5000')
     SECRET_KEY = getenv('TK_SECRET_KEY', uuid.uuid4().hex)
 
     DB_HOST = getenv('TK_DB_HOST', 'localhost')
