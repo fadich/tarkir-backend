@@ -10,6 +10,7 @@ from tarkir_base.api.admin import AdminModelView
 
 class ConfigAdminView(AdminModelView):
     __model__ = Config
+    __category__ = 'Configuration'
 
     class RawValueDataTypeValidator:
 

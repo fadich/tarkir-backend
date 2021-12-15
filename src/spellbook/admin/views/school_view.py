@@ -9,6 +9,7 @@ from tarkir_base.api.admin import AdminModelView, ImageUploadField
 
 class SchoolAdminView(PreviewImageMixin, AdminModelView):
     __model__ = School
+    __category__ = 'Spellbook'
 
     column_list = [
         'id',

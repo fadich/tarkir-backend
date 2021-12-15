@@ -8,6 +8,7 @@ from tarkir_base.api.admin import AdminModelView
 
 class SpellToColorAdminView(AdminModelView):
     __model__ = SpellToColor
+    __category__ = 'Spellbook/Spell'
 
     column_searchable_list = [
         'spell.name',
