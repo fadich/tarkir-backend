@@ -48,7 +48,7 @@ class LoginView(MethodView):
         # scopes that let you retrieve user's profile from Google
         request_uri = oauth_client.prepare_request_uri(
             authorization_endpoint,
-            redirect_uri=os.path.join(app.config['BASE_URL'], self.url_for('auth.LoginView')[1:], 'callback'),
+            redirect_uri=os.path.join(self.get_full_url('auth'), 'callback'),
             scope=['openid', 'email', 'profile'],
         )
 
@@ -73,8 +73,8 @@ class CallbackView(MethodView):
 
         token_url, headers, body = oauth_client.prepare_token_request(
             token_endpoint,
-            authorization_response=self.request.url,
-            redirect_url=os.path.join(app.config['BASE_URL'], self.url_for('auth.CallbackView')[1:]),
+            authorization_response=f'{self.get_full_url("auth")}?{self.request.query_string.decode()}',
+            redirect_url=self.get_full_url('auth'),
             code=code
         )
 

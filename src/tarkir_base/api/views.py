@@ -6,6 +6,7 @@ __all__ = [
     'send_from_directory',
 ]
 
+import os
 from typing import Type, Optional
 
 from flask import (
@@ -20,6 +21,8 @@ from flask.views import MethodView as FlaskMethodView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
 from werkzeug.sansio.response import Response
+
+from . import app
 
 
 class MethodView(FlaskMethodView):
@@ -43,6 +46,14 @@ class MethodView(FlaskMethodView):
             return 'Not permitted', 403
 
         return super().dispatch_request(*args, **kwargs)
+
+    @classmethod
+    def get_full_url(cls, scope: Optional[str] = None):
+        endpoint = cls.__name__
+        if scope is not None:
+            endpoint = f'{scope}.{endpoint}'
+
+        return os.path.join(app.config['BASE_URL'], cls.url_for(endpoint=endpoint)[1:])
 
     @staticmethod
     def redirect(location: str, code: int = 302, Response = None):
