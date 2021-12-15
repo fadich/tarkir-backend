@@ -8,3 +8,4 @@ from .spell_to_color_view import *
 from .spell_to_school_view import *
 from .spell_view import *
 from .uploaded_file_view import *
+from .user_view import *
