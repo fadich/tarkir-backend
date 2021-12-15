@@ -24,6 +24,7 @@ app.init_admin(
         ApplicationAdminView,
         ConfigAdminView,
         UploadedFileAdminView,
+        UserAdminView,
     )
 )
 
