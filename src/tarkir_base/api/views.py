@@ -6,40 +6,69 @@ __all__ = [
     'send_from_directory',
 ]
 
-from typing import Type
+from typing import Type, Optional
 
 from flask import (
     jsonify,
     request,
     redirect,
+    url_for,
+    render_template,
     send_from_directory,
 )
-from flask.views import MethodView
+from flask.views import MethodView as FlaskMethodView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
 from werkzeug.sansio.response import Response
 
 
-class ApiView(MethodView):
+class MethodView(FlaskMethodView):
 
     @property
     def request(self):
         return request
 
-    def redirect(self, location: str, code: int = 302, Response = None):
+    @property
+    def redirect_non_permitted_url(self) -> Optional[str]:
+        return None
+
+    def check_permission(self) -> bool:
+        return True
+
+    def dispatch_request(self, *args, **kwargs):
+        if not self.check_permission():
+            if self.redirect_non_permitted_url is not None:
+                return self.redirect(self.redirect_non_permitted_url, 301)
+
+            return 'Not permitted', 403
+
+        return super().dispatch_request(*args, **kwargs)
+
+    @staticmethod
+    def redirect(location: str, code: int = 302, Response = None):
         return redirect(
             location=location,
             code=code,
             Response=Response
         )
 
+    @staticmethod
+    def render_template(template_name_or_list, **context):
+        return render_template(
+            template_name_or_list,
+            **context
+        )
+
+    @staticmethod
+    def url_for(endpoint, **values):
+        return url_for(endpoint, **values)
+
+
+class ApiView(MethodView):
+
     def dispatch_request(self, *args, **kwargs):
         body = super().dispatch_request(*args, **kwargs)
 
-        print('###' * 80)
-        from pprint import pprint
-        pprint(type(body))
-        print('###' * 80)
         if isinstance(body, Response):
             return body
 

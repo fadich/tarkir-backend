@@ -1,0 +1,58 @@
+{% extends 'auth/base.html' %}
+
+{% block title %}
+  Login
+{% endblock %}
+
+{% block auth_title %}
+  <div class="userinfo">
+    <div class="picture">
+      <img src="{{ picture }}"></img>
+    </div>
+    <div class="name p5">{{ name }}</div>
+    <div class="email p5">({{ email }})</div>
+  </div>
+{% endblock %}
+
+{% block auth_body %}
+
+  <style lang="css">
+      .auth-body {
+          margin: 0 3rem;
+      }
+      .auth-title {
+          font-size: 1.6rem;
+      }
+
+      .userinfo {
+          display: flex;
+          align-items: center;
+      }
+      .p5{
+          padding: 5px;
+      }
+      .picture {
+          width: 96px;
+          height: 96px;
+          position: relative;
+          overflow: hidden;
+          border-radius: 50%;
+      }
+
+      .picture>img {
+          display: inline;
+          margin: 0 auto;
+          height: 100%;
+          width: auto;
+      }
+      .button-sign-out {
+          background: #C0E0F8;
+      }
+  </style>
+
+  <form class="pure-form" action="/auth/logout" method="POST">
+    <fieldset>
+      <button type="submit" class="pure-button button-sign-out">Sign Out</button>
+    </fieldset>
+  </form>
+{% endblock %}

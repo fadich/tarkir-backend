@@ -7,6 +7,7 @@ from flask import current_app
 
 from alembic import context
 
+from tarkir_base.api.auth.models import *
 from spellbook.models import *
 
 # this is the Alembic Config object, which provides

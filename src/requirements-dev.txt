@@ -1,0 +1,6 @@
+# Main
+-r requirements.txt
+
+# Develop requirements
+pylint
+pyOpenSSL==21.0.0
