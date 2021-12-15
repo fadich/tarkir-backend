@@ -4,14 +4,16 @@ __all__ = [
     'is_authorized',
     'get_current_user',
     'log_out',
+    'AuthException',
 ]
 
 from flask_login import LoginManager
 
 from tarkir_base.api import app
 
-from .models import User
 from .blueprint import blueprint
+from .exceptions import AuthException
+from .models import User
 from .utils import (
     is_authorized,
     get_current_user,

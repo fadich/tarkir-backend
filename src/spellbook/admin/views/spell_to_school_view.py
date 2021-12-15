@@ -8,6 +8,7 @@ from tarkir_base.api.admin import AdminModelView
 
 class SpellToSchoolAdminView(AdminModelView):
     __model__ = SpellToSchool
+    __category__ = 'Spellbook/Spell'
 
     column_searchable_list = [
         'spell.name',

@@ -19,10 +19,8 @@ class PreviewImageMixin:
         if not image:
             return Markup('<div style="text-align: center;">&ndash;</div>')
 
-        if image.startswith('http://') or image.startswith('https://'):
-            src = image
-        else:
-            src = url_for('static', filename=image)
+        if not (image.startswith('http://') or image.startswith('https://')):
+            image = url_for('static', filename=image)
 
         return Markup(
             (
@@ -30,7 +28,7 @@ class PreviewImageMixin:
                 '<img src="{src}" style="max-width:{width}px; max-height:{height}px; object-fit:contain;">'
                 '</div>'
             ).format(
-                src=src,
+                src=image,
                 width=self.IMAGE_PREVIEW_MAZ_WIDTH,
                 height=self.IMAGE_PREVIEW_MAZ_HEIGHT
             )

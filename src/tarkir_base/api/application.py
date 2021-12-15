@@ -3,16 +3,14 @@ __all__ = [
     'Blueprint',
 ]
 
-from typing import Sequence, Type, Optional, Union
+from typing import Sequence, Type, Optional
 
 from flask import Flask, Blueprint
-from flask_admin.contrib.sqla import ModelView as FlaskAdminModelView
 
-from tarkir_base.api.admin import Admin, AdminModelView
+from tarkir_base.api.admin import Admin
 from tarkir_base.utils.classes import SingletonMeta
 
-ModelType = Type['Model']
-ModelViewType = Type['ModelView']
+AdminModelViewType = Type['AdminModelView']
 
 
 class Application(Flask, metaclass=SingletonMeta):
@@ -29,14 +27,17 @@ class Application(Flask, metaclass=SingletonMeta):
         )
 
     @classmethod
-    def init_admin(cls, admin: Admin, classes: Optional[Sequence[Union[ModelType, ModelViewType]]] = None):
-        # pylint: disable=import-outside-toplevel
-        from tarkir_base.database import Model
-
+    def init_admin(cls, admin: Admin, classes: Optional[Sequence[AdminModelViewType]] = None):
         for class_ in classes:
-            if issubclass(class_, Model):
-                admin.add_view(AdminModelView(class_, admin.db.session))
-            elif issubclass(class_, FlaskAdminModelView):
-                admin.add_view(class_(class_.__model__, admin.db.session))
-            else:
-                raise TypeError(f'Unsupported admin model type: {class_}')
+            categories = class_.__category__.split('/')
+            for i in range(1, len(categories)):
+                admin.add_sub_category(name=categories[i], parent_name=categories[i - 1])
+
+            admin.add_view(
+                class_(
+                    model=class_.__model__,
+                    session=admin.db.session,
+                    name=class_.__model__.__name__,
+                    category=categories[-1]
+                )
+            )

@@ -10,7 +10,6 @@ __all__ = [
 ]
 
 from flask import Blueprint
-from flask_basicauth import BasicAuth
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -37,7 +36,6 @@ app.config.from_object(app_config)
 
 ma = Marshmallow(app)
 db = SQLAlchemy(app)
-ba = BasicAuth(app)
 mi = Migrate(app, db)
 
 admin_app = Admin(
