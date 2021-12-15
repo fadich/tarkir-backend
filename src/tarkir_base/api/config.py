@@ -28,8 +28,8 @@ class MainConfig(metaclass=SingletonMeta):
     BASIC_AUTH_USERNAME = getenv('TK_BASIC_AUTH_USERNAME', '')
     BASIC_AUTH_PASSWORD = getenv('TK_BASIC_AUTH_PASSWORD', '')
 
-    GOOGLE_CLIENT_ID = getenv('TK_GOOGLE_CLIENT_ID', None)
-    GOOGLE_CLIENT_SECRET = getenv('TK_GOOGLE_CLIENT_SECRET', None)
+    GOOGLE_CLIENT_ID = getenv('GOOGLE_CLIENT_ID', None)
+    GOOGLE_CLIENT_SECRET = getenv('GOOGLE_CLIENT_SECRET', None)
     GOOGLE_DISCOVERY_URL = (
         'https://accounts.google.com/.well-known/openid-configuration'
     )

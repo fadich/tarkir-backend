@@ -48,7 +48,7 @@ class CallbackView(ApiView):
             code=code
         )
 
-        token_response = self.requests.post(
+        token_response = requests.post(
             token_url,
             headers=headers,
             data=body,
