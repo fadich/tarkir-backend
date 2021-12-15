@@ -25,7 +25,7 @@ SELECT SETVAL('config_id_seq', (SELECT MAX(id) FROM config));
 SELECT SETVAL('passive_bonus_id_seq', (SELECT MAX(id) FROM passive_bonus));
 SELECT SETVAL('school_id_seq', (SELECT MAX(id) FROM school));
 SELECT SETVAL('spell_id_seq', (SELECT MAX(id) FROM spell));
-SELECT SETVAL('user_id_seq', (SELECT MAX(id) FROM user));
+SELECT SETVAL('user_id_seq', (SELECT MAX(id) FROM public."user"));
 END
 )
 

@@ -16,6 +16,9 @@ ALTER TABLE ONLY public.school DROP CONSTRAINT school_color_id_fkey;
 ALTER TABLE ONLY public.passive_bonus_to_school DROP CONSTRAINT passive_bonus_to_school_school_id_fkey;
 ALTER TABLE ONLY public.passive_bonus_to_school DROP CONSTRAINT passive_bonus_to_school_passive_bonus_id_fkey;
 ALTER TABLE ONLY public.config DROP CONSTRAINT config_application_id_fkey;
+DROP INDEX public.ix_user_google_id;
+ALTER TABLE ONLY public."user" DROP CONSTRAINT user_pkey;
+ALTER TABLE ONLY public."user" DROP CONSTRAINT user_email_key;
 ALTER TABLE ONLY public.uploaded_file DROP CONSTRAINT uploaded_file_pkey;
 ALTER TABLE ONLY public.config DROP CONSTRAINT unique_application_config;
 ALTER TABLE ONLY public.spell_to_school DROP CONSTRAINT spell_to_school_pkey;
@@ -37,6 +40,7 @@ ALTER TABLE ONLY public.color DROP CONSTRAINT color_name_key;
 ALTER TABLE ONLY public.application DROP CONSTRAINT application_pkey;
 ALTER TABLE ONLY public.application DROP CONSTRAINT application_name_key;
 ALTER TABLE ONLY public.alembic_version DROP CONSTRAINT alembic_version_pkc;
+ALTER TABLE public."user" ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.uploaded_file ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.spell ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.school ALTER COLUMN id DROP DEFAULT;
@@ -44,6 +48,8 @@ ALTER TABLE public.passive_bonus ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.config ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.color ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.application ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.user_id_seq;
+DROP TABLE public."user";
 DROP SEQUENCE public.uploaded_file_id_seq;
 DROP TABLE public.uploaded_file;
 DROP TABLE public.spell_to_school;
@@ -214,6 +220,24 @@ CREATE SEQUENCE public.uploaded_file_id_seq
     CACHE 1;
 ALTER TABLE public.uploaded_file_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.uploaded_file_id_seq OWNED BY public.uploaded_file.id;
+CREATE TABLE public."user" (
+                               id integer NOT NULL,
+                               google_id character varying(64),
+                               name text NOT NULL,
+                               email character varying(1024) NOT NULL,
+                               picture text,
+                               is_admin boolean NOT NULL
+);
+ALTER TABLE public."user" OWNER TO postgres;
+CREATE SEQUENCE public.user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE public.user_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 ALTER TABLE ONLY public.application ALTER COLUMN id SET DEFAULT nextval('public.application_id_seq'::regclass);
 ALTER TABLE ONLY public.color ALTER COLUMN id SET DEFAULT nextval('public.color_id_seq'::regclass);
 ALTER TABLE ONLY public.config ALTER COLUMN id SET DEFAULT nextval('public.config_id_seq'::regclass);
@@ -221,12 +245,14 @@ ALTER TABLE ONLY public.passive_bonus ALTER COLUMN id SET DEFAULT nextval('publi
 ALTER TABLE ONLY public.school ALTER COLUMN id SET DEFAULT nextval('public.school_id_seq'::regclass);
 ALTER TABLE ONLY public.spell ALTER COLUMN id SET DEFAULT nextval('public.spell_id_seq'::regclass);
 ALTER TABLE ONLY public.uploaded_file ALTER COLUMN id SET DEFAULT nextval('public.uploaded_file_id_seq'::regclass);
+ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 COPY public.alembic_version (version_num) FROM stdin;
-f568621ad631
+4b89c77c1968
 \.
 COPY public.application (id, name) FROM stdin;
 1	spellbook
 2	test
+3	test-2
 \.
 COPY public.color (id, name, shortcut, hex_code) FROM stdin;
 1	Белый	W	#fbff80
@@ -956,13 +982,19 @@ COPY public.uploaded_file (id, file, name) FROM stdin;
 1	1638973206888-Spell-5.jpg	spell
 2	1638973438197-School-3.jpg	school
 \.
-SELECT pg_catalog.setval('public.application_id_seq', 2, true);
+COPY public."user" (id, google_id, name, email, picture, is_admin) FROM stdin;
+1	105780682016698990687	Fadi Ahmad	royalfadich@gmail.com	https://lh3.googleusercontent.com/a-/AOh14GgFj7QZzTQNvLhhThrHTYn2XVFpORKd5rE7wz037w=s96-c	f
+2	108762502874186924331	tester tester	gr.fadich@gmail.com	https://lh3.googleusercontent.com/a/AATXAJz1RmVoEDJsY5ENs0vLyjeLzDRlQKW2u8JXjTp7=s96-c	f
+3	112570653947487196683	Fadi Ahmad	fadich95@gmail.com	https://lh3.googleusercontent.com/a-/AOh14GiXzLh7Ehw416hEKqQ5k0OAVlHbj72WsSaGuqvL=s96-c	f
+\.
+SELECT pg_catalog.setval('public.application_id_seq', 3, true);
 SELECT pg_catalog.setval('public.color_id_seq', 6, true);
 SELECT pg_catalog.setval('public.config_id_seq', 2, true);
 SELECT pg_catalog.setval('public.passive_bonus_id_seq', 13, true);
 SELECT pg_catalog.setval('public.school_id_seq', 16, true);
 SELECT pg_catalog.setval('public.spell_id_seq', 234, true);
 SELECT pg_catalog.setval('public.uploaded_file_id_seq', 2, true);
+SELECT pg_catalog.setval('public.user_id_seq', 3, true);
 ALTER TABLE ONLY public.alembic_version
     ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
 ALTER TABLE ONLY public.application
@@ -1005,6 +1037,11 @@ ALTER TABLE ONLY public.config
     ADD CONSTRAINT unique_application_config UNIQUE (application_id, name);
 ALTER TABLE ONLY public.uploaded_file
     ADD CONSTRAINT uploaded_file_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_email_key UNIQUE (email);
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_pkey PRIMARY KEY (id);
+CREATE UNIQUE INDEX ix_user_google_id ON public."user" USING btree (google_id);
 ALTER TABLE ONLY public.config
     ADD CONSTRAINT config_application_id_fkey FOREIGN KEY (application_id) REFERENCES public.application(id);
 ALTER TABLE ONLY public.passive_bonus_to_school
