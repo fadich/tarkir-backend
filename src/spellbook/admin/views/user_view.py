@@ -9,6 +9,7 @@ from tarkir_base.api.auth import User
 
 class UserAdminView(PreviewImageMixin, AdminModelView):
     __model__ = User
+    __category__ = 'User'
 
     IMAGE_FIELD_NAME = 'picture'
     IMAGE_PREVIEW_MAZ_HEIGHT = 64

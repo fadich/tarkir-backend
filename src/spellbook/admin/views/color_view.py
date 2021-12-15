@@ -8,6 +8,7 @@ from tarkir_base.api.admin import AdminModelView
 
 class ColorAdminView(AdminModelView):
     __model__ = Color
+    __category__ = 'Spellbook'
 
     column_list = [
         'id',

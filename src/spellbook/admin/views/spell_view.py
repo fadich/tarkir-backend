@@ -9,6 +9,7 @@ from tarkir_base.api.admin import ImageUploadField, AdminModelView
 
 class SpellAdminView(PreviewImageMixin, AdminModelView):
     __model__ = Spell
+    __category__ = 'Spellbook/Spell'
     __index_view__ = True
 
     column_list = [

@@ -11,6 +11,7 @@ from tarkir_base.api.admin import AdminModelView, FileUploadField
 
 class UploadedFileAdminView(PreviewImageMixin, AdminModelView):
     __model__ = UploadedFile
+    __category__ = 'Configuration'
 
     IMAGE_FIELD_NAME = 'file'
     IMAGE_PREVIEW_MAZ_HEIGHT = 64

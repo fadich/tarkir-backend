@@ -9,6 +9,7 @@ from tarkir_base.api.admin import AdminModelView
 
 class PassiveBonusToSchoolAdminView(AdminModelView):
     __model__ = PassiveBonusToSchool
+    __category__ = 'Spellbook/Passive Bonus'
 
     column_list = [
         'passive_bonus',

@@ -10,6 +10,7 @@ from tarkir_base.api.admin import AdminModelView
 
 class ApplicationAdminView(AdminModelView):
     __model__ = Application
+    __category__ = 'Configuration'
 
     column_list = [
         'name',

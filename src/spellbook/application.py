@@ -14,17 +14,17 @@ app.register_blueprint(v2.blueprint, url_prefix='/api/v2/')
 app.init_admin(
     admin=admin_app,
     classes=(
+        SchoolAdminView,
+        ColorAdminView,
         SpellAdminView,
         SpellToSchoolAdminView,
         SpellToColorAdminView,
         PassiveBonusAdminView,
         PassiveBonusToSchoolAdminView,
-        SchoolAdminView,
-        ColorAdminView,
         ApplicationAdminView,
         ConfigAdminView,
-        UploadedFileAdminView,
         UserAdminView,
+        UploadedFileAdminView,
     )
 )
 
