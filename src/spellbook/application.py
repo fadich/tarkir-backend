@@ -1,5 +1,4 @@
 from tarkir_base.api import app, admin_app, login_manager
-from tarkir_base.api.ssl import context as ssl_context
 
 from spellbook.api import v1, v2
 from spellbook.admin.views import *
@@ -33,6 +32,12 @@ def load_user(user_id):
 
 
 if __name__ == '__main__':
+    import os
+
+    ssl_context = None
+    if int(os.getenv('TK_USE_SSL', '0')):
+        ssl_context = ('certs/localhost.crt', 'certs/localhost.key')
+
     app.run(
         ssl_context=ssl_context
     )
