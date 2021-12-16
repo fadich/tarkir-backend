@@ -8,7 +8,7 @@ from .views import *
 
 
 blueprint = Blueprint(
-    name='v1',
+    name='spellbook_v1',
     import_name=__name__
 )
 
