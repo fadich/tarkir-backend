@@ -7,7 +7,6 @@ from typing import Sequence, Type, Optional
 
 from flask import Flask, Blueprint
 
-from tarkir_base.api.admin import Admin
 from tarkir_base.utils.classes import SingletonMeta
 
 AdminModelViewType = Type['AdminModelView']
@@ -27,7 +26,7 @@ class Application(Flask, metaclass=SingletonMeta):
         )
 
     @classmethod
-    def init_admin(cls, admin: Admin, classes: Optional[Sequence[AdminModelViewType]] = None):
+    def init_admin(cls, admin, classes: Optional[Sequence[AdminModelViewType]] = None):
         for class_ in classes:
             categories = class_.__category__.split('/')
             for i in range(1, len(categories)):

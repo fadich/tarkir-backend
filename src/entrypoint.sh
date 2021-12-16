@@ -7,5 +7,5 @@ flask db upgrade || exit 1
 if [[ "${TK_DEBUG}" == "0" ]]; then
   uwsgi uwsgi.ini || exit 1
 else
-  python3 -m spellbook.application || exit 1
+  python3 -m application || exit 1
 fi

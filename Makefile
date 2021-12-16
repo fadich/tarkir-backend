@@ -22,6 +22,10 @@ migration:
 	docker-compose -f ./src/docker-compose.yml run --rm api flask db migrate -m "$(m)"
 	sudo chown -R ${USER}:${USER} ./src/migrations/versions
 
+data-migration:
+	docker-compose -f ./src/docker-compose.yml run --rm api flask db revision -m "DM: $(m)"
+	sudo chown -R ${USER}:${USER} ./src/migrations/versions
+
 migrate:
 	docker-compose -f ./src/docker-compose.yml run --rm api flask db upgrade
 

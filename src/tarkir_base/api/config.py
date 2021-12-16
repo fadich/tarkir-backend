@@ -24,7 +24,6 @@ class MainConfig(metaclass=SingletonMeta):
     API_PORT = int(getenv('TK_ADMIN_APP_PORT', '5000'))
 
     FLASK_ADMIN_SWATCH = getenv('TK_FLASK_ADMIN_SWATCH', 'cerulean')
-    FLASK_TEMPLATE_FOLDER = getenv('FLASK_TEMPLATE_FOLDER', 'templates')
 
     GOOGLE_CLIENT_ID = getenv('GOOGLE_CLIENT_ID', None)
     GOOGLE_CLIENT_SECRET = getenv('GOOGLE_CLIENT_SECRET', None)
@@ -32,7 +31,8 @@ class MainConfig(metaclass=SingletonMeta):
         'https://accounts.google.com/.well-known/openid-configuration'
     )
 
-    STATIC_FOLDER = getenv('STATIC_FOLDER', '/tmp/tarkir-upload')
+    FLASK_TEMPLATE_FOLDER = getenv('FLASK_TEMPLATE_FOLDER', 'templates')
+    FLASK_STATIC_FOLDER = getenv('FLASK_STATIC_FOLDER', 'static')
     MAX_CONTENT_LENGTH = getenv('MAX_CONTENT_LENGTH', 1024 * 1024 * 1024 * 16)  # 16MB
 
     @property
