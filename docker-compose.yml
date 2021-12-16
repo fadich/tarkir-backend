@@ -22,7 +22,7 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ../tarkir-upload/:/tarkir-tools/static/upload/
+      - ./tarkir-upload/:/tarkir-tools/static/upload/
 
   app:
     image: fadich95/tarkir-spells:prod
