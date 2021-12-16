@@ -4,4 +4,5 @@ __pycache__
 .dockerignore
 docker-compose.yml
 
-postgres-data
+.env
+.env.example

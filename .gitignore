@@ -9,4 +9,5 @@ tarkir.egg-info
 postgres-data/
 tarkir-upload/
 
+src/static/upload/
 src/.env

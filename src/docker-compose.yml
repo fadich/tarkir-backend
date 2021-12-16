@@ -24,4 +24,4 @@ services:
       - .env
     volumes:
       - .:/tarkir-tools
-      - ../tarkir-upload/:/tmp/tarkir-upload
+      - ../tarkir-upload/:/tarkir-tools/static/upload/

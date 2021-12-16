@@ -26,6 +26,7 @@ from . import app
 
 
 class MethodView(FlaskMethodView):
+    __scope__: Optional[str] = None
 
     @property
     def request(self):
@@ -49,6 +50,9 @@ class MethodView(FlaskMethodView):
 
     @classmethod
     def get_full_url(cls, scope: Optional[str] = None):
+        if scope is None:
+            scope = cls.__scope__
+
         endpoint = cls.__name__
         if scope is not None:
             endpoint = f'{scope}.{endpoint}'
