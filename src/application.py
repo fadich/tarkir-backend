@@ -4,14 +4,15 @@ from tarkir_base.api import app
 from apps.auth import blueprint as auth_blueprint
 from apps.auth.admin import *
 from apps.configuration.admin import *
+from apps.rules.admin import *
 from apps.spellbook import blueprint_v1, blueprint_v2
 from apps.spellbook.admin import *
 
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
 app.register_blueprint(blueprint_v1, url_prefix='/')  # TODO: remove it after design update
-app.register_blueprint(blueprint_v1, url_prefix='/api/v1/')
-app.register_blueprint(blueprint_v2, url_prefix='/api/v2/')
+app.register_blueprint(blueprint_v1, url_prefix='/spellbook/v1/')
+app.register_blueprint(blueprint_v2, url_prefix='/spellbook/v2/')
 
 app.init_admin(
     admin=admin,
@@ -23,10 +24,13 @@ app.init_admin(
         SpellToColorAdminView,
         PassiveBonusAdminView,
         PassiveBonusToSchoolAdminView,
+        RuleAdminView,
+        RuleToAdminAdminView,
+        TagAdminView,
         ApplicationAdminView,
         ConfigAdminView,
-        UserAdminView,
         UploadedFileAdminView,
+        UserAdminView,
     )
 )
 
