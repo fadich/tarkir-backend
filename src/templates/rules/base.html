@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Rules
+{% endblock %}
+
+{% block head %}
+  <style lang="css">
+    .rules-title {
+
+    }
+
+    .rules-body {
+
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="rules">
+    <div class="rules-title text-title text-center">
+      {% block rules_title %}{% endblock %}
+    </div>
+
+    <div class="rules-body self-center">
+      {% block rules_body %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

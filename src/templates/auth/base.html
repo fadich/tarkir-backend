@@ -2,38 +2,32 @@
 
 {% block head %}
   <style lang="css">
+      .inner {
+          width: 42em;
+          height: 28em;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+      }
+
       .auth {
-          width: 42rem;
-          height: 28rem;
-          max-width: 90vw;
-          max-height: 80vh;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: space-evenly;
           flex-direction: column;
-          background: #C0E0F8;
-          border: black 1px solid;
-          opacity: 95%;
-      }
-      .auth-title {
-          font-size: 2.7rem;
-      }
-      .auth-body {
-          align-self: center;
       }
   </style>
 {% endblock %}
 
 {% block body %}
   <div class="auth">
-    <div class="auth-title">
-      {% block auth_title %}
-      {% endblock %}
+    <div class="auth-title text-title">
+      {% block auth_title %}{% endblock %}
     </div>
 
-    <div class="auth-body">
-      {% block auth_body %}
-      {% endblock %}
+    <div class="auth-body self-center">
+      {% block auth_body %}{% endblock %}
     </div>
   </div>
 {% endblock %}

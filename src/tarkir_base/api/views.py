@@ -20,6 +20,7 @@ from flask import (
 from flask.views import MethodView as FlaskMethodView
 from flask_marshmallow import Schema
 from flask_sqlalchemy import Model
+from sqlalchemy.orm import Query
 from werkzeug.sansio.response import Response
 
 from . import app
@@ -98,11 +99,11 @@ class ModelListView(ApiView):
     model: Type[Model] = None
 
     @property
-    def records(self):
-        return self.query.all()
+    def query(self) -> Query:
+        return self.model.query
 
     def get(self):
-        return self.schema.dump(obj=self.records, many=True)
+        return self.schema.dump(obj=self.query.all(), many=True)
 
 
 class ModelView(ApiView):
