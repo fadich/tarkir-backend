@@ -17,7 +17,7 @@ from apps.spellbook.utils.validators import (
     ValidationError,
     validate_as_property,
 )
-from ..helpers import *
+from ..utils import *
 
 
 class Config(Model):
