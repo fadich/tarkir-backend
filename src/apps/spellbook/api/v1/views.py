@@ -19,8 +19,8 @@ class IndexView(ModelListView, SchoolFormatterMixin):
     model = School
 
     @property
-    def records(self):
-        return self.model.query.order_by(self.model.id).all()
+    def query(self):
+        return self.model.query.order_by(self.model.id)
 
     def get(self):
         school_tree = super().get()

@@ -4,11 +4,14 @@ from tarkir_base.api import app
 from apps.auth import blueprint as auth_blueprint
 from apps.auth.admin import *
 from apps.configuration.admin import *
+from apps.rules import blueprint as rules_blueprint
 from apps.rules.admin import *
 from apps.spellbook import blueprint_v1, blueprint_v2
 from apps.spellbook.admin import *
 
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+app.register_blueprint(rules_blueprint, url_prefix='/rules')
 
 app.register_blueprint(blueprint_v1, url_prefix='/')  # TODO: remove it after design update
 app.register_blueprint(blueprint_v1, url_prefix='/spellbook/v1/')
