@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}
-  Rules
-{% endblock %}
+{% block title %}Rules{% endblock %}
 
 {% block head %}
   <style lang="css">
@@ -21,6 +19,8 @@
     <div class="rules-title text-title text-center">
       {% block rules_title %}{% endblock %}
     </div>
+
+    <hr>
 
     <div class="rules-body self-center">
       {% block rules_body %}{% endblock %}

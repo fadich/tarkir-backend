@@ -1,0 +1,20 @@
+{% extends 'rules/base.html' %}
+
+{% block rules_title %}{{ rule.name }}{% endblock %}
+
+{% block rules_body %}
+
+  <style lang="css">
+    .back-link {
+        position: sticky;
+        top: 0.5em;
+    }
+  </style>
+
+  <a class="masked-link back-link" href="{{ url_for('rules.RulesListView') }}">
+    <button class="pure-button pure-button-primary"><< Back to rules</button>
+  </a>
+
+  {{ rule.description|safe }}
+
+{% endblock %}

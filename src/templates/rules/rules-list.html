@@ -4,5 +4,56 @@
 
 {% block rules_body %}
 
+  <style lang="css">
+    #search-input {
+        padding: 0.5em;
+        width: 100%;
+        width: -moz-available;
+        width: -webkit-fill-available;
+        width: fill-available;
+    }
+
+    .rule-list {
+      margin: 0.5em 0;
+    }
+
+    .rule-item {
+        padding: 0.2em 0;
+        margin: 0.05em 0;
+        display: flex;
+        align-items: center;
+        min-height: 2em;
+    }
+
+    .rule-name {
+        display: inline-block;
+        padding: 0 0.5em;
+    }
+
+    .icon-wrapper {
+        border-radius: 50%;
+    }
+  </style>
+
+  <div class="searchbar">
+    <input id="search-input" type="text" placeholder="Search for Rule...">
+  </div>
+
+  <div class="rule-list text-large">
+    {% for rule in rules %}
+      <a class="masked-link" href="{{ url_for('rules.RulePageView', rule_id=rule.id) }}">
+        <div class="rule-item background-color-second-hover">
+          <div class="icon-wrapper" style="text-align: center;">
+            {% if rule.image %}
+              <img src="/static/{{ rule.image }}">
+            {% else %}
+              <img src="{{ default_rule_image }}">
+            {% endif %}
+          </div>
+          <div class="rule-name">{{ rule.name }}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
 
 {% endblock %}

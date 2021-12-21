@@ -3,11 +3,11 @@ html, body {
     height: 100%;
     width: 100%;
     color: #303050;
+    font-family: auto;
 }
 
 p {
     font-size: 1.125em;
-    font-family: auto;
     text-align: justify;
 }
 
@@ -45,10 +45,9 @@ p {
     height: 100em;
     max-width: 90vw;
     max-height: 85vh;
-    padding: 2.25em;
+    padding: 1em;
     display: flex;
     flex-direction: column;
-    background: #C0E0F8;
     border: black 1px solid;
     opacity: 95%;
     overflow: auto;
@@ -58,10 +57,50 @@ p {
     font-size: 2.7em;
 }
 
+.text-large {
+    font-size: 1.75em;
+}
+
 .text-center {
     text-align: center;
 }
 
 .self-center {
     align-self: center;
+}
+
+.icon-wrapper {
+    text-align: center;
+    max-width: 3em;
+    max-height: 3em;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.icon-wrapper>img{
+    max-width: 3em;
+    min-height: 3em;
+    object-fit: cover;
+}
+
+.background-color-main {
+    background: #C0E0F8;
+}
+
+.background-color-second {
+    background: #A0C0D8;
+}
+
+.background-color-second-hover:hover {
+    background: #A0C0D8;
+}
+
+.masked-link {
+    color: inherit;
+    width: 100%;
+    text-decoration: none;
+}
+
+.masked-link:hover {
+    color: inherit;
 }

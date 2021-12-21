@@ -1,5 +1,5 @@
 __all__ = [
-    'get_configuration',
+    'get_application_config',
 ]
 
 
@@ -11,10 +11,10 @@ from .models import (
 )
 
 
-def get_configuration(app_label: str) -> Dict[str, Any]:
+def get_application_config(app_label: str) -> Dict[str, Any]:
     """Returns application config dict.
 
-    >>> get_configuration('spellbook')
+    >>> get_application_config('spellbook')
     {'default-school-image': '/static/1638973438197-School-3.jpg',
      'default-spell-image': '/static/1638973206888-Spell-5.jpg'}
 
