@@ -5,15 +5,19 @@
 {% block rules_body %}
 
   <style lang="css">
-    .back-link {
+    .back-btn {
         position: sticky;
         top: 0.5em;
+        left: 0.5em;
+        margin: 0.3em 0;
     }
   </style>
 
-  <a class="masked-link back-link" href="{{ url_for('rules.RulesListView') }}">
-    <button class="pure-button pure-button-primary"><< Back to rules</button>
-  </a>
+  <div class="back-btn">
+    <a class="masked-link" href="{{ url_for('rules.RulesListView') }}">
+      <button class="pure-button pure-button-primary"><< Back to rules</button>
+    </a>
+  </div>
 
   {{ rule.description|safe }}
 
