@@ -1,6 +1,7 @@
 __all__ = [
     'Application',
 ]
+
 from tarkir_base.database import (
     db,
     Model,
