@@ -14,6 +14,19 @@
         cursor: pointer;
         user-select: none;
     }
+
+    .submit-set {
+        margin: 0.25em 0;
+    }
+
+    .effect-property {
+        margin: 0.2em 0;
+    }
+
+    .effect-property-label {
+        margin: 0 0.25em 0 0;
+    }
+
   </style>
 
   <form id="craft-form" method="POST" class="pure-form pure-form-aligned">
@@ -30,7 +43,7 @@
       </div>
 
 
-      <div class="text-right">
+      <div class="submit-set text-right">
         <div class="inline-block">
           <label for="choices">Choices</label>
           <select id="choices" name="choices">
@@ -50,7 +63,7 @@
     </fieldset>
   </form>
 
-  <hr>
+  <div id="effect-list"></div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -68,18 +81,48 @@
             type: method,
             url: url,
             data: form.serialize(),
-            success: () => {
+            success: (res) => {
+                renderEffects(res.effects)
+
                 form.find('button[type="submit"]').removeAttr('disabled')
             },
             error: (err) => {
                 alert(err.status + ' - ' + err.statusText)
+
                 form.find('button[type="submit"]').removeAttr('disabled')
             }
         })
     })
 
     function renderEffects(effects) {
+        let effectList = $('#effect-list')
 
+        effectList.html('')
+
+        effects.forEach(effect => {
+            let template =
+                `<hr>
+                <div class="effect">
+                  <div class="effect-property text-bold text-large">
+                    ${effect.name}
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Type:</span><span>${effect.type}</span>
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Time to create:</span>${effect.time_to_create}
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Cost:</span>${effect.cost}
+                  </div>
+                  <div class="effect-description">
+                    ${effect.description}
+                  </div>
+                </div>`
+
+            effectList.append(template)
+
+        })
     }
   </script>
 {% endblock %}

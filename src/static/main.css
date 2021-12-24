@@ -65,10 +65,13 @@ p {
     font-size: 0.85em;
 }
 
+.text-bold {
+    font-weight: bold;
+}
+
 .text-center {
     text-align: center;
 }
-
 
 .text-right {
     text-align: right;
