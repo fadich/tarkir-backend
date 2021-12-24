@@ -1,0 +1,128 @@
+{% extends 'spellcraft/base.html' %}
+
+{% block spellcraft_title %}Spellcraft{% endblock %}
+
+{% block spellcraft_body %}
+
+  <style lang="css">
+    .large-checkbox {
+        height: 2em;
+        width: 2em;
+    }
+
+    .checkbox-label {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .submit-set {
+        margin: 0.25em 0;
+    }
+
+    .effect-property {
+        margin: 0.2em 0;
+    }
+
+    .effect-property-label {
+        margin: 0 0.25em 0 0;
+    }
+
+  </style>
+
+  <form id="craft-form" method="POST" class="pure-form pure-form-aligned">
+    <fieldset>
+      <div class="pure-g">
+        {% for color in colors if color.shortcut != 'Z' %}
+          <div class="pure-u-1-5">
+            <label for="color-{{ color.shortcut }}" class="pure-checkbox text-center checkbox-label">
+              <input class="large-checkbox" type="checkbox" id="color-{{ color.shortcut }}" name="{{ color.shortcut }}" />
+              <span class="text-small">{{ color.name }}</span>
+            </label>
+          </div>
+        {% endfor %}
+      </div>
+
+
+      <div class="submit-set text-right">
+        <div class="inline-block">
+          <label for="choices">Choices</label>
+          <select id="choices" name="choices">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+
+        <div class="text-right inline-block">
+          <button type="submit" class="pure-button pure-button-primary" style="margin: 0">Generate an Effect</button>
+        </div>
+
+      </div>
+    </fieldset>
+  </form>
+
+  <div id="effect-list"></div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script>
+    $('#craft-form').submit(function (e) {
+        e.preventDefault()
+
+        let form = $(this)
+        let url = form.prop('action')
+        let method = form.prop('method')
+
+        form.find('button[type="submit"]').attr('disabled', 'disabled')
+
+        $.ajax({
+            type: method,
+            url: url,
+            data: form.serialize(),
+            success: (res) => {
+                renderEffects(res.effects)
+
+                form.find('button[type="submit"]').removeAttr('disabled')
+            },
+            error: (err) => {
+                alert(err.status + ' - ' + err.statusText)
+
+                form.find('button[type="submit"]').removeAttr('disabled')
+            }
+        })
+    })
+
+    function renderEffects(effects) {
+        let effectList = $('#effect-list')
+
+        effectList.html('')
+
+        effects.forEach(effect => {
+            let template =
+                `<hr>
+                <div class="effect">
+                  <div class="effect-property text-bold text-large">
+                    ${effect.name}
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Type:</span><span>${effect.type}</span>
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Time to create:</span>${effect.time_to_create}
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Cost:</span>${effect.cost}
+                  </div>
+                  <div class="effect-description">
+                    ${effect.description}
+                  </div>
+                </div>`
+
+            effectList.append(template)
+
+        })
+    }
+  </script>
+{% endblock %}

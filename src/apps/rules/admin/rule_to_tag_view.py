@@ -1,5 +1,5 @@
 __all__ = [
-    'RuleToAdminAdminView',
+    'RuleToTagAdminView',
 ]
 
 
@@ -8,7 +8,7 @@ from tarkir_base.admin import AdminModelView
 from apps.rules.models import RuleToTag
 
 
-class RuleToAdminAdminView(AdminModelView):
+class RuleToTagAdminView(AdminModelView):
     __model__ = RuleToTag
     __category__ = 'Rules'
 
