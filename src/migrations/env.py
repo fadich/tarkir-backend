@@ -11,6 +11,7 @@ from apps.auth.models import *
 from apps.configuration.models import *
 from apps.rules.models import *
 from apps.spellbook.models import *
+from apps.spellcraft.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

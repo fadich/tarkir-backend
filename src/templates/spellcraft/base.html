@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Spellcraft{% endblock %}
+
+{% block head %}
+  <style lang="css">
+      .spellcraft-title {
+
+      }
+
+      .spellcraft-body {
+
+      }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="spellcraft">
+    <div class="spellcraft-title text-title text-center">
+      {% block spellcraft_title %}{% endblock %}
+    </div>
+
+    <hr>
+
+    <div class="spellcraft-body self-center">
+      {% block spellcraft_body %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

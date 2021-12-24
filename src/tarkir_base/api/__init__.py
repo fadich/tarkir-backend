@@ -6,6 +6,8 @@ __all__ = [
     'oauth_client',
     'Application',
     'Blueprint',
+    'Schema',
+    'fields',
 ]
 
 from flask import Blueprint
@@ -13,6 +15,8 @@ from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from oauthlib.oauth2 import WebApplicationClient
+
+from marshmallow import Schema, fields
 
 from .application import Application
 from .config import MainConfig

@@ -61,8 +61,25 @@ p {
     font-size: 1.75em;
 }
 
+.text-small {
+    font-size: 0.85em;
+}
+
 .text-center {
     text-align: center;
+}
+
+
+.text-right {
+    text-align: right;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
 }
 
 .self-center {
