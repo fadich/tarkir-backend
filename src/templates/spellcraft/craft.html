@@ -107,7 +107,10 @@
                     ${effect.name}
                   </div>
                   <div class="effect-property">
-                    <span class="effect-property-label text-bold">Type:</span><span>${effect.type}</span>
+                    <span class="effect-property-label text-bold">Type:</span><span>${effect.type || 'Regular'}</span>
+                  </div>
+                  <div class="effect-property">
+                    <span class="effect-property-label text-bold">Duration:</span><span>${effect.duration || '-'}</span>
                   </div>
                   <div class="effect-property">
                     <span class="effect-property-label text-bold">Time to create:</span>${effect.time_to_create}
