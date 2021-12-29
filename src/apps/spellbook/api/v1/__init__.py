@@ -13,6 +13,11 @@ blueprint = Blueprint(
 )
 
 blueprint.add_url_rule(
+    '/',
+    view_func=MockedIndexRedirectView.as_view(MockedIndexRedirectView.__name__)
+)
+
+blueprint.add_url_rule(
     '/schools',
     view_func=IndexView.as_view(IndexView.__name__)
 )

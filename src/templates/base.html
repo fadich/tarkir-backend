@@ -19,9 +19,45 @@
   {% block head %}
   {% endblock %}
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
+
+<a href="#" id="menu-button" class="masked-link menu-button" style="width: auto;">
+  <img id="menu-button-closed" class="display-none" src="/static/menu.png" />
+  <img id="menu-button-opened" src="/static/menu-close.png" style="transform: rotate(-5deg);" />
+</a>
+
+<div id="main-menu" class="pure-menu pure-menu-horizontal pure-menu-scrollable text-lg">
+  <ul class="pure-menu-list">
+    <li class="pure-menu-item {% if request.endpoint.startswith('auth') %} pure-menu-selected {% endif %}">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.ProfileView') }}" class="pure-menu-link">
+          <div class="icon-wrapper menu-icon-wrapper">
+            <img src="{{ current_user.picture }}">
+          </div>
+          <span>{{ current_user.name }}</span>
+        </a>
+      {% else %}
+        <a href="{{ url_for('auth.LoginView') }}" class="pure-menu-link">SignIn</a>
+      {% endif %}
+
+    </li>
+    <li class="pure-menu-item {% if request.endpoint.startswith('rules') %} pure-menu-selected {% endif %}">
+      <a href="{{ url_for('rules.RulesListView') }}" class="pure-menu-link">Rules</a>
+    </li>
+    <li class="pure-menu-item {% if request.endpoint.startswith('spellcraft') %} pure-menu-selected {% endif %}">
+      <a href="{{ url_for('spellcraft.CraftView') }}" class="pure-menu-link">SpellCraft</a>
+    </li>
+    {% if current_user.is_authenticated and current_user.is_admin %}
+      <li class="pure-menu-item">
+        <a href="/admin" class="pure-menu-link">Admin</a>
+      </li>
+    {% endif %}
+  </ul>
+</div>
 
 <div class="wrapper">
   <div class="inner background-color-main">
@@ -29,6 +65,30 @@
     {% endblock %}
   </div>
 </div>
+
+<script>
+    (function () {
+        let block = localStorage.getItem('display-menu');
+
+        if (block === 'false') {
+            $('#main-menu').hide()
+
+            $('#menu-button-opened').hide()
+            $('#menu-button-closed').show()
+        }
+    })()
+
+  $('#menu-button').click(function (e) {
+      e.preventDefault()
+
+      $('#main-menu').toggle('fast', function () {
+          localStorage.setItem('display-menu', $('#main-menu').is(':visible'));
+      })
+
+      $('#menu-button-opened').toggle()
+      $('#menu-button-closed').toggle()
+  })
+</script>
 
 </body>
 

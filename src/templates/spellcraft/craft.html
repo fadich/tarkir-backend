@@ -36,7 +36,7 @@
           <div class="pure-u-1-5">
             <label for="color-{{ color.shortcut }}" class="pure-checkbox text-center checkbox-label">
               <input class="large-checkbox" type="checkbox" id="color-{{ color.shortcut }}" name="{{ color.shortcut }}" />
-              <span class="text-small">{{ color.name }}</span>
+              <span class="text-sm">{{ color.name }}</span>
             </label>
           </div>
         {% endfor %}
@@ -64,8 +64,6 @@
   </form>
 
   <div id="effect-list"></div>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
   <script>
     $('#craft-form').submit(function (e) {
@@ -103,7 +101,7 @@
             let template =
                 `<hr>
                 <div class="effect">
-                  <div class="effect-property text-bold text-large">
+                  <div class="effect-property text-bold text-x-lg">
                     ${effect.name}
                   </div>
                   <div class="effect-property">

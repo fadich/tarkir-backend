@@ -44,7 +44,7 @@
     <input id="search-input" type="text" placeholder="Search for Rule...">
   </div>
 
-  <div class="rule-list text-large">
+  <div class="rule-list text-x-lg">
     {% for rule in rules %}
       <a class="masked-link" href="{{ url_for('rules.RulePageView', rule_id=rule.id) }}">
         <div class="rule-item background-color-second-hover">
