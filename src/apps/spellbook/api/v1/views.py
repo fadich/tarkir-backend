@@ -2,9 +2,11 @@ __all__ = [
     'SchoolView',
     'IndexView',
     'ColorsView',
+
+    'MockedIndexRedirectView',
 ]
 
-from tarkir_base.api.views import ModelView, ModelListView
+from tarkir_base.api.views import ModelView, ModelListView, MethodView
 
 from apps.spellbook.models import Color, School
 from .schemas import (
@@ -12,6 +14,14 @@ from .schemas import (
     SchoolTreeSchema,
 )
 from .mixins import SchoolFormatterMixin
+
+
+class MockedIndexRedirectView(MethodView):
+
+    def get(self):
+        return self.redirect(
+            self.url_for('auth.ProfileView')
+        )
 
 
 class IndexView(ModelListView, SchoolFormatterMixin):

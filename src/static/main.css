@@ -11,6 +11,28 @@ p {
     text-align: justify;
 }
 
+#main-menu {
+    position: fixed;
+    background: white;
+    z-index: 9;
+    right: 0;
+    padding-right: 3em;
+}
+
+#menu-button>img {
+    height: 24px;
+    width: 24px;
+}
+
+.menu-button {
+    position: fixed;
+    background: white;
+    padding: 20px 19px 19px;
+    z-index: 10;
+    right: 0;
+    opacity: 97%;
+}
+
 .wrapper {
     height: 100%;
     overflow: auto;
@@ -53,15 +75,23 @@ p {
     overflow: auto;
 }
 
+.display-none {
+    display: none;
+}
+
 .text-title {
     font-size: 2.7em;
 }
 
-.text-large {
+.text-x-lg {
     font-size: 1.75em;
 }
 
-.text-small {
+.text-lg {
+    font-size: 1.35em;
+}
+
+.text-sm {
     font-size: 0.85em;
 }
 
@@ -103,6 +133,19 @@ p {
     max-width: 3em;
     min-height: 3em;
     object-fit: cover;
+}
+
+.menu-icon-wrapper {
+    max-width: 0.85em;
+    max-height: 0.85em;
+    min-width: 0.85em;
+    min-height: 0.85em;
+    border-radius: 50%;
+}
+
+.menu-icon-wrapper>img {
+    max-width: 0.85em;
+    min-height: 0.85em;
 }
 
 .background-color-main {
