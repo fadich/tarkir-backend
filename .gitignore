@@ -7,6 +7,7 @@ __pycahce__
 tarkir.egg-info
 
 postgres-data/
+postgres-data-backup/
 tarkir-upload/
 
 src/static/upload/
